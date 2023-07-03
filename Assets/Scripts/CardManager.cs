@@ -49,7 +49,7 @@ public class CardManager : MonoBehaviour
     void Start()
     {
         cards.Add(card1); cards.Add(card2);
-        enemyCards.Add(enemyCard1); enemyCards.Add(enemyCard2);
+        enemyCards.Add(enemyCard1); enemyCards.Add(enemyCard2); enemyCards.Add(enemyCard3);
 
         drawCounter = drawPile.GetComponent<TextMeshProUGUI>();
         enemyDrawCounter = enemyDrawPile.GetComponent<TextMeshProUGUI>();
@@ -66,11 +66,11 @@ public class CardManager : MonoBehaviour
     {
             if (Input.GetKey(KeyCode.Space))
             {
-                /*
-                for (int i = 0, n = -255; i < 5; i++, n += 105)
+                for (int i = 0, n = -255; i < 2; i++, n += 105)
                     {
-                        GameObject card = Instantiate(cards[0], new Vector2(0, 0), Quaternion.identity);
-                        card.transform.SetParent(Canvas.transform, false);
+                        //GameObject card = Instantiate(cards[0], new Vector2(0, 0), Quaternion.identity);
+                        //card.transform.SetParent(Canvas.transform, false);
+                        GameObject card = cards[i];
                         CardScript grid = card.GetComponent<CardScript>();
 
                         if (Time.time >= grid.timestamp)
@@ -83,14 +83,13 @@ public class CardManager : MonoBehaviour
                         grid.startPosition = grid.desiredPosition;
 
                         yield return new WaitForSeconds(.3f);
-                    Debug.Log(i);
+                    //Debug.Log(i);
                     }
-                */
-                
-                for (int i = 0, n = -255; i < enemyCards.Count; i++, n += 105)
+                for (int i = 0, n = -255; i < 3; i++, n += 105)
                     {
-                        GameObject card = Instantiate(enemyCards[i], new Vector2(0, 0), Quaternion.identity);
-                        card.transform.SetParent(Canvas.transform, false);
+                        GameObject card = enemyCards[i];
+                        //GameObject card = Instantiate(enemyCards[i], new Vector2(0, 0), Quaternion.identity);
+                        //card.transform.SetParent(Canvas.transform, false);
                         EnemyCardScript grid = card.GetComponent<EnemyCardScript>();
 
                         if (Time.time >= grid.timestamp)
