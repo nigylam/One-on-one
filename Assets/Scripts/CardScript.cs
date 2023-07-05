@@ -77,7 +77,10 @@ public class CardScript : MonoBehaviour
     {
         isDragging = true;
         //Debug.Log(isDragging);
-        transform.localPosition = new Vector2(Input.mousePosition.x - 1000, Input.mousePosition.y - 450);
+        //transform.localPosition = new Vector2(Input.mousePosition.x - 1000, Input.mousePosition.y - 450);
+
+        Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        transform.position = mousePosition;
     }
 
     public void OnMouseUp()
