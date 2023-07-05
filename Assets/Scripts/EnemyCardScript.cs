@@ -12,14 +12,14 @@ public class EnemyCardScript : MonoBehaviour
     public Vector2 startPosition;
     private SpriteRenderer sprite;
 
-    public GameObject CardManager;
+    public GameObject StatManager;
     public GameObject PlayingArea;
     bool isOverDropZone = false;
     bool discard = false;
 
     public bool isDragging = false;
 
-    CardManager CardManagerForInts;
+    StatManager statManagerScript;
 
     void Start()
     {
@@ -27,8 +27,8 @@ public class EnemyCardScript : MonoBehaviour
         desiredPosition = transform.localPosition;
         sprite = GetComponent<SpriteRenderer>();
         PlayingArea = GameObject.Find("Playing Area");
-        CardManager = GameObject.Find("Card Manager");
-        CardManagerForInts = CardManager.GetComponent<CardManager>();
+        StatManager = GameObject.Find("Stat Manager");
+        statManagerScript = StatManager.GetComponent<StatManager>();
     }
     void Update()
     {
@@ -91,12 +91,14 @@ public class EnemyCardScript : MonoBehaviour
             //timestamp = Time.time + timeBetweenMoves;
             if (gameObject.name.Contains("Attack1"))
             {
-                CardManagerForInts.hp += CardManagerForInts.block - 6;
-                CardManagerForInts.block -= 6;
+                statManagerScript.hp += statManagerScript.block - 6;
+                statManagerScript.block -= 6;
+                statManagerScript.enemyDiscardPileCounter++;
             }
             else
             {
-                CardManagerForInts.enemyBlock += 5;
+                statManagerScript.enemyBlock += 5;
+                statManagerScript.enemyDiscardPileCounter++;
             }
         }
     }
