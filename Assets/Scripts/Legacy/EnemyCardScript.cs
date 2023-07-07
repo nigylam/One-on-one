@@ -23,8 +23,8 @@ public class EnemyCardScript : MonoBehaviour
 
     void Start()
     {
-        startPosition = transform.localPosition;
-        desiredPosition = transform.localPosition;
+        //startPosition = transform.localPosition;
+        //desiredPosition = transform.localPosition;
         sprite = GetComponent<SpriteRenderer>();
         PlayingArea = GameObject.Find("Playing Area");
         StatManager = GameObject.Find("Stat Manager");

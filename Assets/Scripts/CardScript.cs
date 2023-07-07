@@ -24,8 +24,8 @@ public class CardScript : MonoBehaviour
 
     void Start()
     {
-        startPosition = transform.localPosition;
-        desiredPosition = transform.localPosition;
+        //startPosition = transform.localPosition;
+        //desiredPosition = transform.localPosition;
         sprite = GetComponent<SpriteRenderer>();
         PlayingArea = GameObject.Find("Playing Area");
         StatManager = GameObject.Find("Stat Manager");
@@ -44,7 +44,14 @@ public class CardScript : MonoBehaviour
         {
             sprite.sortingLayerName = "Top";
             desiredPosition = transform.localPosition;
-            desiredPosition += new Vector2(0, 50);
+            if (gameObject.tag == "Respawn")
+            {
+                desiredPosition += new Vector2(0, -50);
+            }
+            else
+            {
+                desiredPosition += new Vector2(0, 50);
+            }
             timestamp = Time.time + timeBetweenMoves;
             transform.localScale = new Vector2(1.2f, 1.2f);
         }

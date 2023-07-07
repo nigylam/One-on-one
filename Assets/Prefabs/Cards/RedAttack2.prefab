@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 8943029441320392262}
   - component: {fileID: 8943029441320392258}
   - component: {fileID: 1647631675252271076}
-  - component: {fileID: 2448529471458739122}
+  - component: {fileID: -2712388337023227994}
   m_Layer: 6
   m_Name: RedAttack2
   m_TagString: Respawn
@@ -210,7 +210,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &2448529471458739122
+--- !u!114 &-2712388337023227994
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -219,7 +219,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6089216621708713326}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ff8c0da374dc69347bcd462648d32892, type: 3}
+  m_Script: {fileID: 11500000, guid: 5f6bf974f8541544184cd83e737e1cda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   timeBetweenMoves: 0.3333
@@ -227,6 +227,6 @@ MonoBehaviour:
   interpolationSpeed: 6
   desiredPosition: {x: 0, y: 0}
   startPosition: {x: 0, y: 0}
-  CardManager: {fileID: 0}
+  StatManager: {fileID: 0}
   PlayingArea: {fileID: 0}
   isDragging: 0
