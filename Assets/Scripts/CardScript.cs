@@ -98,19 +98,36 @@ public class CardScript : MonoBehaviour
             discard = true;
         }
         if (discard)
-        {     
-            desiredPosition = new Vector2(1150, -670);
-            //timestamp = Time.time + timeBetweenMoves;
-            if (gameObject.name.Contains("Attack1"))
+        {
+            if (gameObject.tag == "clone")
             {
-                statManagerScript.enemyHp += statManagerScript.enemyBlock - 5;
-                statManagerScript.enemyBlock -= 5;
-                statManagerScript.discardPileCounter++;
-            }
-            else
+                desiredPosition = new Vector2(1150, -670);
+                if (gameObject.name.Contains("Attack"))
+                {
+                    statManagerScript.enemyHp += statManagerScript.enemyBlock - 5;
+                    statManagerScript.enemyBlock -= 5;
+                    statManagerScript.discardPileCounter++;
+                }
+                else
+                {
+                    statManagerScript.block += 6;
+                    statManagerScript.discardPileCounter++;
+                }
+            } else
             {
-                statManagerScript.block += 6;
-                statManagerScript.discardPileCounter++;
+                desiredPosition = new Vector2(1150, 670);
+                //timestamp = Time.time + timeBetweenMoves;
+                if (gameObject.name.Contains("Attack1"))
+                {
+                    statManagerScript.hp += statManagerScript.block - 6;
+                    statManagerScript.block -= 6;
+                    statManagerScript.enemyDiscardPileCounter++;
+                }
+                else
+                {
+                    statManagerScript.enemyBlock += 5;
+                    statManagerScript.enemyDiscardPileCounter++;
+                }
             }
         }
     }
