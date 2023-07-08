@@ -20,7 +20,8 @@ public class CardManager : MonoBehaviour
 
     List<GameObject> cards = new List<GameObject>();
     List<GameObject> enemyCards = new List<GameObject>();
-    List<GameObject> cardOnTheTable = new List<GameObject>();
+    List<GameObject> cardsOnTheTable = new List<GameObject>();
+    List<GameObject> enemyCardsOnTheTable = new List<GameObject>();
 
     void Start()
     {
@@ -47,6 +48,7 @@ public class CardManager : MonoBehaviour
                 CardScript grid = card.GetComponent<CardScript>();
                 sprite = card.GetComponent<SpriteRenderer>();
                 sprite.sortingOrder = i;
+                cardsOnTheTable.Add(card);
 
                 if (Time.time >= grid.timestamp)
                 {
@@ -70,6 +72,8 @@ public class CardManager : MonoBehaviour
                 CardScript grid = card.GetComponent<CardScript>();
                 sprite = card.GetComponent<SpriteRenderer>();
                 sprite.sortingOrder = i;
+                enemyCardsOnTheTable.Add(card);
+
                 if (Time.time >= grid.timestamp)
                 {
                     grid.startPosition = card.transform.localPosition;
@@ -84,14 +88,16 @@ public class CardManager : MonoBehaviour
         }
     }
 
-    public IEnumerator DiscardingCard(int amountOfCards, bool isPlayer, float pauseTime = 0)
+    public IEnumerator DiscardingCard(bool isPlayer)
     {
+        //int amountOfCards, bool isPlayer, float pauseTime = 0
+        //if (isPlayer)
+        //{
         if (isPlayer)
         {
-            for (int i = (cards.Count); i > 0; i--)
+            for (int i = cardsOnTheTable.Count; i > 0; i--)
             {
-                GameObject card = cards[i - 1];
-
+                GameObject card = cardsOnTheTable[i - 1];
                 if (Time.time >= card.GetComponent<CardScript>().timestamp)
                 {
                     card.GetComponent<CardScript>().startPosition = card.transform.localPosition;
@@ -103,22 +109,48 @@ public class CardManager : MonoBehaviour
                 yield return new WaitForSeconds(.3f);
             }
         }
-            
-
-            for (int i = (enemyCards.Count); i > 1; i--)
+        else
+        {
+            for (int i = enemyCardsOnTheTable.Count; i > 0; i--)
             {
-                GameObject card = enemyCards[i - 1];
-
-                if (Time.time >= card.GetComponent<EnemyCardScript>().timestamp)
+                GameObject card = enemyCardsOnTheTable[i - 1];
+                if (Time.time >= card.GetComponent<CardScript>().timestamp)
                 {
-                    card.GetComponent<EnemyCardScript>().startPosition = card.transform.localPosition;
-                    card.GetComponent<EnemyCardScript>().desiredPosition = new Vector2(1150, 670);
-                    card.GetComponent<EnemyCardScript>().timestamp = Time.time + card.GetComponent<EnemyCardScript>().timeBetweenMoves;
-                    statManagerScript.enemyDiscardPileCounter++;
+                    card.GetComponent<CardScript>().startPosition = card.transform.localPosition;
+                    card.GetComponent<CardScript>().desiredPosition = new Vector2(1150, 670);
+                    card.GetComponent<CardScript>().timestamp = Time.time + card.GetComponent<CardScript>().timeBetweenMoves;
+                    statManagerScript.discardPileCounter++;
                 }
-                card.GetComponent<EnemyCardScript>().startPosition = card.transform.localPosition;
+                card.GetComponent<CardScript>().startPosition = card.transform.localPosition;
                 yield return new WaitForSeconds(.3f);
             }
+        }
+        
+        //}
+        /*
+        for (int i = (cards.Count); i > 0; i--)
+        {
+            GameObject card = cards[i - 1];
+
+
+        }
+    } else
+    {
+        for (int i = (enemyCards.Count); i > 0; i--)
+        {
+            GameObject card = enemyCards[i - 1];
+
+            if (Time.time >= card.GetComponent<EnemyCardScript>().timestamp)
+            {
+                card.GetComponent<EnemyCardScript>().startPosition = card.transform.localPosition;
+                card.GetComponent<EnemyCardScript>().desiredPosition = new Vector2(1150, 670);
+                card.GetComponent<EnemyCardScript>().timestamp = Time.time + card.GetComponent<EnemyCardScript>().timeBetweenMoves;
+                statManagerScript.enemyDiscardPileCounter++;
+            }
+            card.GetComponent<EnemyCardScript>().startPosition = card.transform.localPosition;
+            yield return new WaitForSeconds(.3f);
+        }
+    }*/
     }
 
     // Update is called once per frame

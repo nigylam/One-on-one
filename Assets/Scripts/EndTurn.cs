@@ -4,6 +4,34 @@ using UnityEngine;
 
 public class EndTurn : MonoBehaviour
 {
+    public GameObject CardManager;
+    CardManager cardManagerScript;
+    int curentTurn = 1;
+
+    void Start()
+    {
+        CardManager = GameObject.Find("Card Manager");
+        cardManagerScript = CardManager.GetComponent<CardManager>();
+        // Debug.Log("Clones:" + clones.Length);
+
+    }
+
+    public void OnClick()
+    {
+        if (curentTurn % 2 == 1)
+        {
+            StartCoroutine(cardManagerScript.DiscardingCard(true));
+            StartCoroutine(cardManagerScript.DrawingCard(5, true, 2));
+            curentTurn++;
+        } else
+        {
+            StartCoroutine(cardManagerScript.DiscardingCard(false));
+            StartCoroutine(cardManagerScript.DrawingCard(5, false, 2));
+            curentTurn++;
+        }
+    }
+
+    /*
     GameObject[] clones;
     GameObject[] enemyClones;
     public GameObject Background;
@@ -16,7 +44,7 @@ public class EndTurn : MonoBehaviour
         GameObject[] clones = GameObject.FindGameObjectsWithTag("Respawn");
        // Debug.Log("Clones:" + clones.Length);
 
-    } */
+    } 
 
     IEnumerator TurnEnding()
     {
@@ -67,4 +95,5 @@ public class EndTurn : MonoBehaviour
     {
         StartCoroutine(TurnEnding());
     }
+    */
 }
