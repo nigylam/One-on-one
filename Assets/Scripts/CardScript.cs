@@ -104,31 +104,48 @@ public class CardScript : MonoBehaviour
                 desiredPosition = new Vector2(1150, -670);
                 if (gameObject.name.Contains("Attack"))
                 {
-                    statManagerScript.enemyHp += statManagerScript.enemyBlock - 5;
-                    statManagerScript.enemyBlock -= 5;
-                    statManagerScript.discardPileCounter++;
+                    if (statManagerScript.enemyBlock >= 5)
+                    {
+                        statManagerScript.enemyBlock -= 5;
+                    }
+                    else
+                    {
+                        statManagerScript.enemyHp -= 5 - statManagerScript.enemyBlock;
+                        statManagerScript.enemyBlock = 0;
+                    }
+
                 }
                 else
                 {
                     statManagerScript.block += 6;
-                    statManagerScript.discardPileCounter++;
+
                 }
-            } else
+                statManagerScript.discardPileCounter++;
+            }
+            else
             {
                 desiredPosition = new Vector2(1150, 670);
                 //timestamp = Time.time + timeBetweenMoves;
-                if (gameObject.name.Contains("Attack1"))
+                if (gameObject.name.Contains("Attack"))
                 {
-                    statManagerScript.hp += statManagerScript.block - 6;
-                    statManagerScript.block -= 6;
-                    statManagerScript.enemyDiscardPileCounter++;
+                    if (statManagerScript.block >= 6)
+                    {
+                        statManagerScript.block -= 6;
+                    }
+                    else
+                    {
+                        statManagerScript.hp -= 6 - statManagerScript.block;
+                        statManagerScript.block = 0;
+                    }
+
                 }
                 else
                 {
                     statManagerScript.enemyBlock += 5;
-                    statManagerScript.enemyDiscardPileCounter++;
                 }
+                statManagerScript.enemyDiscardPileCounter++;
             }
+
         }
     }
 
