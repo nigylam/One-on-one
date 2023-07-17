@@ -30,6 +30,7 @@ public class CardScript : MonoBehaviour
         PlayingArea = GameObject.Find("Playing Area");
         StatManager = GameObject.Find("Stat Manager");
         statManagerScript = StatManager.GetComponent<StatManager>();
+        desiredPosition = transform.localPosition;
     }
     void Update()
     {

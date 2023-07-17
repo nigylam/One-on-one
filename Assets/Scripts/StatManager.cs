@@ -6,6 +6,9 @@ using TMPro;
 
 public class StatManager : MonoBehaviour
 {
+    public GameObject CardManager;
+    CardManager cardManagerScript;
+
     public GameObject drawPile;
     public GameObject enemyDrawPile;
     public GameObject discardPile;
@@ -47,14 +50,16 @@ public class StatManager : MonoBehaviour
         enemyHealthPoints = enemyHealthPointsCounter.GetComponent<TextMeshProUGUI>();
         blockPoints = blockPointsCounter.GetComponent<TextMeshProUGUI>();
         enemyBlockPoints = enemyBlockPointsCounter.GetComponent<TextMeshProUGUI>();
+
+        cardManagerScript = CardManager.GetComponent<CardManager>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        drawCounter.text = "" + drawPileCounter;
+        drawCounter.text = "" + cardManagerScript.cards.Count;
         enemyDrawCounter.text = "" + enemyDrawPileCounter;
-        discardCounter.text = "" + discardPileCounter;
+        discardCounter.text = "" + cardManagerScript.discardedCards.Count;
         enemyDiscardCounter.text = "" + enemyDiscardPileCounter;
 
         healthPoints.text = "" + hp;
