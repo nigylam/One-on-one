@@ -5,7 +5,7 @@ using Akassets.SmoothGridLayout;
 
 public class CardScript : MonoBehaviour
 {
-    public float timeBetweenMoves = 0.3333f;
+    public float timeBetweenMoves = 0.333f;
     public float timestamp;
     public float interpolationSpeed = 6;
     public Vector2 desiredPosition;
@@ -21,16 +21,17 @@ public class CardScript : MonoBehaviour
 
     StatManager statManagerScript;
 
+    void Awake()
+    {
+        desiredPosition = transform.localPosition;
+    }
 
     void Start()
     {
-        //startPosition = transform.localPosition;
-        //desiredPosition = transform.localPosition;
         sprite = GetComponent<SpriteRenderer>();
         PlayingArea = GameObject.Find("Playing Area");
         StatManager = GameObject.Find("Stat Manager");
         statManagerScript = StatManager.GetComponent<StatManager>();
-        desiredPosition = transform.localPosition;
     }
     void Update()
     {

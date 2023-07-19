@@ -34,7 +34,7 @@ public class EnemyCardScript : MonoBehaviour
     {
         if (isDragging == false)
         {
-            transform.localPosition = Vector2.Lerp(transform.localPosition, desiredPosition, interpolationSpeed * Time.deltaTime);
+            //transform.localPosition = Vector2.Lerp(transform.localPosition, desiredPosition, interpolationSpeed * Time.deltaTime);
         }
     }
     public void OnMouseEnter()
