@@ -17,13 +17,14 @@ public class CardScript : MonoBehaviour
     bool isOverDropZone = false;
     bool discard = false;
 
-    public bool isDragging = false;
+    public bool isDragging;
 
     StatManager statManagerScript;
 
     void Awake()
     {
-        desiredPosition = transform.localPosition;
+        //desiredPosition = transform.localPosition;
+        isDragging = true;
     }
 
     void Start()

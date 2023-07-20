@@ -32,39 +32,169 @@ public class CardManager : MonoBehaviour
         statManagerScript = StatManager.GetComponent<StatManager>();
         //ShufflingDeck(player, true);
         //ShufflingDeck(enemy, true);
-        //StartCoroutine(DrawingCard(player, 5, 2f));
+        StartCoroutine(DrawingCard(player, 5, 2f));
         StartCoroutine(DrawingCard(enemy, 5, 3f));
     }
 
     public IEnumerator DrawingCard(Side side, int amountOfCards = 5, float pauseTime = 0)
     {
         yield return new WaitForSeconds(pauseTime);
-
         int cardsForRemoving = 0;
-        for (int n = -255, i = 0;  i < amountOfCards; i++, n += 105)
+        while (side.TableCards.Count < amountOfCards)
         {
-            if (side.Cards.Count == 0) { ShufflingDeck(player); }
-
-            GameObject card = side.Cards[i];
-            
-            card.transform.localPosition = side.StartPosition;
-            CardScript grid = card.GetComponent<CardScript>();
-            sprite = card.GetComponent<SpriteRenderer>();
-            sprite.sortingOrder = i;
-            side.TableCards.Add(card);
-            
-            if (Time.time >= grid.timestamp)
+            if (side.Cards.Count == 0)
             {
+                ShufflingDeck(side);
+            }
+
+            GameObject card = side.Cards[0]; // Get the first card in the list
+
+            CardScript grid = card.GetComponent<CardScript>();
+            grid.isDragging = false;
+            card.transform.localPosition = side.StartPosition;
+            sprite = card.GetComponent<SpriteRenderer>();
+            sprite.sortingOrder = cardsForRemoving; cardsForRemoving++;
+            side.TableCards.Add(card);
+            grid.startPosition = card.transform.localPosition;
+            grid.desiredPosition = new Vector2(cardsForRemoving * 105 - 355, side.HandPosition);
+            grid.timestamp = Time.time + grid.timeBetweenMoves;
+            grid.startPosition = grid.desiredPosition;
+
+            // Remove the card from the original list after processing it
+            side.Cards.RemoveAt(0);
+
+            yield return new WaitForSecondsRealtime(.3f);
+        }
+
+        /*
+        int cardsForRemoving = 0;
+        List<GameObject> cardsCopy = new List<GameObject>(side.Cards); // Create a copy of the list
+
+        foreach (GameObject card in cardsCopy)
+        {
+            if (side.TableCards.Count == amountOfCards) { break; }
+            if (side.Cards.Count == 0)
+            {
+                Debug.Log("happens");
+                ShufflingDeck(side);
+                cardsCopy = new List<GameObject>(side.Cards); // isnt working
+            }
+
+            CardScript grid = card.GetComponent<CardScript>();
+            grid.isDragging = false;
+            card.transform.localPosition = side.StartPosition;
+            sprite = card.GetComponent<SpriteRenderer>();
+            sprite.sortingOrder = cardsForRemoving; cardsForRemoving++;
+            side.TableCards.Add(card);
+            grid.startPosition = card.transform.localPosition;
+            grid.desiredPosition = new Vector2(cardsForRemoving * 105 - 255, side.HandPosition);
+            grid.timestamp = Time.time + grid.timeBetweenMoves;
+            grid.startPosition = grid.desiredPosition;
+
+            // Remove the card from the original list after processing it
+            side.Cards.Remove(card);
+
+            yield return new WaitForSecondsRealtime(.3f);
+        }
+
+
+
+
+
+        
+        int cardsForRemoving = 0;
+        int i = 0;
+        int n = -255;
+        foreach (GameObject card in side.Cards)
+        {
+            if(side.TableCards.Count == amountOfCards) { break; }
+            //if()
+
+            CardScript grid = card.GetComponent<CardScript>();
+            grid.isDragging = false;
+            card.transform.localPosition = side.StartPosition;
+            sprite = card.GetComponent<SpriteRenderer>();
+            sprite.sortingOrder = i; i++;
+            side.TableCards.Add(card);
+            grid.startPosition = card.transform.localPosition;
+            grid.desiredPosition = new Vector2(n, side.HandPosition); n += 105;
+            grid.timestamp = Time.time + grid.timeBetweenMoves;
+            grid.startPosition = grid.desiredPosition;
+            //cardsForRemoving++;
+            side.Cards.Remove(card);
+            yield return new WaitForSeconds(.3f);
+        }
+        
+
+        if (side.Cards.Count < amountOfCards)
+        {
+            for (int n = -255, i = 0; i < side.Cards.Count; i++, n += 105)
+            {
+                GameObject card = side.Cards[i];
+                CardScript grid = card.GetComponent<CardScript>();
+                grid.isDragging = false;
+                card.transform.localPosition = side.StartPosition;
+                sprite = card.GetComponent<SpriteRenderer>();
+                sprite.sortingOrder = i;
+                side.TableCards.Add(card);
+
+                //if (Time.time >= grid.timestamp)
+                //{
                 grid.startPosition = card.transform.localPosition;
                 grid.desiredPosition = new Vector2(n, side.HandPosition);
                 grid.timestamp = Time.time + grid.timeBetweenMoves;
+                //}
+                cardsForRemoving = i;
+                grid.startPosition = grid.desiredPosition;
+                yield return new WaitForSeconds(.3f);
             }
-            cardsForRemoving = i;
-            grid.startPosition = grid.desiredPosition;
-            yield return new WaitForSeconds(.3f);
-        }
+            amountOfCards -= side.Cards.Count;
+            side.Cards.Clear();
+            for (int n = -255, i = 0; i < side.Cards.Count; i++, n += 105)
+            {
+                GameObject card = side.Cards[i];
+                CardScript grid = card.GetComponent<CardScript>();
+                grid.isDragging = false;
+                card.transform.localPosition = side.StartPosition;
+                sprite = card.GetComponent<SpriteRenderer>();
+                sprite.sortingOrder = i;
+                side.TableCards.Add(card);
 
-        side.Cards.RemoveRange(0, cardsForRemoving+1);
+                //if (Time.time >= grid.timestamp)
+                //{
+                grid.startPosition = card.transform.localPosition;
+                grid.desiredPosition = new Vector2(n, side.HandPosition);
+                grid.timestamp = Time.time + grid.timeBetweenMoves;
+                //}
+                cardsForRemoving = i;
+                grid.startPosition = grid.desiredPosition;
+                yield return new WaitForSeconds(.3f);
+            }
+        } else
+        {
+            for (int n = -255, i = 0; i < amountOfCards; i++, n += 105)
+            {
+                GameObject card = side.Cards[i];
+                CardScript grid = card.GetComponent<CardScript>();
+                grid.isDragging = false;
+                card.transform.localPosition = side.StartPosition;
+                sprite = card.GetComponent<SpriteRenderer>();
+                sprite.sortingOrder = i;
+                side.TableCards.Add(card);
+
+                //if (Time.time >= grid.timestamp)
+                //{
+                grid.startPosition = card.transform.localPosition;
+                grid.desiredPosition = new Vector2(n, side.HandPosition);
+                grid.timestamp = Time.time + grid.timeBetweenMoves;
+                //}
+                cardsForRemoving = i;
+                grid.startPosition = grid.desiredPosition;
+                yield return new WaitForSeconds(.3f);
+            }
+            side.Cards.RemoveRange(0, cardsForRemoving + 1);
+        }*/
+
     }
 
     public IEnumerator DiscardingCard(Side side)

@@ -58,9 +58,9 @@ public class StatManager : MonoBehaviour
     void Update()
     {
         drawCounter.text = "" + cardManagerScript.cards.Count;
-        enemyDrawCounter.text = "" + enemyDrawPileCounter;
+        enemyDrawCounter.text = "" + cardManagerScript.enemyCards.Count;
         discardCounter.text = "" + cardManagerScript.discardedCards.Count;
-        enemyDiscardCounter.text = "" + enemyDiscardPileCounter;
+        enemyDiscardCounter.text = "" + cardManagerScript.discardedEnemyCards.Count;
 
         healthPoints.text = "" + hp;
         enemyHealthPoints.text = "" + enemyHp;
