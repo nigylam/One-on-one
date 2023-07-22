@@ -745,6 +745,8 @@ MonoBehaviour:
   - {fileID: 1797171601}
   discardedCards: []
   discardedEnemyCards: []
+  cardsOnTheTable: []
+  enemyCardsOnTheTable: []
 --- !u!224 &432050088
 RectTransform:
   m_ObjectHideFlags: 0

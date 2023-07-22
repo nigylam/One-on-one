@@ -21,6 +21,9 @@ public class CardScript : MonoBehaviour
 
     StatManager statManagerScript;
 
+    public GameObject CardManager;
+    CardManager cardManagerScript;
+
     void Awake()
     {
         //desiredPosition = transform.localPosition;
@@ -33,6 +36,9 @@ public class CardScript : MonoBehaviour
         PlayingArea = GameObject.Find("Playing Area");
         StatManager = GameObject.Find("Stat Manager");
         statManagerScript = StatManager.GetComponent<StatManager>();
+
+        CardManager = GameObject.Find("Card Manager");
+        cardManagerScript = CardManager.GetComponent<CardManager>();
     }
     void Update()
     {
@@ -102,54 +108,59 @@ public class CardScript : MonoBehaviour
         }
         if (discard)
         {
-            if (gameObject.tag == "clone")
-            {
-                desiredPosition = new Vector2(1150, -670);
-                if (gameObject.name.Contains("Attack"))
-                {
-                    if (statManagerScript.enemyBlock >= 5)
-                    {
-                        statManagerScript.enemyBlock -= 5;
-                    }
-                    else
-                    {
-                        statManagerScript.enemyHp -= 5 - statManagerScript.enemyBlock;
-                        statManagerScript.enemyBlock = 0;
-                    }
-
-                }
-                else
-                {
-                    statManagerScript.block += 6;
-
-                }
-                statManagerScript.discardPileCounter++;
-            }
-            else
-            {
-                desiredPosition = new Vector2(1150, 670);
-                //timestamp = Time.time + timeBetweenMoves;
-                if (gameObject.name.Contains("Attack"))
-                {
-                    if (statManagerScript.block >= 6)
-                    {
-                        statManagerScript.block -= 6;
-                    }
-                    else
-                    {
-                        statManagerScript.hp -= 6 - statManagerScript.block;
-                        statManagerScript.block = 0;
-                    }
-
-                }
-                else
-                {
-                    statManagerScript.enemyBlock += 5;
-                }
-                statManagerScript.enemyDiscardPileCounter++;
-            }
-
+            PlayingCard();
         }
     }
 
+    public void PlayingCard()
+    {
+        if (gameObject.tag == "clone")
+        {
+            cardManagerScript.cardsOnTheTable.Remove(gameObject);
+            desiredPosition = new Vector2(1150, -670);
+            if (gameObject.name.Contains("Attack"))
+            {
+                if (statManagerScript.enemyBlock >= 5)
+                {
+                    statManagerScript.enemyBlock -= 5;
+                }
+                else
+                {
+                    statManagerScript.enemyHp -= 5 - statManagerScript.enemyBlock;
+                    statManagerScript.enemyBlock = 0;
+                }
+
+            }
+            else
+            {
+                statManagerScript.block += 6;
+
+            }
+            statManagerScript.discardPileCounter++;
+            cardManagerScript.CalculateCardPosition(cardManagerScript.player);
+        }
+        else
+        {
+            desiredPosition = new Vector2(1150, 670);
+            //timestamp = Time.time + timeBetweenMoves;
+            if (gameObject.name.Contains("Attack"))
+            {
+                if (statManagerScript.block >= 6)
+                {
+                    statManagerScript.block -= 6;
+                }
+                else
+                {
+                    statManagerScript.hp -= 6 - statManagerScript.block;
+                    statManagerScript.block = 0;
+                }
+
+            }
+            else
+            {
+                statManagerScript.enemyBlock += 5;
+            }
+            statManagerScript.enemyDiscardPileCounter++;
+        }
+    }
 }
