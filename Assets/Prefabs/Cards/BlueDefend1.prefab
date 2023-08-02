@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 5153559419918588937}
   - component: {fileID: 1420285411050661370}
   - component: {fileID: 4544406730416581186}
+  - component: {fileID: 2519207900757032547}
   m_Layer: 6
   m_Name: BlueDefend1
   m_TagString: clone
@@ -165,4 +166,24 @@ MonoBehaviour:
   interpolationSpeed: 6
   desiredPosition: {x: 0, y: 0}
   startPosition: {x: 0, y: 0}
+  StatManager: {fileID: 0}
   PlayingArea: {fileID: 0}
+  isDragging: 0
+  CardManager: {fileID: 0}
+  cardType: 1
+  cardColor: 1
+  cardMana: 0
+  cardId: BlueDefend1
+  cardDescription: 
+--- !u!114 &2519207900757032547
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8005189400516663073}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2c06c9fd8c46014085b1ffe344021f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -23,6 +23,24 @@ public class CardScript : MonoBehaviour
 
     public GameObject CardManager;
     CardManager cardManagerScript;
+    public CardType cardType;
+    public CardColor cardColor;
+    public int cardMana;
+    public string cardId;
+    public string cardDescription;
+
+    public enum CardType
+    {
+        Attack = 0,
+        Defend = 1,
+        Skill = 3,
+        Power = 4
+    }
+    public enum CardColor
+    {
+        Red = 0,
+        Blue = 1,
+    }
 
     void Awake()
     {
@@ -113,7 +131,7 @@ public class CardScript : MonoBehaviour
     }
 
     public void PlayingCard()
-    {
+    {   
         if (gameObject.tag == "clone")
         {
             cardManagerScript.cardsOnTheTable.Remove(gameObject);

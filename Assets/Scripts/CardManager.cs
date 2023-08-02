@@ -4,6 +4,8 @@ using UnityEngine;
 using Unity.UI;
 using TMPro;
 
+
+
 public class CardManager : MonoBehaviour
 {
     public GameObject PlayingArea;
@@ -32,7 +34,7 @@ public class CardManager : MonoBehaviour
         statManagerScript = StatManager.GetComponent<StatManager>();
         //ShufflingDeck(player, true);
         //ShufflingDeck(enemy, true);
-        StartCoroutine(DrawingCard(player, 3, 2f));
+        StartCoroutine(DrawingCard(player, 5, 2f));
         StartCoroutine(DrawingCard(enemy, 5, 3f));
     }
 
@@ -154,6 +156,5 @@ public class Side
         HandPosition = handPosition;
         DiscardPosition = discardPosition;
     }
-}
-
+  }
 

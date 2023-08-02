@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 8943029441320392262}
   - component: {fileID: 1647631675252271076}
   - component: {fileID: -2712388337023227994}
+  - component: {fileID: 6949863241593881535}
   m_Layer: 6
   m_Name: RedAttack2
   m_TagString: Respawn
@@ -168,3 +169,21 @@ MonoBehaviour:
   StatManager: {fileID: 0}
   PlayingArea: {fileID: 0}
   isDragging: 0
+  CardManager: {fileID: 0}
+  cardType: 0
+  cardColor: 0
+  cardMana: 1
+  cardId: RedAttack2
+  cardDescription: 
+--- !u!114 &6949863241593881535
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6089216621708713326}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2c06c9fd8c46014085b1ffe344021f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
