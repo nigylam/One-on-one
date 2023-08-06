@@ -21,9 +21,12 @@ public class CardManager : MonoBehaviour
     public List<GameObject> discardedEnemyCards = new List<GameObject>();
     public List<GameObject> cardsOnTheTable = new List<GameObject>();
     public List<GameObject> enemyCardsOnTheTable = new List<GameObject>();
+    public List<GameObject> enemyBurnedCards = new List<GameObject>();
 
     public Side player;
     public Side enemy;
+
+    public bool SacrificeMode;
 
     void Start()
     {
@@ -32,10 +35,12 @@ public class CardManager : MonoBehaviour
 
         StatManager = GameObject.Find("Stat Manager");
         statManagerScript = StatManager.GetComponent<StatManager>();
-        //ShufflingDeck(player, true);
-        //ShufflingDeck(enemy, true);
+        ShufflingDeck(player, true);
+        ShufflingDeck(enemy, true);
         StartCoroutine(DrawingCard(player, 5, 2f));
         StartCoroutine(DrawingCard(enemy, 5, 3f));
+
+        SacrificeMode = false;
     }
 
     public IEnumerator DrawingCard(Side side, int amountOfCards = 5, float pauseTime = 0)

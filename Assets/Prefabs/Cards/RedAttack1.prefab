@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 8618391227928088026}
   m_Layer: 6
   m_Name: RedAttack1
-  m_TagString: Respawn
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -35,7 +35,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -67,6 +66,12 @@ Rigidbody2D:
   m_AngularDrag: 0
   m_GravityScale: 0
   m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 1
@@ -81,6 +86,25 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -166,15 +190,17 @@ MonoBehaviour:
   interpolationSpeed: 6
   desiredPosition: {x: -150, y: 370}
   startPosition: {x: -150, y: 370}
+  sprite: {fileID: 0}
   StatManager: {fileID: 0}
   PlayingArea: {fileID: 0}
-  isDragging: 0
   CardManager: {fileID: 0}
-  cardType: 0
-  cardColor: 0
   cardMana: 0
   cardId: RedAttack1
   cardDescription: 
+  cardType: 0
+  cardColor: 0
+  needHighliht: 1
+  isDragging: 0
 --- !u!114 &8618391227928088026
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -187,3 +213,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2c06c9fd8c46014085b1ffe344021f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CardManager: {fileID: 0}
+  StatManager: {fileID: 0}

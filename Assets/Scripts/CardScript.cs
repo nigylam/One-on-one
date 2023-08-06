@@ -10,24 +10,25 @@ public class CardScript : MonoBehaviour
     public float interpolationSpeed = 6;
     public Vector2 desiredPosition;
     public Vector2 startPosition;
-    private SpriteRenderer sprite;
+    public SpriteRenderer sprite;
 
     public GameObject StatManager;
     public GameObject PlayingArea;
-    bool isOverDropZone = false;
-    bool discard = false;
-
-    public bool isDragging;
-
     StatManager statManagerScript;
-
     public GameObject CardManager;
     CardManager cardManagerScript;
-    public CardType cardType;
-    public CardColor cardColor;
+    CardsActions CardsActions;
+
     public int cardMana;
     public string cardId;
     public string cardDescription;
+    public CardType cardType;
+    public CardColor cardColor;
+
+    public bool needHighliht = true;
+    bool isOverDropZone = false;
+    bool discard = false;
+    public bool isDragging;
 
     public enum CardType
     {
@@ -57,6 +58,8 @@ public class CardScript : MonoBehaviour
 
         CardManager = GameObject.Find("Card Manager");
         cardManagerScript = CardManager.GetComponent<CardManager>();
+
+        CardsActions = GetComponent<CardsActions>();
     }
     void Update()
     {
@@ -71,16 +74,21 @@ public class CardScript : MonoBehaviour
         {
             sprite.sortingLayerName = "Top";
             desiredPosition = transform.localPosition;
-            if (gameObject.tag == "Respawn")
+
+            if (needHighliht) 
             {
-                desiredPosition += new Vector2(0, -50);
+                // вот тут тоже нужен сайд, чтобы убрать лишний код!!!
+                if (gameObject.tag == "Respawn")
+                {
+                    desiredPosition += new Vector2(0, -50);
+                }
+                else
+                {
+                    desiredPosition += new Vector2(0, 50);
+                }
+                timestamp = Time.time + timeBetweenMoves;
+                transform.localScale = new Vector2(1.2f, 1.2f);
             }
-            else
-            {
-                desiredPosition += new Vector2(0, 50);
-            }
-            timestamp = Time.time + timeBetweenMoves;
-            transform.localScale = new Vector2(1.2f, 1.2f);
         }
     }
     public void OnMouseExit()
@@ -119,66 +127,28 @@ public class CardScript : MonoBehaviour
 
     public void OnMouseUp()
     {
-        isDragging = false;
-        if (isOverDropZone)
+        if (cardManagerScript.SacrificeMode == true)
         {
-            discard = true;
-        }
-        if (discard)
-        {
-            PlayingCard();
-        }
-    }
-
-    public void PlayingCard()
-    {   
-        if (gameObject.tag == "clone")
-        {
-            cardManagerScript.cardsOnTheTable.Remove(gameObject);
-            desiredPosition = new Vector2(1150, -670);
-            if (gameObject.name.Contains("Attack"))
-            {
-                if (statManagerScript.enemyBlock >= 5)
-                {
-                    statManagerScript.enemyBlock -= 5;
-                }
-                else
-                {
-                    statManagerScript.enemyHp -= 5 - statManagerScript.enemyBlock;
-                    statManagerScript.enemyBlock = 0;
-                }
-
-            }
-            else
-            {
-                statManagerScript.block += 6;
-
-            }
-            statManagerScript.discardPileCounter++;
-            cardManagerScript.CalculateCardPosition(cardManagerScript.player);
+            cardManagerScript.enemyCardsOnTheTable.Remove(gameObject);
+            cardManagerScript.enemyBurnedCards.Add(gameObject);
+            isDragging = true;
+            transform.localPosition = new Vector2(1000, 1000);
         }
         else
         {
-            desiredPosition = new Vector2(1150, 670);
-            //timestamp = Time.time + timeBetweenMoves;
-            if (gameObject.name.Contains("Attack"))
+            isDragging = false;
+            if (cardMana <= cardManagerScript.enemyCardsOnTheTable.Count - 1)
             {
-                if (statManagerScript.block >= 6)
+                if (isOverDropZone)
                 {
-                    statManagerScript.block -= 6;
+                    discard = true;
                 }
-                else
+                if (discard)
                 {
-                    statManagerScript.hp -= 6 - statManagerScript.block;
-                    statManagerScript.block = 0;
+                    StartCoroutine(CardsActions.PlayingCard());
                 }
-
             }
-            else
-            {
-                statManagerScript.enemyBlock += 5;
-            }
-            statManagerScript.enemyDiscardPileCounter++;
         }
+        
     }
 }

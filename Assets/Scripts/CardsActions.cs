@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CardsActions : MonoBehaviour
 {
-    CardScript cardInfo;
+    CardScript CardScript;
 
     public GameObject CardManager;
     CardManager cardManagerScript;
@@ -12,9 +12,13 @@ public class CardsActions : MonoBehaviour
     public GameObject StatManager;
     StatManager statManagerScript;
 
-    public void PlayingCard()
+    bool playerActionCompleted = false;
+
+    Side side;
+
+    public IEnumerator PlayingCard()
     {
-        switch (cardInfo.cardId)
+        switch (CardScript.cardId)
         {
             case "RedAttack1":
                 if (statManagerScript.block >= 6)
@@ -27,14 +31,22 @@ public class CardsActions : MonoBehaviour
                     statManagerScript.block = 0;
                 }
                 break;
+
+
             case "RedAttack2":
-                if (statManagerScript.block >= 6)
+
+                Sacrifice(1);
+                yield return new WaitUntil(() => playerActionCompleted);
+                cardManagerScript.SacrificeMode = false;
+                
+
+                if (statManagerScript.block >= 12)
                 {
-                    statManagerScript.block -= 6;
+                    statManagerScript.block -= 12;
                 }
                 else
                 {
-                    statManagerScript.hp -= 6 - statManagerScript.block;
+                    statManagerScript.hp -= 12 - statManagerScript.block;
                     statManagerScript.block = 0;
                 }
                 break;
@@ -57,25 +69,69 @@ public class CardsActions : MonoBehaviour
                 break;
         }
 
+
+
         if (gameObject.tag == "clone")
         {
             cardManagerScript.cardsOnTheTable.Remove(gameObject);
-            cardInfo.desiredPosition = new Vector2(1150, -670);
+            CardScript.desiredPosition = new Vector2(1150, -670);
             cardManagerScript.CalculateCardPosition(cardManagerScript.player);
             // добавить карту в список сброшенных карт!!!
         }
         else
         {
             cardManagerScript.enemyCardsOnTheTable.Remove(gameObject);
-            cardInfo.desiredPosition = new Vector2(1150, 670);
+            CardScript.desiredPosition = new Vector2(1150, 670);
             // добавить карту в список!!!
         }
+
+        playerActionCompleted = false;
     }
+
+    public void Sacrifice(int numberOfCards)
+    {
+        statManagerScript.CardSacrPopUp.SetActive(true);
+
+        CardScript.desiredPosition = transform.localPosition;
+        transform.localScale = new Vector2(1f, 1f);
+        CardScript.needHighliht = false;
+        CardScript.sprite.sortingLayerName = "Background";
+
+        cardManagerScript.SacrificeMode = true;
+
+        StartCoroutine(WaitForPlayerAction());
+    }
+
+    private IEnumerator WaitForPlayerAction()
+    {
+        int initialCardCount = cardManagerScript.enemyCardsOnTheTable.Count;
+
+        while (cardManagerScript.enemyCardsOnTheTable.Count > initialCardCount - 2) 
+        {
+            yield return null;
+        }
+
+        playerActionCompleted = true;
+        statManagerScript.CardSacrPopUp.SetActive(false);
+    }
+
+    //public void DealDamage(int amountDamage)
+    //{
+    //    if (side.block >= 6)
+    //    {
+    //        side.block -= 6;
+    //    }
+    //    else
+    //    {
+    //       side.hp -= 6 - side.block;
+    //        side.block = 0;
+    //    }
+    //}
 
     // Start is called before the first frame update
     void Start()
     {
-        cardInfo = gameObject.GetComponent<CardScript>();
+        CardScript = gameObject.GetComponent<CardScript>();
 
         StatManager = GameObject.Find("Stat Manager");
         statManagerScript = StatManager.GetComponent<StatManager>();
@@ -87,6 +143,6 @@ public class CardsActions : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 }
