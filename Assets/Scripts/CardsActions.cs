@@ -14,77 +14,34 @@ public class CardsActions : MonoBehaviour
 
     bool playerActionCompleted = false;
 
-    Side side;
+    Side cardSide;
+    Side otherSide;
 
     public IEnumerator PlayingCard()
     {
         switch (CardScript.cardId)
         {
             case "RedAttack1":
-                if (statManagerScript.block >= 6)
-                {
-                    statManagerScript.block -= 6;
-                }
-                else
-                {
-                    statManagerScript.hp -= 6 - statManagerScript.block;
-                    statManagerScript.block = 0;
-                }
+                DealDamage(6);
                 break;
-
-
             case "RedAttack2":
-
                 Sacrifice(1);
                 yield return new WaitUntil(() => playerActionCompleted);
                 cardManagerScript.SacrificeMode = false;
-                
-
-                if (statManagerScript.block >= 12)
-                {
-                    statManagerScript.block -= 12;
-                }
-                else
-                {
-                    statManagerScript.hp -= 12 - statManagerScript.block;
-                    statManagerScript.block = 0;
-                }
+                // Это запихнуть в метод сакрафайс!!!!
+                DealDamage(12);
                 break;
             case "RedDefend1":
-                statManagerScript.enemyBlock += 5;
+                GainBlock(5);
                 break;
             case "BlueAttack1":
-                if (statManagerScript.enemyBlock >= 5)
-                {
-                    statManagerScript.enemyBlock -= 5;
-                }
-                else
-                {
-                    statManagerScript.enemyHp -= 5 - statManagerScript.enemyBlock;
-                    statManagerScript.enemyBlock = 0;
-                }
+                DealDamage(5);
                 break;
             case "BlueDefend1":
-                statManagerScript.block += 6;
+                GainBlock(6);
                 break;
         }
-
-
-
-        if (gameObject.tag == "clone")
-        {
-            cardManagerScript.cardsOnTheTable.Remove(gameObject);
-            CardScript.desiredPosition = new Vector2(1150, -670);
-            cardManagerScript.CalculateCardPosition(cardManagerScript.player);
-            // добавить карту в список сброшенных карт!!!
-        }
-        else
-        {
-            cardManagerScript.enemyCardsOnTheTable.Remove(gameObject);
-            CardScript.desiredPosition = new Vector2(1150, 670);
-            // добавить карту в список!!!
-        }
-
+        Discard();
         playerActionCompleted = false;
     }
 
@@ -115,18 +72,32 @@ public class CardsActions : MonoBehaviour
         statManagerScript.CardSacrPopUp.SetActive(false);
     }
 
-    //public void DealDamage(int amountDamage)
-    //{
-    //    if (side.block >= 6)
-    //    {
-    //        side.block -= 6;
-    //    }
-    //    else
-    //    {
-    //       side.hp -= 6 - side.block;
-    //        side.block = 0;
-    //    }
-    //}
+    public void DealDamage(int amountDamage)
+    {
+        
+        if (otherSide.Block >= amountDamage)
+        {
+            otherSide.Block -= amountDamage;
+        }
+        else
+        {
+            otherSide.Hp -= amountDamage - otherSide.Block;
+            otherSide.Block = 0;
+        }
+    }
+
+    public void GainBlock(int amountBlock)
+    {
+        cardSide.Block += amountBlock;
+    }
+
+    public void Discard()
+    {
+        cardSide.TableCards.Remove(gameObject);
+        CardScript.desiredPosition = cardSide.DiscardPosition;
+        cardManagerScript.CalculateCardPosition(cardSide);
+        cardSide.DiscardedCards.Add(gameObject);
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -138,6 +109,16 @@ public class CardsActions : MonoBehaviour
 
         CardManager = GameObject.Find("Card Manager");
         cardManagerScript = CardManager.GetComponent<CardManager>();
+
+        if(gameObject.tag == "Player")
+        {
+            cardSide = cardManagerScript.player;
+            otherSide = cardManagerScript.enemy;
+        } else
+        {
+            cardSide = cardManagerScript.enemy;
+            otherSide = cardManagerScript.player;
+        }
     }
 
     // Update is called once per frame

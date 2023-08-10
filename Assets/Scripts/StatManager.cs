@@ -25,7 +25,7 @@ public class StatManager : MonoBehaviour
     public int enemyDiscardPileCounter = 0;
     public int hp = 30;
     public int enemyHp = 30;
-    public int block = 0;
+    public int block = 4;
     public int enemyBlock = 5;
 
     TextMeshProUGUI drawCounter;
@@ -64,18 +64,9 @@ public class StatManager : MonoBehaviour
         discardCounter.text = "" + cardManagerScript.discardedCards.Count;
         enemyDiscardCounter.text = "" + cardManagerScript.discardedEnemyCards.Count;
 
-        healthPoints.text = "" + hp;
-        enemyHealthPoints.text = "" + enemyHp;
-        blockPoints.text = "" + block;
-        enemyBlockPoints.text = "" + enemyBlock;
-
-        if (enemyBlock < 0)
-        {
-            enemyBlock = 0;
-        }
-        if (block < 0)
-        {
-            block = 0;
-        }
+        healthPoints.text = "" + cardManagerScript.player.Hp;
+        enemyHealthPoints.text = "" + cardManagerScript.enemy.Hp;
+        blockPoints.text = "" + cardManagerScript.player.Block;
+        enemyBlockPoints.text = "" + cardManagerScript.enemy.Block;
     }
 }

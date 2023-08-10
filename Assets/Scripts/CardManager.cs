@@ -28,13 +28,17 @@ public class CardManager : MonoBehaviour
 
     public bool SacrificeMode;
 
-    void Start()
+    void Awake()
     {
-        player = new Side(new Vector2(-1114, -716), cards, cardsOnTheTable, discardedCards, -370, new Vector2(1150, -700));
-        enemy = new Side(new Vector2(-1114, 716), enemyCards, enemyCardsOnTheTable, discardedEnemyCards, 370, new Vector2(1150, 700));
-
         StatManager = GameObject.Find("Stat Manager");
         statManagerScript = StatManager.GetComponent<StatManager>();
+        player = new Side(new Vector2(-1114, -716), cards, cardsOnTheTable, discardedCards, -370, new Vector2(1150, -700), 4, statManagerScript.hp);
+        enemy = new Side(new Vector2(-1114, 716), enemyCards, enemyCardsOnTheTable, discardedEnemyCards, 370, new Vector2(1150, 700), statManagerScript.enemyBlock, statManagerScript.enemyHp);
+    }
+
+    void Start()
+    {
+        
         ShufflingDeck(player, true);
         ShufflingDeck(enemy, true);
         StartCoroutine(DrawingCard(player, 5, 2f));
@@ -151,8 +155,10 @@ public class Side
     public List<GameObject> DiscardedCards;
     public int HandPosition;
     public Vector2 DiscardPosition;
+    private int block;
+    public int Hp;
 
-    public Side(Vector2 startPosition, List<GameObject> cards, List<GameObject> tableCards, List<GameObject> discardedCards, int handPosition, Vector2 discardPosition)
+    public Side(Vector2 startPosition, List<GameObject> cards, List<GameObject> tableCards, List<GameObject> discardedCards, int handPosition, Vector2 discardPosition, int block, int hp)
     {
         StartPosition = startPosition;
         Cards = cards;
@@ -160,6 +166,17 @@ public class Side
         DiscardedCards = discardedCards;
         HandPosition = handPosition;
         DiscardPosition = discardPosition;
+        Block = block;
+        Hp = hp;
     }
-  }
+    public int Block
+    {
+        get => block;
+        set
+        {
+            // Ensure that the block value is non-negative
+            block = Mathf.Max(0, value);
+        }
+    }
+}
 

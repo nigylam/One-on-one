@@ -1391,10 +1391,6 @@ PrefabInstance:
       value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 435372569855337508, guid: df22d5aafa7e6304789ab4fc20cffaa0, type: 3}
-      propertyPath: m_RootOrder
-      value: 13
-      objectReference: {fileID: 0}
-    - target: {fileID: 435372569855337508, guid: df22d5aafa7e6304789ab4fc20cffaa0, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0.5
       objectReference: {fileID: 0}
@@ -4842,6 +4838,10 @@ PrefabInstance:
     - target: {fileID: 6089216621708713326, guid: dc98193090b7db041b35ea2c4e0346c3, type: 3}
       propertyPath: m_Name
       value: RedAttack2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6089216621708713326, guid: dc98193090b7db041b35ea2c4e0346c3, type: 3}
+      propertyPath: m_TagString
+      value: Enemy
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
