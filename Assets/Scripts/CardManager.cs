@@ -28,6 +28,8 @@ public class CardManager : MonoBehaviour
 
     public bool SacrificeMode;
 
+    int i;
+
     void Awake()
     {
         StatManager = GameObject.Find("Stat Manager");
@@ -45,6 +47,8 @@ public class CardManager : MonoBehaviour
         StartCoroutine(DrawingCard(enemy, 5, 3f));
 
         SacrificeMode = false;
+
+        i = player.TableCards.Count;
     }
 
     public IEnumerator DrawingCard(Side side, int amountOfCards = 5, float pauseTime = 0)
@@ -58,7 +62,7 @@ public class CardManager : MonoBehaviour
                 ShufflingDeck(side);
             }
 
-            GameObject card = side.Cards[0]; // Get the first card in the list
+            GameObject card = side.Cards[0];
             card.transform.localPosition = side.StartPosition;
             side.TableCards.Add(card);
             side.Cards.RemoveAt(0);
@@ -73,7 +77,7 @@ public class CardManager : MonoBehaviour
     public void CalculateCardPosition(Side side)
     {
         int middleIndex = (side.TableCards.Count - 1) / 2;
-        int offset = 105; // Adjust this value based on your desired spacing between cards
+        int offset = 105;
         float totalWidth = (side.TableCards.Count - 1) * offset;
         float halfTotalWidth = totalWidth / 2;
 
@@ -82,13 +86,8 @@ public class CardManager : MonoBehaviour
             GameObject card = side.TableCards[cardIndex];
             CardScript grid = card.GetComponent<CardScript>();
             grid.isDragging = false;
-            //card.transform.localPosition = side.StartPosition;
             sprite = card.GetComponent<SpriteRenderer>();
             sprite.sortingOrder = cardIndex;
-
-            // For the first card, we want it at X = -(halfTotalWidth) + (0 * offset) = -halfTotalWidth
-            // For the middle card, we want it at X = 0
-            // For the last card, we want it at X = halfTotalWidth - (totalWidth * offset) = halfTotalWidth
             float desiredX = -halfTotalWidth + cardIndex * offset;
 
             grid.startPosition = card.transform.localPosition;
@@ -114,7 +113,6 @@ public class CardManager : MonoBehaviour
             card.GetComponent<CardScript>().startPosition = card.transform.localPosition;
             side.DiscardedCards.Add(card);
             yield return new WaitForSeconds(.2f);
-            //Destroy(card);
         }
         side.TableCards.Clear();
         yield return new WaitForSeconds(1f);
@@ -143,7 +141,13 @@ public class CardManager : MonoBehaviour
     }
     void Update()
     {
+        if (i != player.TableCards.Count)
+        {
+            CalculateCardPosition(player);
+        } else if (i != player.TableCards.Count) 
+        {
 
+        }
     }
 }
 

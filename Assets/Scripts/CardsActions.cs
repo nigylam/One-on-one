@@ -25,10 +25,8 @@ public class CardsActions : MonoBehaviour
                 DealDamage(6);
                 break;
             case "RedAttack2":
-                Sacrifice(1);
+                StartCoroutine(Sacrifice(2));
                 yield return new WaitUntil(() => playerActionCompleted);
-                cardManagerScript.SacrificeMode = false;
-                // Это запихнуть в метод сакрафайс!!!!
                 DealDamage(12);
                 break;
             case "RedDefend1":
@@ -42,34 +40,21 @@ public class CardsActions : MonoBehaviour
                 break;
         }
         Discard();
-        playerActionCompleted = false;
     }
 
-    public void Sacrifice(int numberOfCards)
+    public IEnumerator Sacrifice(int numberOfCards)
     {
+        int initialCardCount = cardManagerScript.enemyCardsOnTheTable.Count;
         statManagerScript.CardSacrPopUp.SetActive(true);
-
         CardScript.desiredPosition = transform.localPosition;
         transform.localScale = new Vector2(1f, 1f);
         CardScript.needHighliht = false;
         CardScript.sprite.sortingLayerName = "Background";
-
         cardManagerScript.SacrificeMode = true;
-
-        StartCoroutine(WaitForPlayerAction());
-    }
-
-    private IEnumerator WaitForPlayerAction()
-    {
-        int initialCardCount = cardManagerScript.enemyCardsOnTheTable.Count;
-
-        while (cardManagerScript.enemyCardsOnTheTable.Count > initialCardCount - 2) 
-        {
-            yield return null;
-        }
-
+        yield return new WaitUntil(() => cardManagerScript.enemyCardsOnTheTable.Count <= initialCardCount - (numberOfCards));
         playerActionCompleted = true;
         statManagerScript.CardSacrPopUp.SetActive(false);
+        cardManagerScript.SacrificeMode = false;
     }
 
     public void DealDamage(int amountDamage)
