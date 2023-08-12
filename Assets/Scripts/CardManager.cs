@@ -27,8 +27,7 @@ public class CardManager : MonoBehaviour
     public Side enemy;
 
     public bool SacrificeMode;
-
-    int i;
+    public bool DiscardMode;
 
     void Awake()
     {
@@ -47,15 +46,15 @@ public class CardManager : MonoBehaviour
         StartCoroutine(DrawingCard(enemy, 5, 3f));
 
         SacrificeMode = false;
-
-        i = player.TableCards.Count;
+        DiscardMode = false;
     }
 
     public IEnumerator DrawingCard(Side side, int amountOfCards = 5, float pauseTime = 0)
     {
         yield return new WaitForSeconds(pauseTime);
         int cardsForRemoving = 0;
-        while (side.TableCards.Count < amountOfCards)
+        int i = side.TableCards.Count;
+        while (side.TableCards.Count < amountOfCards + i)
         {
             if (side.Cards.Count == 0)
             {
@@ -141,13 +140,7 @@ public class CardManager : MonoBehaviour
     }
     void Update()
     {
-        if (i != player.TableCards.Count)
-        {
-            CalculateCardPosition(player);
-        } else if (i != player.TableCards.Count) 
-        {
 
-        }
     }
 }
 

@@ -39,6 +39,7 @@ public class StatManager : MonoBehaviour
     TextMeshProUGUI enemyBlockPoints;
 
     public GameObject CardSacrPopUp;
+    public GameObject CardDiscPopUp;
 
     // Start is called before the first frame update
     void Start()

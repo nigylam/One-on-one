@@ -14,8 +14,8 @@ public class CardsActions : MonoBehaviour
 
     bool playerActionCompleted = false;
 
-    Side cardSide;
-    Side otherSide;
+    public Side cardSide;
+    public Side otherSide;
 
     public IEnumerator PlayingCard()
     {
@@ -35,6 +35,12 @@ public class CardsActions : MonoBehaviour
             case "BlueAttack1":
                 DealDamage(5);
                 break;
+            case "BlueAttack2":
+                StartCoroutine(Discard(1));
+                yield return new WaitUntil(() => playerActionCompleted);
+                DealDamage(4);
+                StartCoroutine(cardManagerScript.DrawingCard(cardSide, 1, 0));
+                break;
             case "BlueDefend1":
                 GainBlock(6);
                 break;
@@ -44,6 +50,8 @@ public class CardsActions : MonoBehaviour
 
     public IEnumerator Sacrifice(int numberOfCards)
     {
+        cardSide.TableCards.Remove(gameObject);
+        cardManagerScript.CalculateCardPosition(cardSide);
         int initialCardCount = cardManagerScript.enemyCardsOnTheTable.Count;
         statManagerScript.CardSacrPopUp.SetActive(true);
         CardScript.desiredPosition = transform.localPosition;
@@ -51,10 +59,31 @@ public class CardsActions : MonoBehaviour
         CardScript.needHighliht = false;
         CardScript.sprite.sortingLayerName = "Background";
         cardManagerScript.SacrificeMode = true;
-        yield return new WaitUntil(() => cardManagerScript.enemyCardsOnTheTable.Count <= initialCardCount - (numberOfCards));
+        yield return new WaitUntil(() => cardManagerScript.enemyCardsOnTheTable.Count <= initialCardCount - numberOfCards);
         playerActionCompleted = true;
         statManagerScript.CardSacrPopUp.SetActive(false);
         cardManagerScript.SacrificeMode = false;
+        CardScript.sprite.sortingLayerName = "Default";
+        CardScript.needHighliht = true;
+    }
+
+    public IEnumerator Discard(int numberOfCards)
+    {
+        cardSide.TableCards.Remove(gameObject);
+        cardManagerScript.CalculateCardPosition(cardSide);
+        int initialCardCount = cardManagerScript.cardsOnTheTable.Count;
+        statManagerScript.CardDiscPopUp.SetActive(true);
+        CardScript.desiredPosition = transform.localPosition;
+        transform.localScale = new Vector2(1f, 1f);
+        CardScript.needHighliht = false;
+        CardScript.sprite.sortingLayerName = "Background";
+        cardManagerScript.DiscardMode = true;
+        yield return new WaitUntil(() => cardManagerScript.cardsOnTheTable.Count <= initialCardCount - numberOfCards);
+        playerActionCompleted = true;
+        statManagerScript.CardDiscPopUp.SetActive(false);
+        cardManagerScript.DiscardMode = false;
+        CardScript.sprite.sortingLayerName = "Default";
+        CardScript.needHighliht = true;
     }
 
     public void DealDamage(int amountDamage)
@@ -78,7 +107,7 @@ public class CardsActions : MonoBehaviour
 
     public void Discard()
     {
-        cardSide.TableCards.Remove(gameObject);
+        if (cardSide.TableCards.Contains(gameObject)) { cardSide.TableCards.Remove(gameObject); }
         CardScript.desiredPosition = cardSide.DiscardPosition;
         cardManagerScript.CalculateCardPosition(cardSide);
         cardSide.DiscardedCards.Add(gameObject);

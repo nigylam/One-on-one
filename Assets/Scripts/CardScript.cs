@@ -133,6 +133,14 @@ public class CardScript : MonoBehaviour
             cardManagerScript.enemyBurnedCards.Add(gameObject);
             isDragging = true;
             transform.localPosition = new Vector2(1000, 1000);
+            cardManagerScript.CalculateCardPosition(CardsActions.cardSide);
+        } else if (cardManagerScript.DiscardMode == true)
+        {
+            cardManagerScript.cardsOnTheTable.Remove(gameObject);
+            cardManagerScript.discardedCards.Add(gameObject);
+            isDragging = true;
+            transform.localPosition = new Vector2(1150, 700);
+            cardManagerScript.CalculateCardPosition(CardsActions.cardSide);
         }
         else
         {
