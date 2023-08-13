@@ -45,13 +45,11 @@ public class CardsActions : MonoBehaviour
                 GainBlock(6);
                 break;
         }
-        Discard();
+        cardSide.DiscardedCards.Add(gameObject);
     }
 
     public IEnumerator Sacrifice(int numberOfCards)
     {
-        //cardSide.TableCards.Remove(gameObject);
-        //cardManagerScript.CalculateCardPosition(cardSide);
         int initialCardCount = cardManagerScript.enemyCardsOnTheTable.Count;
         statManagerScript.CardSacrPopUp.SetActive(true);
         CardScript.desiredPosition = transform.localPosition;
@@ -69,14 +67,11 @@ public class CardsActions : MonoBehaviour
 
     public IEnumerator Discard(int numberOfCards)
     {
-        //cardSide.TableCards.Remove(gameObject);
-        //cardManagerScript.CalculateCardPosition(cardSide);
         int initialCardCount = cardManagerScript.cardsOnTheTable.Count;
         statManagerScript.CardDiscPopUp.SetActive(true);
         CardScript.desiredPosition = transform.localPosition;
         transform.localScale = new Vector2(1f, 1f);
-        //CardScript.needHighliht = false;
-        CardScript.sprite.sortingLayerName = "Background";
+        CardScript.sprite.sortingLayerName = "Default";
         cardManagerScript.DiscardMode = true;
         yield return new WaitUntil(() => cardManagerScript.cardsOnTheTable.Count <= initialCardCount - numberOfCards);
         playerActionCompleted = true;
@@ -103,14 +98,6 @@ public class CardsActions : MonoBehaviour
     public void GainBlock(int amountBlock)
     {
         cardSide.Block += amountBlock;
-    }
-
-    public void Discard()
-    {
-        if (cardSide.TableCards.Contains(gameObject)) { cardSide.TableCards.Remove(gameObject); }
-        CardScript.desiredPosition = cardSide.DiscardPosition;
-        //cardManagerScript.CalculateCardPosition(cardSide);
-        cardSide.DiscardedCards.Add(gameObject);
     }
 
     // Start is called before the first frame update

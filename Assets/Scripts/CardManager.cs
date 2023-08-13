@@ -52,7 +52,7 @@ public class CardManager : MonoBehaviour
     public IEnumerator DrawingCard(Side side, int amountOfCards = 5, float pauseTime = 0)
     {
         yield return new WaitForSeconds(pauseTime);
-        int cardsForRemoving = 0;
+        //int cardsForRemoving = 0;
         int i = side.TableCards.Count;
         while (side.TableCards.Count < amountOfCards + i)
         {
@@ -65,9 +65,7 @@ public class CardManager : MonoBehaviour
             card.transform.localPosition = side.StartPosition;
             side.TableCards.Add(card);
             side.Cards.RemoveAt(0);
-
-            //CalculateCardPosition(side);
-            cardsForRemoving++;
+            //cardsForRemoving++;
 
             yield return new WaitForSecondsRealtime(.3f);
         }
@@ -106,14 +104,6 @@ public class CardManager : MonoBehaviour
         for (int i = side.TableCards.Count; i > 0; i--)
         {
             GameObject card = side.TableCards[i - 1];
-            if (Time.time >= card.GetComponent<CardScript>().timestamp)
-            {
-                card.GetComponent<CardScript>().startPosition = card.transform.localPosition;
-                card.GetComponent<CardScript>().desiredPosition = side.DiscardPosition;
-                card.GetComponent<CardScript>().timestamp = Time.time + card.GetComponent<CardScript>().timeBetweenMoves;
-                //statManagerScript.discardPileCounter++;
-            }
-            card.GetComponent<CardScript>().startPosition = card.transform.localPosition;
             side.DiscardedCards.Add(card);
             yield return new WaitForSeconds(.2f);
         }

@@ -27,7 +27,6 @@ public class CardScript : MonoBehaviour
 
     public bool needHighliht = true;
     bool isOverDropZone = false;
-    bool discard = false;
     public bool isDragging;
 
     public enum CardType
@@ -63,11 +62,30 @@ public class CardScript : MonoBehaviour
     }
     void Update()
     {
+        CardPlacing();
         if (isDragging == false)
         {
             transform.localPosition = Vector2.Lerp(transform.localPosition, desiredPosition, interpolationSpeed * Time.deltaTime);
         }
     }
+
+    public void CardPlacing()
+    {
+        if (CardsActions.cardSide.DiscardedCards.Contains(gameObject))
+        {
+            desiredPosition = CardsActions.cardSide.DiscardPosition;
+            sprite.sortingLayerName = "Default";
+            transform.localScale = new Vector2(1f, 1f);
+
+        }
+        else if (CardsActions.cardSide.Cards.Contains(gameObject))
+        {
+            desiredPosition = CardsActions.cardSide.StartPosition;
+            sprite.sortingLayerName = "Default";
+            transform.localScale = new Vector2(1f, 1f);
+        }
+    }
+
     public void OnMouseEnter()
     {
         if (Time.time >= timestamp)
@@ -108,43 +126,49 @@ public class CardScript : MonoBehaviour
 
     public void OnMouseDrag()
     {
-        isDragging = true;
-        //Debug.Log(isDragging);
-        //transform.localPosition = new Vector2(Input.mousePosition.x - 1000, Input.mousePosition.y - 450);
+        if (CardsActions.cardSide.TableCards.Contains(gameObject))
+        {
+            isDragging = true;
+            //Debug.Log(isDragging);
+            //transform.localPosition = new Vector2(Input.mousePosition.x - 1000, Input.mousePosition.y - 450);
 
-        Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        transform.position = mousePosition;
+            Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            transform.position = mousePosition;
+        }  
     }
 
     public void OnMouseUp()
     {
-        if (cardManagerScript.SacrificeMode == true)
+        if (CardsActions.cardSide.TableCards.Contains(gameObject))
         {
-            cardManagerScript.enemyCardsOnTheTable.Remove(gameObject);
-            cardManagerScript.enemyBurnedCards.Add(gameObject);
-            isDragging = true;
-            transform.localPosition = new Vector2(1000, 1000);
-            //cardManagerScript.CalculateCardPosition(CardsActions.cardSide);
-        } else if (cardManagerScript.DiscardMode == true)
-        {
-            cardManagerScript.cardsOnTheTable.Remove(gameObject);
-            cardManagerScript.discardedCards.Add(gameObject);
-            isDragging = true;
-            transform.localPosition = new Vector2(1150, 700);
-            //cardManagerScript.CalculateCardPosition(CardsActions.cardSide);
-        }
-        else
-        {
-            isDragging = false;
-            if (cardMana <= cardManagerScript.enemyCardsOnTheTable.Count - 1)
+            if (cardManagerScript.SacrificeMode == true)
             {
-                if (isOverDropZone)
+                cardManagerScript.enemyCardsOnTheTable.Remove(gameObject);
+                cardManagerScript.enemyBurnedCards.Add(gameObject);
+                isDragging = true;
+                transform.localPosition = new Vector2(1000, 1000);
+                //cardManagerScript.CalculateCardPosition(CardsActions.cardSide);
+            }
+            else if (cardManagerScript.DiscardMode == true)
+            {
+                cardManagerScript.cardsOnTheTable.Remove(gameObject);
+                cardManagerScript.discardedCards.Add(gameObject);
+                isDragging = true;
+                transform.localPosition = new Vector2(1150, 700);
+                //cardManagerScript.CalculateCardPosition(CardsActions.cardSide);
+            }
+            else
+            {
+                isDragging = false;
+                if (cardMana <= cardManagerScript.enemyCardsOnTheTable.Count - 1)
                 {
-                    CardsActions.cardSide.TableCards.Remove(gameObject);
-                    StartCoroutine(CardsActions.PlayingCard());
+                    if (isOverDropZone)
+                    {
+                        CardsActions.cardSide.TableCards.Remove(gameObject);
+                        StartCoroutine(CardsActions.PlayingCard());
+                    }
                 }
             }
         }
-        
     }
 }
