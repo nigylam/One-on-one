@@ -66,7 +66,7 @@ public class CardManager : MonoBehaviour
             side.TableCards.Add(card);
             side.Cards.RemoveAt(0);
 
-            CalculateCardPosition(side);
+            //CalculateCardPosition(side);
             cardsForRemoving++;
 
             yield return new WaitForSecondsRealtime(.3f);
@@ -144,7 +144,8 @@ public class CardManager : MonoBehaviour
     }
     void Update()
     {
-
+        CalculateCardPosition(player);
+        CalculateCardPosition(enemy);
     }
 }
 

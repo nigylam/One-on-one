@@ -73,7 +73,7 @@ public class CardScript : MonoBehaviour
         if (Time.time >= timestamp)
         {
             //desiredPosition = transform.localPosition;
-            if (needHighliht) 
+            if (CardsActions.cardSide.TableCards.Contains(gameObject)) 
             {
                 sprite.sortingLayerName = "Top";
                 desiredPosition += new Vector2(0, CardsActions.cardSide.HiglightPosition);
@@ -84,7 +84,7 @@ public class CardScript : MonoBehaviour
     }
     public void OnMouseExit()
     {
-        if (discard == false)
+        if (CardsActions.cardSide.TableCards.Contains(gameObject))
         {
             desiredPosition = startPosition;
             timestamp = Time.time + timeBetweenMoves;
@@ -124,14 +124,14 @@ public class CardScript : MonoBehaviour
             cardManagerScript.enemyBurnedCards.Add(gameObject);
             isDragging = true;
             transform.localPosition = new Vector2(1000, 1000);
-            cardManagerScript.CalculateCardPosition(CardsActions.cardSide);
+            //cardManagerScript.CalculateCardPosition(CardsActions.cardSide);
         } else if (cardManagerScript.DiscardMode == true)
         {
             cardManagerScript.cardsOnTheTable.Remove(gameObject);
             cardManagerScript.discardedCards.Add(gameObject);
             isDragging = true;
             transform.localPosition = new Vector2(1150, 700);
-            cardManagerScript.CalculateCardPosition(CardsActions.cardSide);
+            //cardManagerScript.CalculateCardPosition(CardsActions.cardSide);
         }
         else
         {
@@ -140,10 +140,7 @@ public class CardScript : MonoBehaviour
             {
                 if (isOverDropZone)
                 {
-                    discard = true;
-                }
-                if (discard)
-                {
+                    CardsActions.cardSide.TableCards.Remove(gameObject);
                     StartCoroutine(CardsActions.PlayingCard());
                 }
             }

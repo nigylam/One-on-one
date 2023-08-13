@@ -50,13 +50,13 @@ public class CardsActions : MonoBehaviour
 
     public IEnumerator Sacrifice(int numberOfCards)
     {
-        cardSide.TableCards.Remove(gameObject);
-        cardManagerScript.CalculateCardPosition(cardSide);
+        //cardSide.TableCards.Remove(gameObject);
+        //cardManagerScript.CalculateCardPosition(cardSide);
         int initialCardCount = cardManagerScript.enemyCardsOnTheTable.Count;
         statManagerScript.CardSacrPopUp.SetActive(true);
         CardScript.desiredPosition = transform.localPosition;
         transform.localScale = new Vector2(1f, 1f);
-        CardScript.needHighliht = false;
+        //CardScript.needHighliht = false;
         CardScript.sprite.sortingLayerName = "Background";
         cardManagerScript.SacrificeMode = true;
         yield return new WaitUntil(() => cardManagerScript.enemyCardsOnTheTable.Count <= initialCardCount - numberOfCards);
@@ -64,18 +64,18 @@ public class CardsActions : MonoBehaviour
         statManagerScript.CardSacrPopUp.SetActive(false);
         cardManagerScript.SacrificeMode = false;
         CardScript.sprite.sortingLayerName = "Default";
-        CardScript.needHighliht = true;
+        //CardScript.needHighliht = true;
     }
 
     public IEnumerator Discard(int numberOfCards)
     {
-        cardSide.TableCards.Remove(gameObject);
-        cardManagerScript.CalculateCardPosition(cardSide);
+        //cardSide.TableCards.Remove(gameObject);
+        //cardManagerScript.CalculateCardPosition(cardSide);
         int initialCardCount = cardManagerScript.cardsOnTheTable.Count;
         statManagerScript.CardDiscPopUp.SetActive(true);
         CardScript.desiredPosition = transform.localPosition;
         transform.localScale = new Vector2(1f, 1f);
-        CardScript.needHighliht = false;
+        //CardScript.needHighliht = false;
         CardScript.sprite.sortingLayerName = "Background";
         cardManagerScript.DiscardMode = true;
         yield return new WaitUntil(() => cardManagerScript.cardsOnTheTable.Count <= initialCardCount - numberOfCards);
@@ -83,7 +83,7 @@ public class CardsActions : MonoBehaviour
         statManagerScript.CardDiscPopUp.SetActive(false);
         cardManagerScript.DiscardMode = false;
         CardScript.sprite.sortingLayerName = "Default";
-        CardScript.needHighliht = true;
+        //CardScript.needHighliht = true;
     }
 
     public void DealDamage(int amountDamage)
@@ -109,7 +109,7 @@ public class CardsActions : MonoBehaviour
     {
         if (cardSide.TableCards.Contains(gameObject)) { cardSide.TableCards.Remove(gameObject); }
         CardScript.desiredPosition = cardSide.DiscardPosition;
-        cardManagerScript.CalculateCardPosition(cardSide);
+        //cardManagerScript.CalculateCardPosition(cardSide);
         cardSide.DiscardedCards.Add(gameObject);
     }
 
