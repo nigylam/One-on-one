@@ -72,20 +72,11 @@ public class CardScript : MonoBehaviour
     {
         if (Time.time >= timestamp)
         {
-            sprite.sortingLayerName = "Top";
-            desiredPosition = transform.localPosition;
-
+            //desiredPosition = transform.localPosition;
             if (needHighliht) 
             {
-                // вот тут тоже нужен сайд, чтобы убрать лишний код!!!
-                if (gameObject.tag == "Respawn")
-                {
-                    desiredPosition += new Vector2(0, -50);
-                }
-                else
-                {
-                    desiredPosition += new Vector2(0, 50);
-                }
+                sprite.sortingLayerName = "Top";
+                desiredPosition += new Vector2(0, CardsActions.cardSide.HiglightPosition);
                 timestamp = Time.time + timeBetweenMoves;
                 transform.localScale = new Vector2(1.2f, 1.2f);
             }

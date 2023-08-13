@@ -33,8 +33,8 @@ public class CardManager : MonoBehaviour
     {
         StatManager = GameObject.Find("Stat Manager");
         statManagerScript = StatManager.GetComponent<StatManager>();
-        player = new Side(new Vector2(-1114, -716), cards, cardsOnTheTable, discardedCards, -370, new Vector2(1150, -700), 4, statManagerScript.hp);
-        enemy = new Side(new Vector2(-1114, 716), enemyCards, enemyCardsOnTheTable, discardedEnemyCards, 370, new Vector2(1150, 700), statManagerScript.enemyBlock, statManagerScript.enemyHp);
+        player = new Side(new Vector2(-1114, -716), cards, cardsOnTheTable, discardedCards, -370, new Vector2(1150, -700), 4, statManagerScript.hp, 50);
+        enemy = new Side(new Vector2(-1114, 716), enemyCards, enemyCardsOnTheTable, discardedEnemyCards, 370, new Vector2(1150, 700), statManagerScript.enemyBlock, statManagerScript.enemyHp, -50);
     }
 
     void Start()
@@ -75,25 +75,29 @@ public class CardManager : MonoBehaviour
 
     public void CalculateCardPosition(Side side)
     {
-        int middleIndex = (side.TableCards.Count - 1) / 2;
-        int offset = 105;
-        float totalWidth = (side.TableCards.Count - 1) * offset;
-        float halfTotalWidth = totalWidth / 2;
-
-        for (int cardIndex = 0; cardIndex < side.TableCards.Count; cardIndex++)
+        if (side.CardsOnTheTableCounter != side.TableCards.Count)
         {
-            GameObject card = side.TableCards[cardIndex];
-            CardScript grid = card.GetComponent<CardScript>();
-            grid.isDragging = false;
-            sprite = card.GetComponent<SpriteRenderer>();
-            sprite.sortingOrder = cardIndex;
-            float desiredX = -halfTotalWidth + cardIndex * offset;
+            int middleIndex = (side.TableCards.Count - 1) / 2;
+            int offset = 105;
+            float totalWidth = (side.TableCards.Count - 1) * offset;
+            float halfTotalWidth = totalWidth / 2;
 
-            grid.startPosition = card.transform.localPosition;
-            grid.desiredPosition = new Vector2(desiredX, side.HandPosition);
-            grid.timestamp = Time.time + grid.timeBetweenMoves;
-            grid.startPosition = grid.desiredPosition;
+            for (int cardIndex = 0; cardIndex < side.TableCards.Count; cardIndex++)
+            {
+                GameObject card = side.TableCards[cardIndex];
+                CardScript grid = card.GetComponent<CardScript>();
+                grid.isDragging = false;
+                sprite = card.GetComponent<SpriteRenderer>();
+                sprite.sortingOrder = cardIndex;
+                float desiredX = -halfTotalWidth + cardIndex * offset;
+
+                grid.startPosition = card.transform.localPosition;
+                grid.desiredPosition = new Vector2(desiredX, side.HandPosition);
+                grid.timestamp = Time.time + grid.timeBetweenMoves;
+                grid.startPosition = grid.desiredPosition;
+            }
         }
+        side.CardsOnTheTableCounter = side.TableCards.Count;
     }
 
 
@@ -154,8 +158,10 @@ public class Side
     public Vector2 DiscardPosition;
     private int block;
     public int Hp;
+    public int HiglightPosition;
+    public int CardsOnTheTableCounter = 0;
 
-    public Side(Vector2 startPosition, List<GameObject> cards, List<GameObject> tableCards, List<GameObject> discardedCards, int handPosition, Vector2 discardPosition, int block, int hp)
+    public Side(Vector2 startPosition, List<GameObject> cards, List<GameObject> tableCards, List<GameObject> discardedCards, int handPosition, Vector2 discardPosition, int block, int hp, int higlightPosition)
     {
         StartPosition = startPosition;
         Cards = cards;
@@ -165,6 +171,7 @@ public class Side
         DiscardPosition = discardPosition;
         Block = block;
         Hp = hp;
+        HiglightPosition = higlightPosition;
     }
     public int Block
     {
