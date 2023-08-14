@@ -27,7 +27,7 @@ public class CardScript : MonoBehaviour
 
     public bool needHighliht = true;
     bool isOverDropZone = false;
-    public bool isDragging;
+    //public bool isDragging = false;
 
     public enum CardType
     {
@@ -44,8 +44,7 @@ public class CardScript : MonoBehaviour
 
     void Awake()
     {
-        //desiredPosition = transform.localPosition;
-        isDragging = true;
+        //isDragging = true;
     }
 
     void Start()
@@ -59,14 +58,13 @@ public class CardScript : MonoBehaviour
         cardManagerScript = CardManager.GetComponent<CardManager>();
 
         CardsActions = GetComponent<CardsActions>();
+
+        //listStoringGameObject = CardsActions.cardSide.Cards.Contains(gameObject);
     }
     void Update()
     {
         CardPlacing();
-        if (isDragging == false)
-        {
-            transform.localPosition = Vector2.Lerp(transform.localPosition, desiredPosition, interpolationSpeed * Time.deltaTime);
-        }
+        transform.localPosition = Vector2.Lerp(transform.localPosition, desiredPosition, interpolationSpeed * Time.deltaTime);
     }
 
     public void CardPlacing()
@@ -76,7 +74,6 @@ public class CardScript : MonoBehaviour
             desiredPosition = CardsActions.cardSide.DiscardPosition;
             sprite.sortingLayerName = "Default";
             transform.localScale = new Vector2(1f, 1f);
-
         }
         else if (CardsActions.cardSide.Cards.Contains(gameObject))
         {
@@ -84,14 +81,17 @@ public class CardScript : MonoBehaviour
             sprite.sortingLayerName = "Default";
             transform.localScale = new Vector2(1f, 1f);
         }
+        else if (cardManagerScript.playingCards.Contains(gameObject))
+        {
+            desiredPosition = new Vector2 (0,0);
+        }
     }
 
     public void OnMouseEnter()
     {
         if (Time.time >= timestamp)
         {
-            //desiredPosition = transform.localPosition;
-            if (CardsActions.cardSide.TableCards.Contains(gameObject)) 
+            if (CardsActions.cardSide.TableCards.Contains(gameObject))
             {
                 sprite.sortingLayerName = "Top";
                 desiredPosition += new Vector2(0, CardsActions.cardSide.HiglightPosition);
@@ -120,21 +120,19 @@ public class CardScript : MonoBehaviour
     private void OnCollisionExit2D(Collision2D collision)
     {
         isOverDropZone = false;
-        //Debug.Log(desiredPosition);
         PlayingArea = null;
     }
 
     public void OnMouseDrag()
     {
+        sprite.sortingLayerName = "Default";
+        transform.localScale = new Vector2(1f, 1f);
         if (CardsActions.cardSide.TableCards.Contains(gameObject))
         {
-            isDragging = true;
-            //Debug.Log(isDragging);
-            //transform.localPosition = new Vector2(Input.mousePosition.x - 1000, Input.mousePosition.y - 450);
-
+            //isDragging = true;
             Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             transform.position = mousePosition;
-        }  
+        }
     }
 
     public void OnMouseUp()
@@ -145,21 +143,19 @@ public class CardScript : MonoBehaviour
             {
                 cardManagerScript.enemyCardsOnTheTable.Remove(gameObject);
                 cardManagerScript.enemyBurnedCards.Add(gameObject);
-                isDragging = true;
+                //isDragging = true;
                 transform.localPosition = new Vector2(1000, 1000);
-                //cardManagerScript.CalculateCardPosition(CardsActions.cardSide);
             }
             else if (cardManagerScript.DiscardMode == true)
             {
                 cardManagerScript.cardsOnTheTable.Remove(gameObject);
                 cardManagerScript.discardedCards.Add(gameObject);
-                isDragging = true;
-                transform.localPosition = new Vector2(1150, 700);
-                //cardManagerScript.CalculateCardPosition(CardsActions.cardSide);
+                //isDragging = false;
+                //transform.localPosition = new Vector2(1150, 700);
             }
             else
             {
-                isDragging = false;
+                //isDragging = false;
                 if (cardMana <= cardManagerScript.enemyCardsOnTheTable.Count - 1)
                 {
                     if (isOverDropZone)

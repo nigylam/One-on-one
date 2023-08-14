@@ -22,12 +22,14 @@ public class CardManager : MonoBehaviour
     public List<GameObject> cardsOnTheTable = new List<GameObject>();
     public List<GameObject> enemyCardsOnTheTable = new List<GameObject>();
     public List<GameObject> enemyBurnedCards = new List<GameObject>();
+    public List<GameObject> playingCards = new List<GameObject>();
 
     public Side player;
     public Side enemy;
 
     public bool SacrificeMode;
     public bool DiscardMode;
+    bool shuffledComplete = true;
 
     void Awake()
     {
@@ -39,9 +41,9 @@ public class CardManager : MonoBehaviour
 
     void Start()
     {
-        
-        ShufflingDeck(player, true);
-        ShufflingDeck(enemy, true);
+
+        StartCoroutine(ShufflingDeck(player, true));
+        StartCoroutine(ShufflingDeck(enemy, true));
         StartCoroutine(DrawingCard(player, 5, 2f));
         StartCoroutine(DrawingCard(enemy, 5, 3f));
 
@@ -52,20 +54,20 @@ public class CardManager : MonoBehaviour
     public IEnumerator DrawingCard(Side side, int amountOfCards = 5, float pauseTime = 0)
     {
         yield return new WaitForSeconds(pauseTime);
-        //int cardsForRemoving = 0;
         int i = side.TableCards.Count;
         while (side.TableCards.Count < amountOfCards + i)
         {
             if (side.Cards.Count == 0)
             {
-                ShufflingDeck(side);
+                shuffledComplete = false;
+                StartCoroutine(ShufflingDeck(side));
+                yield return new WaitUntil(() => shuffledComplete == true);
             }
 
             GameObject card = side.Cards[0];
-            card.transform.localPosition = side.StartPosition;
+            //card.transform.localPosition = side.StartPosition;
             side.TableCards.Add(card);
             side.Cards.RemoveAt(0);
-            //cardsForRemoving++;
 
             yield return new WaitForSecondsRealtime(.3f);
         }
@@ -84,7 +86,7 @@ public class CardManager : MonoBehaviour
             {
                 GameObject card = side.TableCards[cardIndex];
                 CardScript grid = card.GetComponent<CardScript>();
-                grid.isDragging = false;
+                //grid.isDragging = false;
                 sprite = card.GetComponent<SpriteRenderer>();
                 sprite.sortingOrder = cardIndex;
                 float desiredX = -halfTotalWidth + cardIndex * offset;
@@ -111,17 +113,21 @@ public class CardManager : MonoBehaviour
         yield return new WaitForSeconds(1f);
     }
 
-    public void ShufflingDeck(Side side, bool isThisStartOfBattle = false)
+    public IEnumerator ShufflingDeck(Side side, bool isThisStartOfBattle = false)
     {
         if (isThisStartOfBattle == false)
         {
-            foreach (GameObject card in side.DiscardedCards)
+            while (side.DiscardedCards.Count > 0)
             {
-                side.Cards.Add(card);
-                //discardedCards.Remove(card);
 
+                GameObject card = side.DiscardedCards[0];
+                side.Cards.Add(card);
+                side.DiscardedCards.RemoveAt(0);
+                //yield return new WaitForSecondsRealtime(.01f);
             }
-            side.DiscardedCards.Clear();
+            //yield return new WaitForSecondsRealtime(.1f);
+
+            //side.DiscardedCards.Clear();
         }
 
         for (int i = 0; i < side.Cards.Count; i++)
@@ -131,6 +137,8 @@ public class CardManager : MonoBehaviour
             side.Cards[i] = side.Cards[randomIndex];
             side.Cards[randomIndex] = temp;
         }
+        yield return new WaitForSeconds(1f);
+        shuffledComplete = true;
     }
     void Update()
     {

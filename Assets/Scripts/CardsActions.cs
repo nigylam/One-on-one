@@ -46,6 +46,7 @@ public class CardsActions : MonoBehaviour
                 break;
         }
         cardSide.DiscardedCards.Add(gameObject);
+        playerActionCompleted = false;
     }
 
     public IEnumerator Sacrifice(int numberOfCards)
@@ -54,7 +55,6 @@ public class CardsActions : MonoBehaviour
         statManagerScript.CardSacrPopUp.SetActive(true);
         CardScript.desiredPosition = transform.localPosition;
         transform.localScale = new Vector2(1f, 1f);
-        //CardScript.needHighliht = false;
         CardScript.sprite.sortingLayerName = "Background";
         cardManagerScript.SacrificeMode = true;
         yield return new WaitUntil(() => cardManagerScript.enemyCardsOnTheTable.Count <= initialCardCount - numberOfCards);
@@ -62,23 +62,24 @@ public class CardsActions : MonoBehaviour
         statManagerScript.CardSacrPopUp.SetActive(false);
         cardManagerScript.SacrificeMode = false;
         CardScript.sprite.sortingLayerName = "Default";
-        //CardScript.needHighliht = true;
     }
 
     public IEnumerator Discard(int numberOfCards)
     {
         int initialCardCount = cardManagerScript.cardsOnTheTable.Count;
+        cardManagerScript.playingCards.Add(gameObject);
         statManagerScript.CardDiscPopUp.SetActive(true);
         CardScript.desiredPosition = transform.localPosition;
         transform.localScale = new Vector2(1f, 1f);
         CardScript.sprite.sortingLayerName = "Default";
+        CardScript.sprite.sortingOrder = 0;
         cardManagerScript.DiscardMode = true;
         yield return new WaitUntil(() => cardManagerScript.cardsOnTheTable.Count <= initialCardCount - numberOfCards);
         playerActionCompleted = true;
         statManagerScript.CardDiscPopUp.SetActive(false);
         cardManagerScript.DiscardMode = false;
         CardScript.sprite.sortingLayerName = "Default";
-        //CardScript.needHighliht = true;
+        cardManagerScript.playingCards.Remove(gameObject);
     }
 
     public void DealDamage(int amountDamage)
@@ -100,7 +101,6 @@ public class CardsActions : MonoBehaviour
         cardSide.Block += amountBlock;
     }
 
-    // Start is called before the first frame update
     void Start()
     {
         CardScript = gameObject.GetComponent<CardScript>();
@@ -122,7 +122,6 @@ public class CardsActions : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
     void Update()
     {
 
