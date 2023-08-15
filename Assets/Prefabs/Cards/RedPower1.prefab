@@ -12,11 +12,11 @@ GameObject:
   - component: {fileID: 2764616856225262762}
   - component: {fileID: 8943029441320392261}
   - component: {fileID: 8943029441320392262}
-  - component: {fileID: 1647631675252271076}
-  - component: {fileID: -2712388337023227994}
-  - component: {fileID: 6949863241593881535}
+  - component: {fileID: 4292670049874065224}
+  - component: {fileID: -7125978089759817562}
+  - component: {fileID: 4351014071588378674}
   m_Layer: 6
-  m_Name: RedAttack2
+  m_Name: RedPower1
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -121,7 +121,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 180, y: 260}
   m_EdgeRadius: 0
---- !u!212 &1647631675252271076
+--- !u!212 &4292670049874065224
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -161,8 +161,8 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 2c14ab678aadce7438773d01741afc82, type: 3}
+  m_SortingOrder: 2
+  m_Sprite: {fileID: 21300000, guid: 59448cef0e095124b9a37d05be0f5444, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -173,7 +173,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &-2712388337023227994
+--- !u!114 &-7125978089759817562
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -186,21 +186,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeBetweenMoves: 0.3333
-  timestamp: 3.335547
+  timestamp: 3.941959
   interpolationSpeed: 6
-  desiredPosition: {x: -255, y: 370}
-  startPosition: {x: -255, y: 370}
+  desiredPosition: {x: -45, y: 370}
+  startPosition: {x: -45, y: 370}
   sprite: {fileID: 0}
   StatManager: {fileID: 0}
   PlayingArea: {fileID: 0}
   CardManager: {fileID: 0}
   cardMana: 1
-  cardId: RedAttack2
+  cardId: RedPower1
   cardDescription: 
-  cardType: 0
+  cardType: 4
   cardColor: 0
   needHighliht: 1
---- !u!114 &6949863241593881535
+--- !u!114 &4351014071588378674
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

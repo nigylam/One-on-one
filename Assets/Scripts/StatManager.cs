@@ -19,6 +19,11 @@ public class StatManager : MonoBehaviour
     public GameObject blockPointsCounter;
     public GameObject enemyBlockPointsCounter;
 
+    public GameObject strength;
+    public GameObject enemyStrength;
+    public GameObject strengthCounter;
+    public GameObject enemyStrengthCounter;
+
     public int drawPileCounter = 5;
     public int enemyDrawPileCounter = 5;
     public int discardPileCounter = 0;
@@ -38,6 +43,9 @@ public class StatManager : MonoBehaviour
     TextMeshProUGUI blockPoints;
     TextMeshProUGUI enemyBlockPoints;
 
+    TextMeshProUGUI strengthCounterText;
+    TextMeshProUGUI enemyStrengthCounterText;
+
     public GameObject CardSacrPopUp;
     public GameObject CardDiscPopUp;
 
@@ -54,6 +62,9 @@ public class StatManager : MonoBehaviour
         blockPoints = blockPointsCounter.GetComponent<TextMeshProUGUI>();
         enemyBlockPoints = enemyBlockPointsCounter.GetComponent<TextMeshProUGUI>();
 
+        strengthCounterText = strengthCounter.GetComponent<TextMeshProUGUI>();
+        enemyStrengthCounterText = enemyStrengthCounter.GetComponent<TextMeshProUGUI>();
+
         cardManagerScript = CardManager.GetComponent<CardManager>();
     }
 
@@ -69,5 +80,24 @@ public class StatManager : MonoBehaviour
         enemyHealthPoints.text = "" + cardManagerScript.enemy.Hp;
         blockPoints.text = "" + cardManagerScript.player.Block;
         enemyBlockPoints.text = "" + cardManagerScript.enemy.Block;
+
+        strengthCounterText.text = "" + cardManagerScript.player.Strength;
+        enemyStrengthCounterText.text = "" + cardManagerScript.enemy.Strength;
+
+        if (cardManagerScript.player.Strength == 0)
+        {
+            strength.SetActive(false);
+        } else
+        {
+            strength.SetActive(true);
+        }
+        if(cardManagerScript.enemy.Strength == 0)
+        {
+            enemyStrength.SetActive(false);
+        }
+        else
+        {
+            enemyStrength.SetActive(true);
+        }
     }
 }

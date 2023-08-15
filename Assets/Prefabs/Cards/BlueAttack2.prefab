@@ -162,7 +162,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 36ae1320a4dd8b04ba573e97f2b994dd, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d42fa19c9c275d642a52aef8555a04df, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -200,7 +200,6 @@ MonoBehaviour:
   cardType: 0
   cardColor: 1
   needHighliht: 1
-  isDragging: 0
 --- !u!114 &4692592177589050605
 MonoBehaviour:
   m_ObjectHideFlags: 0
