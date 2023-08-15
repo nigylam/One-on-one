@@ -25,7 +25,7 @@ public class CardsActions : MonoBehaviour
                 DealDamage(6);
                 break;
             case "RedAttack2":
-                StartCoroutine(Sacrifice(2));
+                StartCoroutine(ManaSpending(2));
                 yield return new WaitUntil(() => playerActionCompleted);
                 DealDamage(12);
                 break;
@@ -36,7 +36,7 @@ public class CardsActions : MonoBehaviour
                 DealDamage(5);
                 break;
             case "BlueAttack2":
-                StartCoroutine(Discard(1));
+                StartCoroutine(ManaSpending(1));
                 yield return new WaitUntil(() => playerActionCompleted);
                 DealDamage(4);
                 StartCoroutine(cardManagerScript.DrawingCard(cardSide, 1, 0));
@@ -49,36 +49,16 @@ public class CardsActions : MonoBehaviour
         playerActionCompleted = false;
     }
 
-    public IEnumerator Sacrifice(int numberOfCards)
+    public IEnumerator ManaSpending(int numberOfCards)
     {
-        int initialCardCount = cardManagerScript.enemyCardsOnTheTable.Count;
-        statManagerScript.CardSacrPopUp.SetActive(true);
-        CardScript.desiredPosition = transform.localPosition;
-        transform.localScale = new Vector2(1f, 1f);
-        CardScript.sprite.sortingLayerName = "Background";
-        cardManagerScript.SacrificeMode = true;
-        yield return new WaitUntil(() => cardManagerScript.enemyCardsOnTheTable.Count <= initialCardCount - numberOfCards);
-        playerActionCompleted = true;
-        statManagerScript.CardSacrPopUp.SetActive(false);
-        cardManagerScript.SacrificeMode = false;
-        CardScript.sprite.sortingLayerName = "Default";
-    }
-
-    public IEnumerator Discard(int numberOfCards)
-    {
-        int initialCardCount = cardManagerScript.cardsOnTheTable.Count;
+        int initialCardCount = cardSide.TableCards.Count;
+        cardSide.ManaPopUp.SetActive(true);
         cardManagerScript.playingCards.Add(gameObject);
-        statManagerScript.CardDiscPopUp.SetActive(true);
-        CardScript.desiredPosition = transform.localPosition;
-        transform.localScale = new Vector2(1f, 1f);
-        CardScript.sprite.sortingLayerName = "Default";
-        CardScript.sprite.sortingOrder = 0;
-        cardManagerScript.DiscardMode = true;
-        yield return new WaitUntil(() => cardManagerScript.cardsOnTheTable.Count <= initialCardCount - numberOfCards);
+        cardManagerScript.manaSpendingMode = true;
+        yield return new WaitUntil(() => cardSide.TableCards.Count <= initialCardCount - numberOfCards);
         playerActionCompleted = true;
-        statManagerScript.CardDiscPopUp.SetActive(false);
-        cardManagerScript.DiscardMode = false;
-        CardScript.sprite.sortingLayerName = "Default";
+        cardSide.ManaPopUp.SetActive(false);
+        cardManagerScript.manaSpendingMode = false;
         cardManagerScript.playingCards.Remove(gameObject);
     }
 

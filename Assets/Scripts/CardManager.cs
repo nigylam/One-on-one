@@ -27,16 +27,16 @@ public class CardManager : MonoBehaviour
     public Side player;
     public Side enemy;
 
-    public bool SacrificeMode;
-    public bool DiscardMode;
+    public bool manaSpendingMode;
+    //public bool DiscardMode;
     bool shuffledComplete = true;
 
     void Awake()
     {
         StatManager = GameObject.Find("Stat Manager");
         statManagerScript = StatManager.GetComponent<StatManager>();
-        player = new Side(new Vector2(-1114, -716), cards, cardsOnTheTable, discardedCards, -370, new Vector2(1150, -700), 4, statManagerScript.hp, 50);
-        enemy = new Side(new Vector2(-1114, 716), enemyCards, enemyCardsOnTheTable, discardedEnemyCards, 370, new Vector2(1150, 700), statManagerScript.enemyBlock, statManagerScript.enemyHp, -50);
+        player = new Side(new Vector2(-1114, -716), cards, cardsOnTheTable, discardedCards, -370, new Vector2(1150, -700), 4, statManagerScript.hp, 50, statManagerScript.CardDiscPopUp);
+        enemy = new Side(new Vector2(-1114, 716), enemyCards, enemyCardsOnTheTable, discardedEnemyCards, 370, new Vector2(1150, 700), statManagerScript.enemyBlock, statManagerScript.enemyHp, -50, statManagerScript.CardSacrPopUp);
     }
 
     void Start()
@@ -46,9 +46,6 @@ public class CardManager : MonoBehaviour
         StartCoroutine(ShufflingDeck(enemy, true));
         StartCoroutine(DrawingCard(player, 5, 2f));
         StartCoroutine(DrawingCard(enemy, 5, 3f));
-
-        SacrificeMode = false;
-        DiscardMode = false;
     }
 
     public IEnumerator DrawingCard(Side side, int amountOfCards = 5, float pauseTime = 0)
@@ -159,8 +156,9 @@ public class Side
     public int Hp;
     public int HiglightPosition;
     public int CardsOnTheTableCounter = 0;
+    public GameObject ManaPopUp;
 
-    public Side(Vector2 startPosition, List<GameObject> cards, List<GameObject> tableCards, List<GameObject> discardedCards, int handPosition, Vector2 discardPosition, int block, int hp, int higlightPosition)
+    public Side(Vector2 startPosition, List<GameObject> cards, List<GameObject> tableCards, List<GameObject> discardedCards, int handPosition, Vector2 discardPosition, int block, int hp, int higlightPosition, GameObject manaPopUp)
     {
         StartPosition = startPosition;
         Cards = cards;
@@ -171,6 +169,7 @@ public class Side
         Block = block;
         Hp = hp;
         HiglightPosition = higlightPosition;
+        ManaPopUp = manaPopUp;
     }
     public int Block
     {

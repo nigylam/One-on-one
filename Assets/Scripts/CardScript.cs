@@ -84,6 +84,9 @@ public class CardScript : MonoBehaviour
         else if (cardManagerScript.playingCards.Contains(gameObject))
         {
             desiredPosition = new Vector2 (0,0);
+            transform.localScale = new Vector2(1f, 1f);
+            sprite.sortingLayerName = "Default";
+            sprite.sortingOrder = 0;
         }
     }
 
@@ -139,23 +142,22 @@ public class CardScript : MonoBehaviour
     {
         if (CardsActions.cardSide.TableCards.Contains(gameObject))
         {
-            if (cardManagerScript.SacrificeMode == true)
+            if (cardManagerScript.manaSpendingMode == true)
             {
-                cardManagerScript.enemyCardsOnTheTable.Remove(gameObject);
-                cardManagerScript.enemyBurnedCards.Add(gameObject);
-                //isDragging = true;
-                transform.localPosition = new Vector2(1000, 1000);
-            }
-            else if (cardManagerScript.DiscardMode == true)
-            {
-                cardManagerScript.cardsOnTheTable.Remove(gameObject);
-                cardManagerScript.discardedCards.Add(gameObject);
-                //isDragging = false;
-                //transform.localPosition = new Vector2(1150, 700);
+                if (CardsActions.cardSide == cardManagerScript.enemy)
+                {
+                    cardManagerScript.enemyCardsOnTheTable.Remove(gameObject);
+                    cardManagerScript.enemyBurnedCards.Add(gameObject);
+                    transform.localPosition = new Vector2(1000, 1000);
+                    desiredPosition = new Vector2(1000, 1000);
+                } else
+                {
+                    cardManagerScript.cardsOnTheTable.Remove(gameObject);
+                    cardManagerScript.discardedCards.Add(gameObject);
+                }
             }
             else
             {
-                //isDragging = false;
                 if (cardMana <= cardManagerScript.enemyCardsOnTheTable.Count - 1)
                 {
                     if (isOverDropZone)
