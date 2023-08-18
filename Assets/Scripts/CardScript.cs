@@ -158,7 +158,7 @@ public class CardScript : MonoBehaviour
             }
             else
             {
-                if (cardMana <= cardManagerScript.enemyCardsOnTheTable.Count - 1)
+                if (cardMana <= CardsActions.cardSide.TableCards.Count - 1)
                 {
                     if (isOverDropZone)
                     {

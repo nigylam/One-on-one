@@ -32,6 +32,11 @@ public class CardsActions : MonoBehaviour
             case "RedDefend1":
                 GainBlock(5);
                 break;
+            case "RedPower1":
+                StartCoroutine(ManaSpending(1));
+                yield return new WaitUntil(() => playerActionCompleted);
+                cardSide.Strength += 1;
+                break;
             case "BlueAttack1":
                 DealDamage(5);
                 break;
@@ -67,11 +72,11 @@ public class CardsActions : MonoBehaviour
         
         if (otherSide.Block >= amountDamage)
         {
-            otherSide.Block -= amountDamage;
+            otherSide.Block -= (amountDamage + cardSide.Strength);
         }
         else
         {
-            otherSide.Hp -= amountDamage - otherSide.Block;
+            otherSide.Hp -= (amountDamage + cardSide.Strength) - otherSide.Block;
             otherSide.Block = 0;
         }
     }

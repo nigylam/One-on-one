@@ -5634,6 +5634,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1960787339}
     m_Modifications:
+    - target: {fileID: -2712388337023227994, guid: dc98193090b7db041b35ea2c4e0346c3, type: 3}
+      propertyPath: cardMana
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4437129830813904491, guid: dc98193090b7db041b35ea2c4e0346c3, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
