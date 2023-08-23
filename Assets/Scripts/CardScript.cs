@@ -2,10 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Akassets.SmoothGridLayout;
-using Unity.UI;
-using TMPro;
-using static CardScript;
-using Cards;
 
 public class CardScript : MonoBehaviour
 {
@@ -26,25 +22,12 @@ public class CardScript : MonoBehaviour
     public int cardMana;
     public string cardId;
     public string cardDescription;
-           string cardDescriptionDynamic;
-    public string cardTitle;
     public CardType cardType;
     public CardColor cardColor;
-    public int cardDamage;
 
-    public GameObject CardDescription;
-    public GameObject CardTitle;
-    public GameObject CardTypePrint;
-
-    TextMeshProUGUI CardDescriptionText;
-    TextMeshProUGUI CardTitleText;
-    TextMeshProUGUI CardTypeText;
-
-    public GameObject CardCanvas;
-    Canvas cardCanvas;
-
+    public bool needHighliht = true;
     bool isOverDropZone = false;
-    public bool isntDragging = true;
+    //public bool isDragging = false;
 
     public enum CardType
     {
@@ -76,60 +59,13 @@ public class CardScript : MonoBehaviour
 
         CardsActions = GetComponent<CardsActions>();
 
-        //CardCanvas = gameObject.transform.Find("Canvas").gameObject;
-        //CardDescription = CardCanvas.transform.Find("Text (TMP)").gameObject;
-
-        CardDescriptionText = CardDescription.GetComponent<TextMeshProUGUI>();
-        CardTitleText = CardTitle.GetComponent<TextMeshProUGUI>();
-        CardTypeText = CardTypePrint.GetComponent<TextMeshProUGUI>();
-        cardCanvas = CardCanvas.GetComponent<Canvas>();
-
-        CardDescriptionText.text = cardDescription;
-        CardTitleText.text = cardTitle;
-
-        switch (cardType)
-        {
-            case CardType.Attack:
-                CardTypeText.text = "Атака";
-                break;
-            case CardType.Defend:
-                CardTypeText.text = "Защита";
-                break;
-            case CardType.Skill:
-                CardTypeText.text = "Прием";
-                break;
-            case CardType.Power:
-                CardTypeText.text = "Техника";
-                break;
-        }
-        
-        //cardDescription = CardsDescriptions.BlueAttack1.Description;
+        //listStoringGameObject = CardsActions.cardSide.Cards.Contains(gameObject);
     }
     void Update()
     {
         CardPlacing();
-        if (isntDragging) { transform.localPosition = Vector2.Lerp(transform.localPosition, desiredPosition, interpolationSpeed * Time.deltaTime); }
-        cardCanvas.sortingLayerName = sprite.sortingLayerName;
-        cardCanvas.sortingOrder = sprite.sortingOrder;
+        transform.localPosition = Vector2.Lerp(transform.localPosition, desiredPosition, interpolationSpeed * Time.deltaTime);
     }
-
-    /*public string DescriptionTranscription(string description)
-    {
-        List<char> cardDescription = new List<char>();
-        int i = 0;
-        bool isDamage = false;
-        foreach (char c in description)
-        {
-            if (c = '[' || c = ']') 
-            { i++;
-              if (c = '[') { isDamage = true; } else if (c = ']') { isDamage = false; }
-              continue; 
-            }
-            if (isDamage) { cardDescription[i] = cardDamage; }
-            cardDescription[i] = c; i++;
-        }
-        return description;
-    }*/
 
     public void CardPlacing()
     {
@@ -192,10 +128,8 @@ public class CardScript : MonoBehaviour
 
     public void OnMouseDrag()
     {
-        isntDragging = false;
         sprite.sortingLayerName = "Default";
         transform.localScale = new Vector2(1f, 1f);
-        //desiredPosition = transform.position;
         if (CardsActions.cardSide.TableCards.Contains(gameObject))
         {
             //isDragging = true;
@@ -206,7 +140,6 @@ public class CardScript : MonoBehaviour
 
     public void OnMouseUp()
     {
-        isntDragging = true;
         if (CardsActions.cardSide.TableCards.Contains(gameObject))
         {
             if (cardManagerScript.manaSpendingMode == true)
