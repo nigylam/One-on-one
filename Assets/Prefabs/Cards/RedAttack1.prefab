@@ -465,10 +465,12 @@ MonoBehaviour:
   CardManager: {fileID: 0}
   cardMana: 0
   cardId: RedAttack1
-  cardDescription: "\u041D\u0430\u043D\u043E\u0441\u0438\u0442 6 \u0443\u0440\u043E\u043D\u0430."
+  cardDescription: "\u041D\u0430\u043D\u043E\u0441\u0438\u0442 [6] \u0443\u0440\u043E\u043D\u0430."
+  cardDescriptionDynamic: 
   cardTitle: "\u041F\u0440\u044F\u043C\u043E\u0439 \u0443\u0434\u0430\u0440"
   cardType: 0
   cardColor: 0
+  cardDamage: 0
   CardDescription: {fileID: 9042337884076672527}
   CardTitle: {fileID: 2072315133984769252}
   CardTypePrint: {fileID: 3112884345301663892}
@@ -684,10 +686,10 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 45.3
+  m_fontSize: 24
   m_fontSizeBase: 24
   m_fontWeight: 400
-  m_enableAutoSizing: 1
+  m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0

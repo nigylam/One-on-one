@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -25,8 +26,9 @@ public class CardScript : MonoBehaviour
 
     public int cardMana;
     public string cardId;
+    [TextArea()]
     public string cardDescription;
-           string cardDescriptionDynamic;
+    public string cardDescriptionDynamic;
     public string cardTitle;
     public CardType cardType;
     public CardColor cardColor;
@@ -84,7 +86,7 @@ public class CardScript : MonoBehaviour
         CardTypeText = CardTypePrint.GetComponent<TextMeshProUGUI>();
         cardCanvas = CardCanvas.GetComponent<Canvas>();
 
-        CardDescriptionText.text = cardDescription;
+        
         CardTitleText.text = cardTitle;
 
         switch (cardType)
@@ -107,29 +109,50 @@ public class CardScript : MonoBehaviour
     }
     void Update()
     {
+        DescriptionTranscription();
         CardPlacing();
-        if (isntDragging) { transform.localPosition = Vector2.Lerp(transform.localPosition, desiredPosition, interpolationSpeed * Time.deltaTime); }
+        if (isntDragging)
+        {
+            transform.localPosition = Vector2.Lerp(transform.localPosition, desiredPosition, interpolationSpeed * Time.deltaTime);
+            cardCanvas.sortingOrder = sprite.sortingOrder;
+        }
+        else
+        {
+            cardCanvas.sortingOrder = sprite.sortingOrder+1;
+        }
         cardCanvas.sortingLayerName = sprite.sortingLayerName;
-        cardCanvas.sortingOrder = sprite.sortingOrder;
+        CardDescriptionText.text = cardDescriptionDynamic;
     }
 
-    /*public string DescriptionTranscription(string description)
+    public void DescriptionTranscription()
     {
-        List<char> cardDescription = new List<char>();
-        int i = 0;
-        bool isDamage = false;
-        foreach (char c in description)
+        //string cardDescriptionDynamicWithoutTags;
+        if (cardDescription.Contains("["))
         {
-            if (c = '[' || c = ']') 
-            { i++;
-              if (c = '[') { isDamage = true; } else if (c = ']') { isDamage = false; }
-              continue; 
+            int firstSym = cardDescription.IndexOf('[');
+            int secondSym = cardDescription.IndexOf(']');
+            string damage = "";
+            for (int i = firstSym + 1; i < secondSym; i++)
+                {
+                    damage += cardDescription[i];
+                }
+            cardDamage = Int32.Parse(damage);
+            cardDescriptionDynamic = cardDescription.Replace("[", "");
+            cardDescriptionDynamic = cardDescriptionDynamic.Replace("]", "");
+            int finalDamage = cardDamage + CardsActions.cardSide.Strength;
+            cardDescriptionDynamic = cardDescriptionDynamic.Replace(damage, finalDamage.ToString());
+
+            if (CardsActions.cardSide.Strength != 0)
+            {
+                string coloredDamage = "<color=" + (CardsActions.cardSide.Strength > 0 ? "green" : "red") + ">" + finalDamage.ToString() + "</color>";
+                cardDescriptionDynamic = cardDescriptionDynamic.Replace(finalDamage.ToString(), coloredDamage);
             }
-            if (isDamage) { cardDescription[i] = cardDamage; }
-            cardDescription[i] = c; i++;
+            
+        } else
+        {
+            cardDescriptionDynamic = cardDescription;
         }
-        return description;
-    }*/
+    }
 
     public void CardPlacing()
     {
@@ -193,7 +216,7 @@ public class CardScript : MonoBehaviour
     public void OnMouseDrag()
     {
         isntDragging = false;
-        sprite.sortingLayerName = "Default";
+        sprite.sortingLayerName = "Top";
         transform.localScale = new Vector2(1f, 1f);
         //desiredPosition = transform.position;
         if (CardsActions.cardSide.TableCards.Contains(gameObject))
@@ -202,6 +225,8 @@ public class CardScript : MonoBehaviour
             Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             transform.position = mousePosition;
         }
+
+        //sprite.sortingOrder = 2;
     }
 
     public void OnMouseUp()

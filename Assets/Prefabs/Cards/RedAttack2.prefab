@@ -65,7 +65,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u0432\u0430\u043F\u0430\u043F\u0430"
+  m_text: <color=green>green</color>
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -92,10 +92,10 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 45.3
+  m_fontSize: 24
   m_fontSizeBase: 24
   m_fontWeight: 400
-  m_enableAutoSizing: 1
+  m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
@@ -466,10 +466,12 @@ MonoBehaviour:
   cardMana: 1
   cardId: RedAttack2
   cardDescription: "\u0416\u0435\u0440\u0442\u0432\u0430: 2. \u041D\u0430\u043D\u043E\u0441\u0438\u0442
-    12 \u0443\u0440\u043E\u043D\u0430."
+    [12] \u0443\u0440\u043E\u043D\u0430."
+  cardDescriptionDynamic: 
   cardTitle: "\u041D\u043E\u0433\u043E\u0439 \u0432 \u043A\u043E\u0440\u043F\u0443\u0441"
   cardType: 0
   cardColor: 0
+  cardDamage: 0
   CardDescription: {fileID: 2286647698273541372}
   CardTitle: {fileID: 2612352504542333853}
   CardTypePrint: {fileID: 7705122816466980629}
