@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
 namespace Cards
 {
     public class CardsDescriptions : MonoBehaviour
@@ -32,4 +33,4 @@ namespace Cards
         public int Power = 0;
         public bool IsSpecial = false;
     }
-}
+}*/

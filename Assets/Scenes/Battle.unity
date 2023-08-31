@@ -727,6 +727,7 @@ GameObject:
   m_Component:
   - component: {fileID: 432050088}
   - component: {fileID: 432050086}
+  - component: {fileID: 432050089}
   m_Layer: 0
   m_Name: Card Manager
   m_TagString: Untagged
@@ -749,6 +750,7 @@ MonoBehaviour:
   PlayingArea: {fileID: 1751810994}
   Canvas: {fileID: 1960787335}
   StatManager: {fileID: 0}
+  cardData: {fileID: 0}
   cards:
   - {fileID: 244743375}
   - {fileID: 844233117}
@@ -796,6 +798,18 @@ RectTransform:
   m_AnchoredPosition: {x: 1001.71466, y: 547.69434}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &432050089
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 432050085}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 972df0c8f97ca1f4e9e43cf42a8d1048, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &442792983
 GameObject:
   m_ObjectHideFlags: 0

@@ -6,7 +6,6 @@ using Akassets.SmoothGridLayout;
 using Unity.UI;
 using TMPro;
 using static CardScript;
-using Cards;
 
 public class CardScript : MonoBehaviour
 {
@@ -64,43 +63,41 @@ public class CardScript : MonoBehaviour
     void Awake()
     {
         //isDragging = true;
+
+
     }
 
     void Start()
     {
+        //Debug.Log(card.Title);
         sprite = GetComponent<SpriteRenderer>();
         PlayingArea = GameObject.Find("Playing Area");
         StatManager = GameObject.Find("Stat Manager");
         statManagerScript = StatManager.GetComponent<StatManager>();
-
         CardManager = GameObject.Find("Card Manager");
         cardManagerScript = CardManager.GetComponent<CardManager>();
-
         CardsActions = GetComponent<CardsActions>();
-
-        //CardCanvas = gameObject.transform.Find("Canvas").gameObject;
-        //CardDescription = CardCanvas.transform.Find("Text (TMP)").gameObject;
-
         CardDescriptionText = CardDescription.GetComponent<TextMeshProUGUI>();
         CardTitleText = CardTitle.GetComponent<TextMeshProUGUI>();
         CardTypeText = CardTypePrint.GetComponent<TextMeshProUGUI>();
         cardCanvas = CardCanvas.GetComponent<Canvas>();
 
-        
-        CardTitleText.text = cardTitle;
+        Card card = cardManagerScript.cardData.cardDictionary[cardId]; ;
 
-        switch (cardType)
+        CardTitleText.text = card.Title;
+
+        switch (card.Type)
         {
-            case CardType.Attack:
+            case Card.CardType.Attack:
                 CardTypeText.text = "Атака";
                 break;
-            case CardType.Defend:
+            case Card.CardType.Defend:
                 CardTypeText.text = "Защита";
                 break;
-            case CardType.Skill:
+            case Card.CardType.Skill:
                 CardTypeText.text = "Прием";
                 break;
-            case CardType.Power:
+            case Card.CardType.Power:
                 CardTypeText.text = "Техника";
                 break;
         }

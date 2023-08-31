@@ -4,8 +4,6 @@ using UnityEngine;
 using Unity.UI;
 using TMPro;
 
-
-
 public class CardManager : MonoBehaviour
 {
     public GameObject PlayingArea;
@@ -14,6 +12,8 @@ public class CardManager : MonoBehaviour
 
     public GameObject StatManager;
     StatManager statManagerScript;
+
+    public CardData cardData;
 
     public List<GameObject> cards = new List<GameObject>();
     public List<GameObject> enemyCards = new List<GameObject>();
@@ -37,6 +37,8 @@ public class CardManager : MonoBehaviour
         statManagerScript = StatManager.GetComponent<StatManager>();
         player = new Side(new Vector2(-1114, -716), cards, cardsOnTheTable, discardedCards, -370, new Vector2(1150, -700), 4, statManagerScript.hp, 50, statManagerScript.CardDiscPopUp, 0);
         enemy = new Side(new Vector2(-1114, 716), enemyCards, enemyCardsOnTheTable, discardedEnemyCards, 370, new Vector2(1150, 700), statManagerScript.enemyBlock, statManagerScript.enemyHp, 50, statManagerScript.CardSacrPopUp, 0);
+
+        cardData = gameObject.GetComponent<CardData>();
     }
 
     void Start()
