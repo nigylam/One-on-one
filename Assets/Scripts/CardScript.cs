@@ -31,7 +31,12 @@ public class CardScript : MonoBehaviour
     public string cardTitle;
     public CardType cardType;
     public CardColor cardColor;
-    public int cardDamage;
+    public int cardDamage = 0;
+    public int finalDamage = 0;
+    public int cardBlock = 0;
+    public int cardStrength = 0;
+    public int cardDraw = 0;
+
 
     public GameObject CardDescription;
     public GameObject CardTitle;
@@ -46,6 +51,12 @@ public class CardScript : MonoBehaviour
 
     bool isOverDropZone = false;
     public bool isntDragging = true;
+    bool playerActionCompleted = false;
+
+    Card card;
+
+    public Side cardSide;
+    public Side otherSide;
 
     public enum CardType
     {
@@ -62,14 +73,10 @@ public class CardScript : MonoBehaviour
 
     void Awake()
     {
-        //isDragging = true;
-
-
     }
 
     void Start()
     {
-        //Debug.Log(card.Title);
         sprite = GetComponent<SpriteRenderer>();
         PlayingArea = GameObject.Find("Playing Area");
         StatManager = GameObject.Find("Stat Manager");
@@ -82,7 +89,22 @@ public class CardScript : MonoBehaviour
         CardTypeText = CardTypePrint.GetComponent<TextMeshProUGUI>();
         cardCanvas = CardCanvas.GetComponent<Canvas>();
 
-        Card card = cardManagerScript.cardData.cardDictionary[cardId]; ;
+        finalDamage = 1;
+
+
+
+        if (gameObject.tag == "Player")
+        {
+            cardSide = cardManagerScript.player;
+            otherSide = cardManagerScript.enemy;
+        }
+        else
+        {
+            cardSide = cardManagerScript.enemy;
+            otherSide = cardManagerScript.player;
+        }
+
+        card = cardManagerScript.cardData.cardDictionary[cardId]; ;
 
         CardTitleText.text = card.Title;
 
@@ -123,45 +145,91 @@ public class CardScript : MonoBehaviour
 
     public void DescriptionTranscription()
     {
-        //string cardDescriptionDynamicWithoutTags;
-        if (cardDescription.Contains("["))
+        if (finalDamage != cardDamage + cardSide.Strength)
         {
-            int firstSym = cardDescription.IndexOf('[');
-            int secondSym = cardDescription.IndexOf(']');
-            string damage = "";
-            for (int i = firstSym + 1; i < secondSym; i++)
-                {
-                    damage += cardDescription[i];
-                }
-            cardDamage = Int32.Parse(damage);
-            cardDescriptionDynamic = cardDescription.Replace("[", "");
-            cardDescriptionDynamic = cardDescriptionDynamic.Replace("]", "");
-            int finalDamage = cardDamage + CardsActions.cardSide.Strength;
-            cardDescriptionDynamic = cardDescriptionDynamic.Replace(damage, finalDamage.ToString());
-
-            if (CardsActions.cardSide.Strength != 0)
+            finalDamage = 0;
+            cardDescriptionDynamic = card.Description;
+            //string cardDescriptionDynamicWithoutTags;
+            if (cardDescriptionDynamic.Contains("["))
             {
-                string coloredDamage = "<color=" + (CardsActions.cardSide.Strength > 0 ? "green" : "red") + ">" + finalDamage.ToString() + "</color>";
-                cardDescriptionDynamic = cardDescriptionDynamic.Replace(finalDamage.ToString(), coloredDamage);
+                int firstSym = cardDescriptionDynamic.IndexOf('[');
+                int secondSym = cardDescriptionDynamic.IndexOf(']');
+                string damage = "";
+                for (int i = firstSym + 1; i < secondSym; i++)
+                {
+                    damage += cardDescriptionDynamic[i];
+                }
+                cardDamage = Int32.Parse(damage);
+                cardDescriptionDynamic = cardDescriptionDynamic.Replace("[", "");
+                cardDescriptionDynamic = cardDescriptionDynamic.Replace("]", "");
+                finalDamage = cardDamage + cardSide.Strength;
+                cardDescriptionDynamic = cardDescriptionDynamic.Replace(damage, finalDamage.ToString());
+
+
+                if (cardSide.Strength != 0)
+                {
+                    string coloredDamage = "<color=" + (cardSide.Strength > 0 ? "green" : "red") + ">" + finalDamage.ToString() + "</color>";
+                    cardDescriptionDynamic = cardDescriptionDynamic.Replace(finalDamage.ToString(), coloredDamage);
+                }
+
             }
-            
-        } else
-        {
-            cardDescriptionDynamic = cardDescription;
+            if (cardDescriptionDynamic.Contains(";"))
+            {
+                int firstSym = cardDescriptionDynamic.IndexOf(';');
+                int secondSym = cardDescriptionDynamic.IndexOf('?');
+                string block = "";
+                for (int i = firstSym + 1; i < secondSym; i++)
+                {
+                    block += cardDescriptionDynamic[i];
+                }
+                cardBlock = Int32.Parse(block);
+                cardDescriptionDynamic = cardDescriptionDynamic.Replace(";", "");
+                cardDescriptionDynamic = cardDescriptionDynamic.Replace("?", "");
+                cardDescriptionDynamic = cardDescriptionDynamic.Replace(block, cardBlock.ToString());
+            }
+            if (cardDescriptionDynamic.Contains("{"))
+            {
+                int firstSym = cardDescriptionDynamic.IndexOf('{');
+                int secondSym = cardDescriptionDynamic.IndexOf('}');
+                string draw = "";
+                for (int i = firstSym + 1; i < secondSym; i++)
+                {
+                    draw += cardDescriptionDynamic[i];
+                }
+                cardDraw = Int32.Parse(draw);
+                cardDescriptionDynamic = cardDescriptionDynamic.Replace("{", "");
+                cardDescriptionDynamic = cardDescriptionDynamic.Replace("}", "");
+                cardDescriptionDynamic = cardDescriptionDynamic.Replace(draw, cardDraw.ToString());
+            }
+            if (cardDescriptionDynamic.Contains("("))
+            {
+                int firstSym = cardDescriptionDynamic.IndexOf('(');
+                int secondSym = cardDescriptionDynamic.IndexOf(')');
+                string strength = "";
+                for (int i = firstSym + 1; i < secondSym; i++)
+                {
+                    strength += cardDescriptionDynamic[i];
+                }
+                cardStrength = Int32.Parse(strength);
+                cardDescriptionDynamic = cardDescriptionDynamic.Replace("(", "");
+                cardDescriptionDynamic = cardDescriptionDynamic.Replace(")", "");
+                cardDescriptionDynamic = cardDescriptionDynamic.Replace(strength, cardStrength.ToString());
+            }
         }
+        
     }
 
     public void CardPlacing()
     {
-        if (CardsActions.cardSide.DiscardedCards.Contains(gameObject))
+        if (cardSide.DiscardedCards.Contains(gameObject))
         {
-            desiredPosition = CardsActions.cardSide.DiscardPosition;
+            desiredPosition = cardSide.DiscardPosition;
             sprite.sortingLayerName = "Default";
             transform.localScale = new Vector2(1f, 1f);
         }
-        else if (CardsActions.cardSide.Cards.Contains(gameObject))
+        else if (cardSide.Cards.Contains(gameObject))
         {
-            desiredPosition = CardsActions.cardSide.StartPosition;
+            desiredPosition = cardSide.StartPosition;
             sprite.sortingLayerName = "Default";
             transform.localScale = new Vector2(1f, 1f);
         }
@@ -178,10 +246,10 @@ public class CardScript : MonoBehaviour
     {
         if (Time.time >= timestamp)
         {
-            if (CardsActions.cardSide.TableCards.Contains(gameObject))
+            if (cardSide.TableCards.Contains(gameObject))
             {
                 sprite.sortingLayerName = "Top";
-                desiredPosition += new Vector2(0, CardsActions.cardSide.HiglightPosition);
+                desiredPosition += new Vector2(0, cardSide.HiglightPosition);
                 timestamp = Time.time + timeBetweenMoves;
                 transform.localScale = new Vector2(1.2f, 1.2f);
             }
@@ -189,7 +257,7 @@ public class CardScript : MonoBehaviour
     }
     public void OnMouseExit()
     {
-        if (CardsActions.cardSide.TableCards.Contains(gameObject))
+        if (cardSide.TableCards.Contains(gameObject))
         {
             desiredPosition = startPosition;
             timestamp = Time.time + timeBetweenMoves;
@@ -216,7 +284,7 @@ public class CardScript : MonoBehaviour
         sprite.sortingLayerName = "Top";
         transform.localScale = new Vector2(1f, 1f);
         //desiredPosition = transform.position;
-        if (CardsActions.cardSide.TableCards.Contains(gameObject))
+        if (cardSide.TableCards.Contains(gameObject))
         {
             //isDragging = true;
             Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -229,11 +297,11 @@ public class CardScript : MonoBehaviour
     public void OnMouseUp()
     {
         isntDragging = true;
-        if (CardsActions.cardSide.TableCards.Contains(gameObject))
+        if (cardSide.TableCards.Contains(gameObject))
         {
             if (cardManagerScript.manaSpendingMode == true)
             {
-                if (CardsActions.cardSide == cardManagerScript.enemy)
+                if (cardSide == cardManagerScript.enemy)
                 {
                     cardManagerScript.enemyCardsOnTheTable.Remove(gameObject);
                     cardManagerScript.enemyBurnedCards.Add(gameObject);
@@ -247,15 +315,44 @@ public class CardScript : MonoBehaviour
             }
             else
             {
-                if (cardMana <= CardsActions.cardSide.TableCards.Count - 1)
+                if (cardMana <= cardSide.TableCards.Count - 1)
                 {
                     if (isOverDropZone)
                     {
-                        CardsActions.cardSide.TableCards.Remove(gameObject);
-                        StartCoroutine(CardsActions.PlayingCard());
+                        cardSide.TableCards.Remove(gameObject);
+                        StartCoroutine(CardPlaying());
                     }
                 }
             }
         }
+    }
+
+    public IEnumerator CardPlaying()
+    {
+        if (card.Mana > 0)
+        {
+            StartCoroutine(ManaSpending(card.Mana));
+            yield return new WaitUntil(() => playerActionCompleted);
+        }
+        cardSide.Block += cardBlock;
+        otherSide.Hp = finalDamage > 0 ? otherSide.DealDamage(finalDamage) : otherSide.Hp;
+        cardSide.Strength += cardStrength;
+        StartCoroutine(cardManagerScript.DrawingCard(cardSide, cardDraw, 0));
+
+        cardSide.DiscardedCards.Add(gameObject);
+        playerActionCompleted = false;
+    }
+
+    public IEnumerator ManaSpending(int numberOfCards)
+    {
+        int initialCardCount = cardSide.TableCards.Count;
+        cardSide.ManaPopUp.SetActive(true);
+        cardManagerScript.playingCards.Add(gameObject);
+        cardManagerScript.manaSpendingMode = true;
+        yield return new WaitUntil(() => cardSide.TableCards.Count <= initialCardCount - numberOfCards);
+        playerActionCompleted = true;
+        cardSide.ManaPopUp.SetActive(false);
+        cardManagerScript.manaSpendingMode = false;
+        cardManagerScript.playingCards.Remove(gameObject);
     }
 }

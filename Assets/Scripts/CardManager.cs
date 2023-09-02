@@ -36,7 +36,7 @@ public class CardManager : MonoBehaviour
         StatManager = GameObject.Find("Stat Manager");
         statManagerScript = StatManager.GetComponent<StatManager>();
         player = new Side(new Vector2(-1114, -716), cards, cardsOnTheTable, discardedCards, -370, new Vector2(1150, -700), 4, statManagerScript.hp, 50, statManagerScript.CardDiscPopUp, 0);
-        enemy = new Side(new Vector2(-1114, 716), enemyCards, enemyCardsOnTheTable, discardedEnemyCards, 370, new Vector2(1150, 700), statManagerScript.enemyBlock, statManagerScript.enemyHp, 50, statManagerScript.CardSacrPopUp, 0);
+        enemy = new Side(new Vector2(-1114, 716), enemyCards, enemyCardsOnTheTable, discardedEnemyCards, 370, new Vector2(1150, 700), statManagerScript.enemyBlock, statManagerScript.enemyHp, -50, statManagerScript.CardSacrPopUp, 0);
 
         cardData = gameObject.GetComponent<CardData>();
     }
@@ -48,6 +48,12 @@ public class CardManager : MonoBehaviour
         StartCoroutine(ShufflingDeck(enemy, true));
         StartCoroutine(DrawingCard(player, 5, 2f));
         StartCoroutine(DrawingCard(enemy, 5, 3f));
+    }
+
+    void Update()
+    {
+        CalculateCardPosition(player);
+        CalculateCardPosition(enemy);
     }
 
     public IEnumerator DrawingCard(Side side, int amountOfCards = 5, float pauseTime = 0)
@@ -122,11 +128,7 @@ public class CardManager : MonoBehaviour
                 GameObject card = side.DiscardedCards[0];
                 side.Cards.Add(card);
                 side.DiscardedCards.RemoveAt(0);
-                //yield return new WaitForSecondsRealtime(.01f);
             }
-            //yield return new WaitForSecondsRealtime(.1f);
-
-            //side.DiscardedCards.Clear();
         }
 
         for (int i = 0; i < side.Cards.Count; i++)
@@ -139,11 +141,7 @@ public class CardManager : MonoBehaviour
         yield return new WaitForSeconds(1f);
         shuffledComplete = true;
     }
-    void Update()
-    {
-        CalculateCardPosition(player);
-        CalculateCardPosition(enemy);
-    }
+
 }
 
 public class Side
@@ -181,9 +179,23 @@ public class Side
         get => block;
         set
         {
-            // Ensure that the block value is non-negative
             block = Mathf.Max(0, value);
         }
+    }
+
+    public int DealDamage(int damage)
+    {
+        if (Block >= damage)
+        {
+            Block -= damage;
+        }
+        else
+        {
+            Hp -= (damage - Block);
+            Block = 0;
+        }
+
+        return Hp;
     }
 }
 
