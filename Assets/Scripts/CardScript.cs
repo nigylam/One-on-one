@@ -6,57 +6,56 @@ using Akassets.SmoothGridLayout;
 using Unity.UI;
 using TMPro;
 using static CardScript;
+using UnityEngine.Localization;
+using UnityEngine.Localization.Settings;
 
 public class CardScript : MonoBehaviour
 {
+    // animations and controll
     public float timeBetweenMoves = 0.333f;
     public float timestamp;
     public float interpolationSpeed = 6;
     public Vector2 desiredPosition;
     public Vector2 startPosition;
     public SpriteRenderer sprite;
+    bool isOverDropZone = false;
+    public bool isntDragging = true;
+    bool playerActionCompleted = false;
 
+    //access to another objects
     public GameObject StatManager;
     public GameObject PlayingArea;
     StatManager statManagerScript;
     public GameObject CardManager;
     CardManager cardManagerScript;
     CardsActions CardsActions;
+    public GameObject CardDescription;
+    public GameObject CardTitle;
+    public GameObject CardTypePrint;
+    TextMeshProUGUI CardDescriptionText;
+    TextMeshProUGUI CardTitleText;
+    TextMeshProUGUI CardTypeText;
+    public GameObject CardCanvas;
+    Canvas cardCanvas;
 
+    //card data
     public int cardMana;
     public string cardId;
-    [TextArea()]
-    public string cardDescription;
+    //[TextArea()]
+    //public string cardDescription;
     public string cardDescriptionDynamic;
-    public string cardTitle;
+    //public string cardTitle;
     public CardType cardType;
-    public CardColor cardColor;
     public int cardDamage = 0;
     public int finalDamage = 0;
     public int cardBlock = 0;
     public int cardStrength = 0;
     public int cardDraw = 0;
-
-
-    public GameObject CardDescription;
-    public GameObject CardTitle;
-    public GameObject CardTypePrint;
-
-    TextMeshProUGUI CardDescriptionText;
-    TextMeshProUGUI CardTitleText;
-    TextMeshProUGUI CardTypeText;
-
-    public GameObject CardCanvas;
-    Canvas cardCanvas;
-
-    bool isOverDropZone = false;
-    public bool isntDragging = true;
-    bool playerActionCompleted = false;
-
-    Card card;
-
+    public int lastStrength = -1;
     public Side cardSide;
     public Side otherSide;
+
+    //Card card;
 
     public enum CardType
     {
@@ -64,11 +63,6 @@ public class CardScript : MonoBehaviour
         Defend = 1,
         Skill = 3,
         Power = 4
-    }
-    public enum CardColor
-    {
-        Red = 0,
-        Blue = 1,
     }
 
     void Awake()
@@ -89,9 +83,7 @@ public class CardScript : MonoBehaviour
         CardTypeText = CardTypePrint.GetComponent<TextMeshProUGUI>();
         cardCanvas = CardCanvas.GetComponent<Canvas>();
 
-        finalDamage = 1;
-
-
+        //card = cardManagerScript.cardData.cardDictionary[cardId];
 
         if (gameObject.tag == "Player")
         {
@@ -104,27 +96,23 @@ public class CardScript : MonoBehaviour
             otherSide = cardManagerScript.player;
         }
 
-        card = cardManagerScript.cardData.cardDictionary[cardId]; ;
+        CardTitleText.text = LocalizationSettings.StringDatabase.GetLocalizedString(cardId + "_Title");
 
-        CardTitleText.text = card.Title;
-
-        switch (card.Type)
+        switch (cardType)
         {
-            case Card.CardType.Attack:
-                CardTypeText.text = "Атака";
+            case CardType.Attack:
+                CardTypeText.text = LocalizationSettings.StringDatabase.GetLocalizedString("Attack_Type");
                 break;
-            case Card.CardType.Defend:
-                CardTypeText.text = "Защита";
+            case CardType.Defend:
+                CardTypeText.text = LocalizationSettings.StringDatabase.GetLocalizedString("Defend_Type");
                 break;
-            case Card.CardType.Skill:
-                CardTypeText.text = "Прием";
+            case CardType.Skill:
+                CardTypeText.text = LocalizationSettings.StringDatabase.GetLocalizedString("Skill_Type"); ;
                 break;
-            case Card.CardType.Power:
-                CardTypeText.text = "Техника";
+            case CardType.Power:
+                CardTypeText.text = LocalizationSettings.StringDatabase.GetLocalizedString("Power_Type"); ;
                 break;
         }
-        
-        //cardDescription = CardsDescriptions.BlueAttack1.Description;
     }
     void Update()
     {
@@ -145,10 +133,12 @@ public class CardScript : MonoBehaviour
 
     public void DescriptionTranscription()
     {
-        if (finalDamage != cardDamage + cardSide.Strength)
+        if (cardSide.Strength != lastStrength)
         {
+            Debug.Log("Обновляется " + cardId);
+            lastStrength = cardSide.Strength;
             finalDamage = 0;
-            cardDescriptionDynamic = card.Description;
+            cardDescriptionDynamic = LocalizationSettings.StringDatabase.GetLocalizedString(cardId + "_Description");
             //string cardDescriptionDynamicWithoutTags;
             if (cardDescriptionDynamic.Contains("["))
             {
@@ -329,9 +319,9 @@ public class CardScript : MonoBehaviour
 
     public IEnumerator CardPlaying()
     {
-        if (card.Mana > 0)
+        if (cardMana > 0)
         {
-            StartCoroutine(ManaSpending(card.Mana));
+            StartCoroutine(ManaSpending(cardMana));
             yield return new WaitUntil(() => playerActionCompleted);
         }
         cardSide.Block += cardBlock;

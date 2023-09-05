@@ -1,0 +1,104 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
+  m_Name: Text localization Shared Data
+  m_EditorClassIdentifier: 
+  m_TableCollectionName: Text localization
+  m_TableCollectionNameGuidString: f6f67a85ce6134647bbd865419258dd2
+  m_Entries:
+  - m_Id: 397596438528
+    m_Key: BlueAttack1_Title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40414431686656
+    m_Key: End Turn
+    m_Metadata:
+      m_Items: []
+  - m_Id: 44323762089984
+    m_Key: BlueAttack1_Description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 45145141030912
+    m_Key: RedAttack1_Description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 50800505663488
+    m_Key: BlueAttack2_Title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 50883343167488
+    m_Key: BlueAttack2_Description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 51009814016000
+    m_Key: BlueDefend1_Title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 51037240569856
+    m_Key: BlueDefend1_Description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 51107499356160
+    m_Key: RedAttack1_Title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 51185853149184
+    m_Key: RedAttack2_Title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 51251267514368
+    m_Key: RedAttack2_Description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 51276399783936
+    m_Key: RedDefend1_Title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 51282963869696
+    m_Key: RedDefend1_Description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 51288852672512
+    m_Key: RedPower1_Title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 51310268788736
+    m_Key: RedPower1_Description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 678170296070144
+    m_Key: Attack_Type
+    m_Metadata:
+      m_Items: []
+  - m_Id: 678239615332352
+    m_Key: Defend_Type
+    m_Metadata:
+      m_Items: []
+  - m_Id: 678279515746304
+    m_Key: Power_Type
+    m_Metadata:
+      m_Items: []
+  - m_Id: 678305415573504
+    m_Key: Skill_Type
+    m_Metadata:
+      m_Items: []
+  m_Metadata:
+    m_Items: []
+  m_KeyGenerator:
+    rid: 2721703676862005272
+  references:
+    version: 2
+    RefIds:
+    - rid: 2721703676862005272
+      type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables, asm: Unity.Localization}
+      data:
+        m_CustomEpoch: 1693750322269

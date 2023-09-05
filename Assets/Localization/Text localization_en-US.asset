@@ -1,0 +1,99 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: Text localization_en-US
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: en-US
+  m_SharedData: {fileID: 11400000, guid: f6f67a85ce6134647bbd865419258dd2, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 397596438528
+    m_Localized: Strike
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40414431686656
+    m_Localized: End turn
+    m_Metadata:
+      m_Items: []
+  - m_Id: 44323762089984
+    m_Localized: Deal [5] damage.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 45145141030912
+    m_Localized: Deal [6] damage.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 50800505663488
+    m_Localized: Uppercut
+    m_Metadata:
+      m_Items: []
+  - m_Id: 50883343167488
+    m_Localized: 'Swap: 1. Deal [4] damage. Draws {1} card.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 51009814016000
+    m_Localized: Block
+    m_Metadata:
+      m_Items: []
+  - m_Id: 51037240569856
+    m_Localized: Gain ;6? block.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 51107499356160
+    m_Localized: Strike
+    m_Metadata:
+      m_Items: []
+  - m_Id: 51185853149184
+    m_Localized: Body kick
+    m_Metadata:
+      m_Items: []
+  - m_Id: 51251267514368
+    m_Localized: 'Sacrifice: 2. Deal [12] damage.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 51276399783936
+    m_Localized: Block
+    m_Metadata:
+      m_Items: []
+  - m_Id: 51282963869696
+    m_Localized: Gain ;5? block.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 51288852672512
+    m_Localized: Iron fist
+    m_Metadata:
+      m_Items: []
+  - m_Id: 51310268788736
+    m_Localized: 'Sacrifice: 1. Gain (1) strength.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 678170296070144
+    m_Localized: Attack
+    m_Metadata:
+      m_Items: []
+  - m_Id: 678239615332352
+    m_Localized: Defend
+    m_Metadata:
+      m_Items: []
+  - m_Id: 678279515746304
+    m_Localized: Power
+    m_Metadata:
+      m_Items: []
+  - m_Id: 678305415573504
+    m_Localized: Skill
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []
