@@ -10,6 +10,8 @@ public class CardManager : MonoBehaviour
     public GameObject Canvas;
     private SpriteRenderer sprite;
 
+    //public int StrTest = 1;
+
     public GameObject StatManager;
     StatManager statManagerScript;
 

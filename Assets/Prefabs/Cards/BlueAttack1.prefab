@@ -893,6 +893,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TipObject: {fileID: 4517707075984096692}
+  TipText: {fileID: 0}
 --- !u!1 &8558252261259335834
 GameObject:
   m_ObjectHideFlags: 0

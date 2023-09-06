@@ -14,8 +14,8 @@ public class Tip : MonoBehaviour
     {
         TipText = TipObject.transform.GetChild(0).gameObject;
         Text = TipText.GetComponent<TextMeshProUGUI>();
+        TipObject.SetActive(false);
     }
-
     public void OnMouseEnter()
     {
         if (Text.text != "") { TipObject.SetActive(true); }

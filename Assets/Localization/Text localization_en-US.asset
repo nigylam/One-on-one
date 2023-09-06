@@ -16,7 +16,8 @@ MonoBehaviour:
     m_Code: en-US
   m_SharedData: {fileID: 11400000, guid: f6f67a85ce6134647bbd865419258dd2, type: 2}
   m_Metadata:
-    m_Items: []
+    m_Items:
+    - rid: 2721703719461978129
   m_TableData:
   - m_Id: 397596438528
     m_Localized: Strike
@@ -94,6 +95,67 @@ MonoBehaviour:
     m_Localized: Skill
     m_Metadata:
       m_Items: []
+  - m_Id: 981036982349824
+    m_Localized: Attacks deals {CardManager.strength} additional damage.
+    m_Metadata:
+      m_Items:
+      - rid: 2721703719461978129
+  - m_Id: 1017758516523008
+    m_Localized: Prevents {tip-text.block} damage.
+    m_Metadata:
+      m_Items:
+      - rid: 2721703719461978129
+  - m_Id: 1018627815387136
+    m_Localized: If your HP becomes zero you lose.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1028013589803008
+    m_Localized: In the end of turn your cards ind hand will be discarded and new
+      cards will draw.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1032676322062336
+    m_Localized: Draw pile. You get new cards from here at the begining of turn.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1035408680431616
+    m_Localized: Discard pile. At the end of turn and ater playing your cards will
+      be moved here. If you have no cards in your draw pile, discard pile shuffles
+      into it.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1043068670717952
+    m_Localized: '<b>Swap</b>: discard 1 card for playing that card.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1043601661898752
+    m_Localized: <b>Block</b> prevents damage.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1044050616004608
+    m_Localized: <b>Sacrifice:</b> burn 2 cards to play that card. Burned cards can't
+      be played till the end of combat.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1046368782659584
+    m_Localized: "<b>Sacrifice:</b> burn 1 card for playing that card. \u0447\u0442\u043E\u0431\u044B
+      \u0440\u0430\u0437\u044B\u0433\u0440\u0430\u0442\u044C \u044D\u0442\u0443 \u043A\u0430\u0440\u0442\u0443.
+      Burned cards can't be played till the end of combat.\n<b>Strength:</b> attacks
+      deals 1 additional damage."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1052134570733568
+    m_Localized: Chose cards to burn.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1052429484830720
+    m_Localized: Chose cards to discard.
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 2721703719461978129
+      type: {class: SmartFormatTag, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_Entries: 0030d8783f7c03000030d85ea59d0300

@@ -91,6 +91,54 @@ MonoBehaviour:
     m_Key: Skill_Type
     m_Metadata:
       m_Items: []
+  - m_Id: 981036982349824
+    m_Key: Strength_tip
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1017758516523008
+    m_Key: Block_Tip
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1018627815387136
+    m_Key: HP_Tip
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1028013589803008
+    m_Key: EndTurn_Tip
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1032676322062336
+    m_Key: DrawPile_Tip
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1035408680431616
+    m_Key: DiscardPile_Tip
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1043068670717952
+    m_Key: Swap_Tip
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1043601661898752
+    m_Key: BlockCard_Tip
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1044050616004608
+    m_Key: Sacr_Tip
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1046368782659584
+    m_Key: SacrStr_Tip
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1052134570733568
+    m_Key: SacrPop_Tip
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1052429484830720
+    m_Key: DiscPop_Tip
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:
