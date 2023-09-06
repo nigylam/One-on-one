@@ -22,6 +22,7 @@ public class CardManager : MonoBehaviour
     public List<GameObject> cardsOnTheTable = new List<GameObject>();
     public List<GameObject> enemyCardsOnTheTable = new List<GameObject>();
     public List<GameObject> enemyBurnedCards = new List<GameObject>();
+    public List<GameObject> burnedCards = new List<GameObject>();
     public List<GameObject> playingCards = new List<GameObject>();
 
     public Side player;
@@ -35,8 +36,8 @@ public class CardManager : MonoBehaviour
     {
         StatManager = GameObject.Find("Stat Manager");
         statManagerScript = StatManager.GetComponent<StatManager>();
-        player = new Side(new Vector2(-1114, -716), cards, cardsOnTheTable, discardedCards, -370, new Vector2(1150, -700), 4, statManagerScript.hp, 50, statManagerScript.CardDiscPopUp, 0);
-        enemy = new Side(new Vector2(-1114, 716), enemyCards, enemyCardsOnTheTable, discardedEnemyCards, 370, new Vector2(1150, 700), statManagerScript.enemyBlock, statManagerScript.enemyHp, -50, statManagerScript.CardSacrPopUp, 0);
+        player = new Side(new Vector2(-1114, -716), cards, cardsOnTheTable, discardedCards, burnedCards, -370, new Vector2(1150, -700), 4, statManagerScript.hp, 50, statManagerScript.CardDiscPopUp, 0);
+        enemy = new Side(new Vector2(-1114, 716), enemyCards, enemyCardsOnTheTable, discardedEnemyCards, enemyBurnedCards, 370, new Vector2(1150, 700), statManagerScript.enemyBlock, statManagerScript.enemyHp, -50, statManagerScript.CardSacrPopUp, 0);
 
         cardData = gameObject.GetComponent<CardData>();
     }
@@ -150,6 +151,7 @@ public class Side
     public List<GameObject> Cards;
     public List<GameObject> TableCards;
     public List<GameObject> DiscardedCards;
+    public List<GameObject> BurnedCards;
     public int HandPosition;
     public Vector2 DiscardPosition;
     private int block;
@@ -159,7 +161,7 @@ public class Side
     public GameObject ManaPopUp;
     public int Strength;
 
-    public Side(Vector2 startPosition, List<GameObject> cards, List<GameObject> tableCards, List<GameObject> discardedCards, int handPosition, Vector2 discardPosition, int block, int hp, int higlightPosition, GameObject manaPopUp, int strength)
+    public Side(Vector2 startPosition, List<GameObject> cards, List<GameObject> tableCards, List<GameObject> discardedCards, List<GameObject> burnedCards, int handPosition, Vector2 discardPosition, int block, int hp, int higlightPosition, GameObject manaPopUp, int strength)
     {
         StartPosition = startPosition;
         Cards = cards;
@@ -172,6 +174,7 @@ public class Side
         HiglightPosition = higlightPosition;
         ManaPopUp = manaPopUp;
         Strength = strength;
+        BurnedCards = burnedCards;
 
     }
     public int Block

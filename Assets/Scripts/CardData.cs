@@ -10,7 +10,7 @@ public class CardData : MonoBehaviour
 
     void Awake()
     {
-        //LocalizationSettings.SelectedLocale = LocalizationSettings.AvailableLocales.GetLocale("en-US");
+        LocalizationSettings.SelectedLocale = LocalizationSettings.AvailableLocales.GetLocale("en-US");
 
         cardDictionary["BlueAttack1"] = new Card { Title = GetLocalizedString("BlueAttack1_Title"), Description = GetLocalizedString("BlueAttack1_Description"), Type = Card.CardType.Attack };
         cardDictionary["BlueAttack2"] = new Card { Title = GetLocalizedString("BlueAttack2_Title"), Description = GetLocalizedString("BlueAttack2_Description"), Type = 0, Mana = 1 };

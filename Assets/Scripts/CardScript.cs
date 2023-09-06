@@ -37,6 +37,7 @@ public class CardScript : MonoBehaviour
     TextMeshProUGUI CardTypeText;
     public GameObject CardCanvas;
     Canvas cardCanvas;
+    public GameObject Tip;
 
     //card data
     public int cardMana;
@@ -135,7 +136,6 @@ public class CardScript : MonoBehaviour
     {
         if (cardSide.Strength != lastStrength)
         {
-            Debug.Log("Обновляется " + cardId);
             lastStrength = cardSide.Strength;
             finalDamage = 0;
             cardDescriptionDynamic = LocalizationSettings.StringDatabase.GetLocalizedString(cardId + "_Description");
@@ -229,6 +229,10 @@ public class CardScript : MonoBehaviour
             transform.localScale = new Vector2(1f, 1f);
             sprite.sortingLayerName = "Default";
             sprite.sortingOrder = 0;
+        }else if (cardSide.BurnedCards.Contains(gameObject))
+        {
+            transform.localPosition = new Vector2(1000, 1000);
+            desiredPosition = new Vector2(1000, 1000);
         }
     }
 
@@ -294,9 +298,7 @@ public class CardScript : MonoBehaviour
                 if (cardSide == cardManagerScript.enemy)
                 {
                     cardManagerScript.enemyCardsOnTheTable.Remove(gameObject);
-                    cardManagerScript.enemyBurnedCards.Add(gameObject);
-                    transform.localPosition = new Vector2(1000, 1000);
-                    desiredPosition = new Vector2(1000, 1000);
+                    cardSide.BurnedCards.Add(gameObject);
                 } else
                 {
                     cardManagerScript.cardsOnTheTable.Remove(gameObject);
@@ -329,7 +331,8 @@ public class CardScript : MonoBehaviour
         cardSide.Strength += cardStrength;
         StartCoroutine(cardManagerScript.DrawingCard(cardSide, cardDraw, 0));
 
-        cardSide.DiscardedCards.Add(gameObject);
+        if (cardType == CardType.Power) { cardSide.BurnedCards.Add(gameObject); }
+        else { cardSide.DiscardedCards.Add(gameObject); }
         playerActionCompleted = false;
     }
 
