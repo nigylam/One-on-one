@@ -9,6 +9,7 @@ public class Tip : MonoBehaviour
     public GameObject TipObject;
     public GameObject TipText;
     TextMeshProUGUI Text;
+    bool isMouseOver;
 
     void Start()
     {
@@ -16,12 +17,27 @@ public class Tip : MonoBehaviour
         Text = TipText.GetComponent<TextMeshProUGUI>();
         TipObject.SetActive(false);
     }
-    public void OnMouseEnter()
+    public void OnMouseOver()
     {
-        if (Text.text != "") { TipObject.SetActive(true); }
+        if (Text.text != "" && !Input.GetMouseButton(0))
+        {
+            TipObject.SetActive(true);
+            isMouseOver = true;
+        }
     }
+
     public void OnMouseExit()
     {
         TipObject.SetActive(false);
+        isMouseOver = false;
+    }
+
+    public void OnMouseDrag()
+    {
+        if (isMouseOver)
+        {
+            TipObject.SetActive(false);
+            isMouseOver = false;
+        }
     }
 }

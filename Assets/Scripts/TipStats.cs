@@ -32,7 +32,6 @@ public class TipStats : MonoBehaviour
         else { tipSide = CardManagerScript.enemy; }
 
         finalString = localizeStringEventComp.StringReference.GetLocalizedString();
-        Debug.Log(finalString);
     }
 
     void Update()

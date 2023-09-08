@@ -1368,6 +1368,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3710553471062437373, guid: df22d5aafa7e6304789ab4fc20cffaa0, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 3.5093002
+      objectReference: {fileID: 0}
+    - target: {fileID: 3710553471062437373, guid: df22d5aafa7e6304789ab4fc20cffaa0, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 19.228401
+      objectReference: {fileID: 0}
     - target: {fileID: 8005189400516663073, guid: df22d5aafa7e6304789ab4fc20cffaa0, type: 3}
       propertyPath: m_Name
       value: BlueDefend1 (2)
@@ -3162,6 +3170,14 @@ PrefabInstance:
     - target: {fileID: 435372569855337508, guid: df22d5aafa7e6304789ab4fc20cffaa0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3710553471062437373, guid: df22d5aafa7e6304789ab4fc20cffaa0, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 3.5093002
+      objectReference: {fileID: 0}
+    - target: {fileID: 3710553471062437373, guid: df22d5aafa7e6304789ab4fc20cffaa0, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 19.228401
       objectReference: {fileID: 0}
     - target: {fileID: 8005189400516663073, guid: df22d5aafa7e6304789ab4fc20cffaa0, type: 3}
       propertyPath: m_Name
@@ -6270,6 +6286,23 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1043454790019364581, guid: df22d5aafa7e6304789ab4fc20cffaa0, type: 3}
+      propertyPath: m_StringReference.m_TableEntryReference.m_KeyId
+      value: 1043601661898752
+      objectReference: {fileID: 0}
+    - target: {fileID: 3710553471062437373, guid: df22d5aafa7e6304789ab4fc20cffaa0, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 3.5093002
+      objectReference: {fileID: 0}
+    - target: {fileID: 3710553471062437373, guid: df22d5aafa7e6304789ab4fc20cffaa0, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 19.228401
+      objectReference: {fileID: 0}
+    - target: {fileID: 6074926555366739445, guid: df22d5aafa7e6304789ab4fc20cffaa0, type: 3}
+      propertyPath: m_text
+      value: "<b>\u0411\u043B\u043E\u043A</b> \u043F\u0440\u0435\u0434\u043E\u0442\u0432\u0440\u0430\u0449\u0430\u0435\u0442
+        \u043F\u043E\u043B\u0443\u0447\u0435\u043D\u0438\u0435 \u0443\u0440\u043E\u043D\u0430"
+      objectReference: {fileID: 0}
     - target: {fileID: 8005189400516663073, guid: df22d5aafa7e6304789ab4fc20cffaa0, type: 3}
       propertyPath: m_Name
       value: BlueDefend1 (1)
@@ -8583,6 +8616,14 @@ PrefabInstance:
     - target: {fileID: 435372569855337508, guid: df22d5aafa7e6304789ab4fc20cffaa0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3710553471062437373, guid: df22d5aafa7e6304789ab4fc20cffaa0, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 3.5093002
+      objectReference: {fileID: 0}
+    - target: {fileID: 3710553471062437373, guid: df22d5aafa7e6304789ab4fc20cffaa0, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 19.228401
       objectReference: {fileID: 0}
     - target: {fileID: 8005189400516663073, guid: df22d5aafa7e6304789ab4fc20cffaa0, type: 3}
       propertyPath: m_Name

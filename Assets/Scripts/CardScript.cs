@@ -37,7 +37,6 @@ public class CardScript : MonoBehaviour
     TextMeshProUGUI CardTypeText;
     public GameObject CardCanvas;
     Canvas cardCanvas;
-    public GameObject Tip;
 
     //card data
     public int cardMana;

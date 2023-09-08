@@ -101,7 +101,7 @@ MonoBehaviour:
       m_Items:
       - rid: 2721703719461978129
   - m_Id: 1017758516523008
-    m_Localized: Prevents {tip-text.block} damage.
+    m_Localized: Prevents {tip-text.block} damage until next turn.
     m_Metadata:
       m_Items:
       - rid: 2721703719461978129
@@ -129,7 +129,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 1043601661898752
-    m_Localized: <b>Block</b> prevents damage.
+    m_Localized: <b>Block</b> prevents damage until next turn.
     m_Metadata:
       m_Items: []
   - m_Id: 1044050616004608
