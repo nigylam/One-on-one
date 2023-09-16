@@ -468,13 +468,13 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4517707075984096692}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7921204012238853966}
-  m_Father: {fileID: 466449740436140439}
+  m_Father: {fileID: 5367876422765866965}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -689,7 +689,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5367876422765866965}
-  - {fileID: 7858606011621446437}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -855,7 +854,6 @@ MonoBehaviour:
   CardTitle: {fileID: 2132320923402515562}
   CardTypePrint: {fileID: 3010741301563811397}
   CardCanvas: {fileID: 8558252261259335834}
-  Tip: {fileID: 4517707075984096692}
   cardMana: 0
   cardId: BlueAttack1
   cardDescriptionDynamic: 
@@ -925,6 +923,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 7858606011621446437}
   - {fileID: 3802097458618923779}
   - {fileID: 228772216624764899}
   - {fileID: 8965905183919129202}

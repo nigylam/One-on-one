@@ -139,6 +139,18 @@ MonoBehaviour:
     m_Key: DiscPop_Tip
     m_Metadata:
       m_Items: []
+  - m_Id: 4373107910914048
+    m_Key: DrawPile_Popup_Title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4373494688657408
+    m_Key: DiscardPile_Popup_Title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4381851902291968
+    m_Key: Return_Button
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

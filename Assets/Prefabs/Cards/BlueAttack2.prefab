@@ -299,7 +299,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8967302847072312819}
-  m_Father: {fileID: 466449740436140439}
+  m_Father: {fileID: 7386473656886386478}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -556,7 +556,6 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 5086808122057360067}
   - {fileID: 7386473656886386478}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -723,7 +722,6 @@ MonoBehaviour:
   CardTitle: {fileID: 1144815945956904041}
   CardTypePrint: {fileID: 8797198727328554232}
   CardCanvas: {fileID: 8357627663482668944}
-  Tip: {fileID: 2726470876384549458}
   cardMana: 1
   cardId: BlueAttack2
   cardDescriptionDynamic: 
@@ -793,6 +791,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 5086808122057360067}
   - {fileID: 8574733605528299411}
   - {fileID: 1799246747026127596}
   - {fileID: 8087236536301439795}

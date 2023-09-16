@@ -11,15 +11,24 @@ public class Tip : MonoBehaviour
     TextMeshProUGUI Text;
     bool isMouseOver;
 
+    GameObject CardManager;
+    CardManager cardManager;
+
     void Start()
     {
         TipText = TipObject.transform.GetChild(0).gameObject;
         Text = TipText.GetComponent<TextMeshProUGUI>();
         TipObject.SetActive(false);
+        CardManager = GameObject.Find("Card Manager");
+        cardManager = CardManager.GetComponent<CardManager>();
     }
     public void OnMouseOver()
     {
-        if (Text.text != "" && !Input.GetMouseButton(0))
+        if (Text.text != "" && !Input.GetMouseButton(0) && cardManager.popupMode == false)
+        {
+            TipObject.SetActive(true);
+            isMouseOver = true;
+        } else if (Text.text != "" && gameObject.tag == "Popup")
         {
             TipObject.SetActive(true);
             isMouseOver = true;

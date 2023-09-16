@@ -17,6 +17,7 @@ public class CardManager : MonoBehaviour
 
     public CardData cardData;
 
+    //side lists
     public List<GameObject> cards = new List<GameObject>();
     public List<GameObject> enemyCards = new List<GameObject>();
     public List<GameObject> discardedCards = new List<GameObject>();
@@ -26,10 +27,14 @@ public class CardManager : MonoBehaviour
     public List<GameObject> enemyBurnedCards = new List<GameObject>();
     public List<GameObject> burnedCards = new List<GameObject>();
     public List<GameObject> playingCards = new List<GameObject>();
+    
+    // common lists
+    public List<GameObject> displayCards = new List<GameObject>();
 
     public Side player;
     public Side enemy;
 
+    public bool popupMode = false;
     public bool manaSpendingMode;
     //public bool DiscardMode;
     bool shuffledComplete = true;
@@ -86,7 +91,7 @@ public class CardManager : MonoBehaviour
         if (side.CardsOnTheTableCounter != side.TableCards.Count)
         {
             int middleIndex = (side.TableCards.Count - 1) / 2;
-            int offset = 105;
+            int offset = 125;
             float totalWidth = (side.TableCards.Count - 1) * offset;
             float halfTotalWidth = totalWidth / 2;
 

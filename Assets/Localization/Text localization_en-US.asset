@@ -152,6 +152,18 @@ MonoBehaviour:
     m_Localized: Chose cards to discard.
     m_Metadata:
       m_Items: []
+  - m_Id: 4373107910914048
+    m_Localized: Draw pile
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4373494688657408
+    m_Localized: Discard pile
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4381851902291968
+    m_Localized: Return
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:

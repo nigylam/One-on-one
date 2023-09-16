@@ -8,6 +8,7 @@ using TMPro;
 using static CardScript;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Settings;
+using UnityEngine.EventSystems;
 
 public class CardScript : MonoBehaviour
 {
@@ -36,7 +37,7 @@ public class CardScript : MonoBehaviour
     TextMeshProUGUI CardTitleText;
     TextMeshProUGUI CardTypeText;
     public GameObject CardCanvas;
-    Canvas cardCanvas;
+    public Canvas cardCanvas;
 
     //card data
     public int cardMana;
@@ -122,10 +123,13 @@ public class CardScript : MonoBehaviour
         {
             transform.localPosition = Vector2.Lerp(transform.localPosition, desiredPosition, interpolationSpeed * Time.deltaTime);
             cardCanvas.sortingOrder = sprite.sortingOrder;
+        } else if (cardManagerScript.popupMode)
+        {
+            return;
         }
         else
         {
-            cardCanvas.sortingOrder = sprite.sortingOrder+1;
+            cardCanvas.sortingOrder = sprite.sortingOrder+2;
         }
         cardCanvas.sortingLayerName = sprite.sortingLayerName;
         CardDescriptionText.text = cardDescriptionDynamic;
@@ -232,6 +236,11 @@ public class CardScript : MonoBehaviour
         {
             transform.localPosition = new Vector2(1000, 1000);
             desiredPosition = new Vector2(1000, 1000);
+        } else if (cardManagerScript.displayCards.Contains(gameObject))
+        {
+            isntDragging = false;
+            sprite.sortingLayerName = "Top";
+            sprite.sortingOrder = 3;
         }
     }
 
@@ -239,7 +248,7 @@ public class CardScript : MonoBehaviour
     {
         if (Time.time >= timestamp)
         {
-            if (cardSide.TableCards.Contains(gameObject))
+            if (cardSide.TableCards.Contains(gameObject) && cardManagerScript.popupMode == false)
             {
                 sprite.sortingLayerName = "Top";
                 desiredPosition += new Vector2(0, cardSide.HiglightPosition);
@@ -273,18 +282,21 @@ public class CardScript : MonoBehaviour
 
     public void OnMouseDrag()
     {
-        isntDragging = false;
-        sprite.sortingLayerName = "Top";
-        transform.localScale = new Vector2(1f, 1f);
-        //desiredPosition = transform.position;
-        if (cardSide.TableCards.Contains(gameObject))
+        if (cardSide.TableCards.Contains(gameObject) && cardManagerScript.popupMode == false)
         {
-            //isDragging = true;
-            Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            transform.position = mousePosition;
-        }
+            isntDragging = false;
+            sprite.sortingLayerName = "Top";
+            transform.localScale = new Vector2(1f, 1f);
+            //desiredPosition = transform.position;
+            if (cardSide.TableCards.Contains(gameObject))
+            {
+                //isDragging = true;
+                Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                transform.position = mousePosition;
+            }
 
-        //sprite.sortingOrder = 2;
+            //sprite.sortingOrder = 2;
+        }
     }
 
     public void OnMouseUp()
