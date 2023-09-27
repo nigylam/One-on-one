@@ -151,6 +151,14 @@ MonoBehaviour:
     m_Key: Return_Button
     m_Metadata:
       m_Items: []
+  - m_Id: 8327314670104576
+    m_Key: GraySkill1_Title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8327422686015488
+    m_Key: GraySkill1_Description
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

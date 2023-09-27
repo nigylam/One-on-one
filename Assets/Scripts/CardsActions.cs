@@ -12,8 +12,6 @@ public class CardsActions : MonoBehaviour
     public GameObject StatManager;
     StatManager statManagerScript;
 
-    public Side cardSide;
-    public Side otherSide;
 
     void Start()
     {
@@ -30,5 +28,18 @@ public class CardsActions : MonoBehaviour
     void Update()
     {
 
+    }
+
+    public IEnumerator PlaySpecialCard()
+    {
+        switch (CardScript.cardId)
+        {
+            case "GraySkill1":
+                CardScript.cardSide.DrawCard(2);
+                //yield return new WaitForSecondsRealtime(.6f);
+                StartCoroutine(CardScript.ManaSpending(1));
+                yield return new WaitUntil(() => CardScript.playerActionCompleted);
+                break;
+        }
     }
 }

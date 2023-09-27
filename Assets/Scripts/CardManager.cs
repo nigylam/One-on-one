@@ -35,7 +35,8 @@ public class CardManager : MonoBehaviour
     public Side enemy;
 
     public bool popupMode = false;
-    public bool manaSpendingMode;
+    public bool discardMode;
+    public bool burnMode;
     //public bool DiscardMode;
     bool shuffledComplete = true;
 
@@ -51,11 +52,14 @@ public class CardManager : MonoBehaviour
 
     void Start()
     {
-
+        //player.DrawCard(5);
+        //enemy.DrawCard(5);
+        
         StartCoroutine(ShufflingDeck(player, true));
         StartCoroutine(ShufflingDeck(enemy, true));
         StartCoroutine(DrawingCard(player, 5, 2f));
         StartCoroutine(DrawingCard(enemy, 5, 3f));
+        
     }
 
     void Update()
@@ -88,29 +92,34 @@ public class CardManager : MonoBehaviour
 
     public void CalculateCardPosition(Side side)
     {
-        if (side.CardsOnTheTableCounter != side.TableCards.Count)
-        {
-            int middleIndex = (side.TableCards.Count - 1) / 2;
-            int offset = 125;
-            float totalWidth = (side.TableCards.Count - 1) * offset;
-            float halfTotalWidth = totalWidth / 2;
-
-            for (int cardIndex = 0; cardIndex < side.TableCards.Count; cardIndex++)
+            if (side.CardsOnTheTableCounter != side.TableCards.Count)
             {
-                GameObject card = side.TableCards[cardIndex];
-                CardScript grid = card.GetComponent<CardScript>();
-                //grid.isDragging = false;
-                sprite = card.GetComponent<SpriteRenderer>();
-                sprite.sortingOrder = cardIndex;
-                float desiredX = -halfTotalWidth + cardIndex * offset;
+                int i;
+                i = side.TableCards.Count - side.CardsOnTheTableCounter;
 
-                grid.startPosition = card.transform.localPosition;
-                grid.desiredPosition = new Vector2(desiredX, side.HandPosition);
-                grid.timestamp = Time.time + grid.timeBetweenMoves;
-                grid.startPosition = grid.desiredPosition;
-            }
+
+                int middleIndex = (side.TableCards.Count - 1) / 2;
+                int offset = 125;
+                float totalWidth = (side.TableCards.Count - 1) * offset;
+                float halfTotalWidth = totalWidth / 2;
+
+                for (int cardIndex = 0; cardIndex < side.TableCards.Count; cardIndex++)
+                {
+                    GameObject card = side.TableCards[cardIndex];
+                    CardScript grid = card.GetComponent<CardScript>();
+                    //grid.isDragging = false;
+                    sprite = card.GetComponent<SpriteRenderer>();
+                    sprite.sortingOrder = cardIndex;
+                    float desiredX = -halfTotalWidth + cardIndex * offset;
+
+                    grid.startPosition = card.transform.localPosition;
+                    grid.desiredPosition = new Vector2(desiredX, side.HandPosition);
+                    grid.timestamp = Time.time + grid.timeBetweenMoves;
+                    grid.startPosition = grid.desiredPosition;
+                }
+            side.CardsOnTheTableCounter = side.TableCards.Count;
+            side.isDraw = false;
         }
-        side.CardsOnTheTableCounter = side.TableCards.Count;
     }
 
 
@@ -167,6 +176,7 @@ public class Side
     public int CardsOnTheTableCounter = 0;
     public GameObject ManaPopUp;
     public int Strength;
+    public bool isDraw = false;
 
     public Side(Vector2 startPosition, List<GameObject> cards, List<GameObject> tableCards, List<GameObject> discardedCards, List<GameObject> burnedCards, int handPosition, Vector2 discardPosition, int block, int hp, int higlightPosition, GameObject manaPopUp, int strength)
     {
@@ -190,6 +200,40 @@ public class Side
         set
         {
             block = Mathf.Max(0, value);
+        }
+    }
+
+    public void DrawCard(int numberOfCards)
+    {
+        int i = TableCards.Count;
+        while (TableCards.Count < numberOfCards + i)
+        {
+            if (Cards.Count == 0)
+            {
+                ShufflingDrawDeck();
+            }
+            GameObject card = Cards[0];
+            TableCards.Add(card);
+            Cards.RemoveAt(0);
+            isDraw = true;
+        }
+    }
+
+    public void ShufflingDrawDeck()
+    {
+        while (DiscardedCards.Count > 0)
+        {
+
+            GameObject card = DiscardedCards[0];
+            Cards.Add(card);
+            DiscardedCards.RemoveAt(0);
+        }
+        for (int i = 0; i < Cards.Count; i++)
+        {
+            GameObject temp = Cards[i];
+            int randomIndex = Random.Range(i, Cards.Count);
+            Cards[i] = Cards[randomIndex];
+            Cards[randomIndex] = temp;
         }
     }
 
