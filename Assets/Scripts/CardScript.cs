@@ -84,6 +84,7 @@ public class CardScript : MonoBehaviour
         CardTitleText = CardTitle.GetComponent<TextMeshProUGUI>();
         CardTypeText = CardTypePrint.GetComponent<TextMeshProUGUI>();
         cardCanvas = CardCanvas.GetComponent<Canvas>();
+        desiredPosition = new Vector2(-2000, 0);
 
         //card = cardManagerScript.cardData.cardDictionary[cardId];
 
@@ -118,6 +119,7 @@ public class CardScript : MonoBehaviour
     }
     void Update()
     {
+        //if(cardId == "BlueAttack2") { Debug.Log(desiredPosition); }
         DescriptionTranscription();
         CardPlacing();
         if (isntDragging)

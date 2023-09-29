@@ -12,21 +12,20 @@ public class EndTurn : MonoBehaviour
     {
         CardManager = GameObject.Find("Card Manager");
         cardManagerScript = CardManager.GetComponent<CardManager>();
-        // Debug.Log("Clones:" + clones.Length);
-
     }
 
     public void OnClick()
     {
         if (curentTurn % 2 == 1)
         {
-            StartCoroutine(cardManagerScript.DiscardingCard(cardManagerScript.player));
-            StartCoroutine(cardManagerScript.DrawingCard(cardManagerScript.player, 5, 2f));
+            cardManagerScript.player.DiscardCard(5);
+            //cardManagerScript.player.DrawCard(5);
             curentTurn++;
         } else
         {
-            StartCoroutine(cardManagerScript.DiscardingCard(cardManagerScript.enemy));
-            StartCoroutine(cardManagerScript.DrawingCard(cardManagerScript.enemy, 5, 2f));
+            cardManagerScript.player.DrawCard(5);
+            //cardManagerScript.enemy.DiscardCard();
+            //cardManagerScript.enemy.DrawCard(5);
             curentTurn++;
         }
     }
