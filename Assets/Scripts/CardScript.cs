@@ -311,9 +311,8 @@ public class CardScript : MonoBehaviour
         if (cardSide.TableCards.Contains(gameObject))
         {
             if (cardManagerScript.discardMode)
-            {
-                cardSide.TableCards.Remove(gameObject);
-                cardSide.DiscardedCards.Add(gameObject);
+            {          
+                cardSide.DiscardCard(gameObject);
             }
             else if (cardManagerScript.burnMode)
             {
@@ -352,7 +351,7 @@ public class CardScript : MonoBehaviour
             cardSide.Block += cardBlock;
             otherSide.Hp = finalDamage > 0 ? otherSide.DealDamage(finalDamage) : otherSide.Hp;
             cardSide.Strength += cardStrength;
-            StartCoroutine(cardManagerScript.DrawingCard(cardSide, cardDraw, 0));
+            cardSide.DrawCard(1);
         }
         else
         {
@@ -361,7 +360,7 @@ public class CardScript : MonoBehaviour
         }
         playerActionCompleted = false;
         if (cardType == CardType.Power) { cardSide.BurnedCards.Add(gameObject); }
-        else { cardSide.DiscardedCards.Add(gameObject); }
+        else { cardSide.DiscardCard(gameObject); }
     }
 
     public IEnumerator ManaSpending(int numberOfCards, bool isDiscard = true)

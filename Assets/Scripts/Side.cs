@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Side : MonoBehaviour
 {
+    CardManager cardManager;
+
+
     public Vector2 StartPosition;
     public List<GameObject> Cards;
     public List<GameObject> TableCards;
@@ -18,24 +21,8 @@ public class Side : MonoBehaviour
     public int CardsOnTheTableCounter = 0;
     public GameObject ManaPopUp;
     public int Strength;
+    public int StartDrawCards = 5;
 
-    public Side(Vector2 startPosition, List<GameObject> cards, List<GameObject> tableCards, List<GameObject> doubleTableCards, List<GameObject> discardedCards, List<GameObject> burnedCards, int handPosition, Vector2 discardPosition, int block, int hp, int higlightPosition, GameObject manaPopUp, int strength)
-    {
-        StartPosition = startPosition;
-        Cards = cards;
-        TableCards = tableCards;
-        DoubleTableCards = doubleTableCards;
-        DiscardedCards = discardedCards;
-        HandPosition = handPosition;
-        DiscardPosition = discardPosition;
-        Block = block;
-        Hp = hp;
-        HiglightPosition = higlightPosition;
-        ManaPopUp = manaPopUp;
-        Strength = strength;
-        BurnedCards = burnedCards;
-
-    }
     public int Block
     {
         get => block;
@@ -43,6 +30,11 @@ public class Side : MonoBehaviour
         {
             block = Mathf.Max(0, value);
         }
+    }
+
+    public void DrawCard()
+    {
+        DrawCard(StartDrawCards);
     }
 
     public void DrawCard(int numberOfCards)
@@ -57,15 +49,16 @@ public class Side : MonoBehaviour
             GameObject card = Cards[0];
             TableCards.Add(card);
             Cards.RemoveAt(0);
+            cardManager.CallAnimation("draw", card);
         }
     }
 
-    public void DiscardCard()
+    public void DiscardCards()
     {
-        DiscardCard(TableCards.Count);
+        DiscardCards(TableCards.Count);
     }
 
-    public void DiscardCard(int numberOfCards)
+    public void DiscardCards(int numberOfCards)
     {
         int cardsToDiscard = Mathf.Min(numberOfCards, TableCards.Count);
 
@@ -74,7 +67,15 @@ public class Side : MonoBehaviour
             GameObject card = TableCards[TableCards.Count - 1];
             TableCards.RemoveAt(TableCards.Count - 1);
             DiscardedCards.Add(card);
+            cardManager.CallAnimation("discard", card);
         }
+    }
+
+    public void DiscardCard(GameObject card)
+    {
+        if (TableCards.Contains(card)) { TableCards.Remove(card); }
+        DiscardedCards.Add(card);
+        cardManager.CallAnimation("discard", card);
     }
 
     public void ShufflingDrawDeck()
@@ -93,6 +94,7 @@ public class Side : MonoBehaviour
             Cards[i] = Cards[randomIndex];
             Cards[randomIndex] = temp;
         }
+        //cardManager.CallAnimation("shuffle");
     }
 
     public int DealDamage(int damage)
@@ -108,6 +110,13 @@ public class Side : MonoBehaviour
         }
 
         return Hp;
+    }
+
+    void Awake()
+    {
+        //CardManager = ;
+        cardManager = GameObject.Find("Card Manager").GetComponent<CardManager>();
+        // Debug.Log("Awake in SIde happens");
     }
 
 }

@@ -200,11 +200,13 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 8327422686015488
-    m_Localized: Draw 2 cards then discard 1 card.
+    m_Localized: "\u0412\u044B\u0442\u0430\u0441\u043A\u0438\u0432\u0430\u0435\u0442
+      2 \u043A\u0430\u0440\u0442\u044B, \u0437\u0430\u0442\u0435\u043C \u0441\u043A\u0438\u0434\u044B\u0432\u0430\u0435\u0442
+      1 \u043A\u0430\u0440\u0442\u0443."
     m_Metadata:
       m_Items: []
   - m_Id: 8327314670104576
-    m_Localized: Outgo
+    m_Localized: "\u0423\u0445\u043E\u0434"
     m_Metadata:
       m_Items: []
   references:

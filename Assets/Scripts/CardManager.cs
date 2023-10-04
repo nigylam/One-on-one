@@ -29,7 +29,7 @@ public class CardManager : MonoBehaviour
     public List<GameObject> enemyBurnedCards = new List<GameObject>();
     public List<GameObject> burnedCards = new List<GameObject>();
     public List<GameObject> playingCards = new List<GameObject>();
-    
+
     // common lists
     public List<GameObject> displayCards = new List<GameObject>();
 
@@ -40,17 +40,19 @@ public class CardManager : MonoBehaviour
     public bool discardMode;
     public bool burnMode;
 
-    bool drawCompleted = false;
+    bool drawCompleted = true;
+    int drawHowTimes = 0;
 
-    //public bool DiscardMode;
     bool shuffledComplete = true;
 
     void Awake()
     {
-        StatManager = GameObject.Find("Stat Manager");
-        statManagerScript = StatManager.GetComponent<StatManager>();
-        player = new Side(new Vector2(-1114, -716), cards, cardsOnTheTable, doubleCardsOnTheTable, discardedCards, burnedCards, -370, new Vector2(1150, -700), 4, statManagerScript.hp, 50, statManagerScript.CardDiscPopUp, 0);
-        enemy = new Side(new Vector2(-1114, 716), enemyCards, enemyCardsOnTheTable, doubleEnemyCardsOnTheTable, discardedEnemyCards, enemyBurnedCards, 370, new Vector2(1150, 700), statManagerScript.enemyBlock, statManagerScript.enemyHp, -50, statManagerScript.CardSacrPopUp, 0);
+        statManagerScript = GameObject.Find("Stat Manager").GetComponent<StatManager>();
+        player = GameObject.Find("Player Side").GetComponent<Side>();
+        player.Hp = statManagerScript.hp;
+
+        enemy = GameObject.Find("Enemy Side").GetComponent<Side>();
+        enemy.Hp = statManagerScript.enemyHp;
 
         cardData = gameObject.GetComponent<CardData>();
     }
@@ -58,164 +60,99 @@ public class CardManager : MonoBehaviour
     void Start()
     {
         enemy.DrawCard(5);
-        player.DrawCard(5);
+        player.DrawCard(4);
+        Debug.Log(5 / 2);
     }
 
     void Update()
     {
-        CalculateCardPosition();
     }
 
-    public void CalculateCardPosition()
+    public void CallAnimation(string type, GameObject objectAnimation = null)
     {
-        Side[] sides = new[] { player, enemy };
-        foreach (Side side in sides)
-        {
-            if (side.CardsOnTheTableCounter != side.TableCards.Count)
-            {
-                int middleIndex = (side.TableCards.Count - 1) / 2;
-                int offset = 105;
-                float totalWidth = (side.TableCards.Count - 1) * offset;
-                float halfTotalWidth = totalWidth / 2;
+        if (type == "draw") { StartCoroutine(CalculateCardPosition(objectAnimation)); }
+        else if (type == "discard") { StartCoroutine(CalculateCardPositionDiscarding(objectAnimation)); }
+        else if (type == "shuffle") { StartCoroutine(ShuffleCards()); }
 
-                for (int cardIndex = 0; cardIndex < side.TableCards.Count; cardIndex++)
-                {
-                    GameObject card = side.TableCards[cardIndex];
-                    CardScript grid = card.GetComponent<CardScript>();
-                    //grid.isDragging = false;
-                    sprite = card.GetComponent<SpriteRenderer>();
-                    sprite.sortingOrder = cardIndex;
-                    float desiredX = -halfTotalWidth + cardIndex * offset;
-
-                    grid.startPosition = card.transform.localPosition;
-                    grid.desiredPosition = new Vector2(desiredX, side.HandPosition);
-                    grid.timestamp = Time.time + grid.timeBetweenMoves;
-                    grid.startPosition = grid.desiredPosition;
-                }
-            }
-            side.CardsOnTheTableCounter = side.TableCards.Count;
-        }
     }
 
-    public IEnumerator CalculateTableCards()
+    public IEnumerator ShuffleCards()
     {
-        Side[] sides = new[] { player, enemy };
-        foreach (Side side in sides)
+        while (!drawCompleted)
         {
-            if (side.DoubleTableCards.Count < side.TableCards.Count)
-            {
-
-            }
+            yield return null;
         }
+
+        yield return new WaitForSeconds(0.3f);
+
+        drawCompleted = false;
+
     }
 
-    /* 
-     public IEnumerator CalculateCardPosition()
-     {
-         Side[] sides = new[] { player, enemy };
-         foreach (Side side in sides)
-         {
-             if (side.CardsOnTheTableCounter != side.TableCards.Count)
-             {
-
-                 yield return new WaitForSecondsRealtime(.3f);
-                 int missingCards = side.TableCards.Count - side.CardsOnTheTableCounter;
-                 side.CardsOnTheTableCounter = side.TableCards.Count;
-                 List<GameObject> TableCards = new List<GameObject>();
-
-                 if (missingCards > 0)
-                 {
-                     for (int i = 0; i < missingCards; i++)
-                     {
-                         TableCards.Add(side.TableCards[side.TableCards.Count - 1 - i]);
-
-                         int middleIndex = (TableCards.Count - 1) / 2;
-                         int offset = 125;
-                         float totalWidth = (TableCards.Count - 1) * offset;
-                         float halfTotalWidth = totalWidth / 2;
-
-                         for (int cardIndex = 0; cardIndex < TableCards.Count; cardIndex++)
-                         {
-                             GameObject card = TableCards[cardIndex];
-                             CardScript grid = card.GetComponent<CardScript>();
-                             //grid.isDragging = false;
-                             sprite = card.GetComponent<SpriteRenderer>();
-                             sprite.sortingOrder = cardIndex;
-                             float desiredX = -halfTotalWidth + cardIndex * offset;
-
-                             //grid.startPosition = card.transform.localPosition;
-                             grid.desiredPosition = new Vector2(desiredX, side.HandPosition);
-                             grid.timestamp = Time.time + grid.timeBetweenMoves;
-                             grid.startPosition = grid.desiredPosition;
-                         }
-
-                         yield return new WaitForSecondsRealtime(.3f);
-                         if (i == missingCards - 1) { drawCompleted = true; }
-                     }
-                 }
-
-             }
-             yield return new WaitUntil(() => drawCompleted);
-             drawCompleted = false;
-         }
-     } */
-
-    public IEnumerator DrawingCard(Side side, int amountOfCards = 5, float pauseTime = 0)
+    public IEnumerator CalculateCardPosition(GameObject card)
     {
-        yield return new WaitForSeconds(pauseTime);
-        int i = side.TableCards.Count;
-        while (side.TableCards.Count < amountOfCards + i)
+        while (!drawCompleted)
         {
-            if (side.Cards.Count == 0)
-            {
-                shuffledComplete = false;
-                StartCoroutine(ShufflingDeck(side));
-                yield return new WaitUntil(() => shuffledComplete == true);
-            }
-
-            GameObject card = side.Cards[0];
-            //card.transform.localPosition = side.StartPosition;
-            side.TableCards.Add(card);
-            side.Cards.RemoveAt(0);
-
-            yield return new WaitForSecondsRealtime(.3f);
+            yield return null;
         }
+        drawCompleted = false;
+        Side side;
+        if (player.TableCards.Contains(card)) { side = player; }
+        else { side = enemy; }
+
+        side.DoubleTableCards.Add(card);
+        int offset = 105;
+        int width = (side.DoubleTableCards.Count-1) * offset;
+        int halfWidth = width / 2;
+        int startX = 0 - halfWidth;
+        for (int cardIndex = 0; cardIndex < side.DoubleTableCards.Count; cardIndex++)
+        {
+            GameObject Card = side.DoubleTableCards[cardIndex];
+            CardScript grid = Card.GetComponent<CardScript>();
+            sprite = Card.GetComponent<SpriteRenderer>();
+            sprite.sortingOrder = cardIndex;
+            float desiredX = startX + (offset * cardIndex);
+            //grid.startPosition = Card.transform.localPosition;
+            grid.desiredPosition = new Vector2(desiredX, side.HandPosition);
+            grid.timestamp = Time.time + grid.timeBetweenMoves;
+            grid.startPosition = grid.desiredPosition;
+        }
+        yield return new WaitForSeconds(0.3f);
+        drawCompleted = true;
     }
 
-    public IEnumerator DiscardingCard(Side side)
+    public IEnumerator CalculateCardPositionDiscarding(GameObject card)
     {
-        for (int i = side.TableCards.Count; i > 0; i--)
+        while (!drawCompleted)
         {
-            GameObject card = side.TableCards[i - 1];
-            side.DiscardedCards.Add(card);
-            yield return new WaitForSeconds(.2f);
-        }
-        side.TableCards.Clear();
-        yield return new WaitForSeconds(1f);
-    }
-
-    public IEnumerator ShufflingDeck(Side side, bool isThisStartOfBattle = false)
-    {
-        if (isThisStartOfBattle == false)
-        {
-            while (side.DiscardedCards.Count > 0)
-            {
-
-                GameObject card = side.DiscardedCards[0];
-                side.Cards.Add(card);
-                side.DiscardedCards.RemoveAt(0);
-            }
+            yield return null; // Wait for the next frame.
         }
 
-        for (int i = 0; i < side.Cards.Count; i++)
+        drawCompleted = false;
+
+        Side side;
+        if (player.DiscardedCards.Contains(card)) { side = player; }
+        else { side = enemy; }
+
+        side.DoubleTableCards.Remove(card);
+        int offset = 105;
+        int width = (side.DoubleTableCards.Count - 1) * offset;
+        int halfWidth = width / 2;
+        int startX = 0 - halfWidth;
+        for (int cardIndex = 0; cardIndex < side.DoubleTableCards.Count; cardIndex++)
         {
-            GameObject temp = side.Cards[i];
-            int randomIndex = Random.Range(i, side.Cards.Count);
-            side.Cards[i] = side.Cards[randomIndex];
-            side.Cards[randomIndex] = temp;
+            GameObject Card = side.DoubleTableCards[cardIndex];
+            CardScript grid = Card.GetComponent<CardScript>();
+            sprite = Card.GetComponent<SpriteRenderer>();
+            sprite.sortingOrder = cardIndex;
+            float desiredX = startX + (offset * cardIndex);
+            //grid.startPosition = Card.transform.localPosition;
+            grid.desiredPosition = new Vector2(desiredX, side.HandPosition);
+            grid.timestamp = Time.time + grid.timeBetweenMoves;
+            grid.startPosition = grid.desiredPosition;
         }
-        yield return new WaitForSeconds(1f);
-        shuffledComplete = true;
+        yield return new WaitForSeconds(0.3f);
+        drawCompleted = true;
     }
 
 }

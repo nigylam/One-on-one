@@ -2417,11 +2417,15 @@ MonoBehaviour:
   discardedCards: []
   discardedEnemyCards: []
   cardsOnTheTable: []
+  doubleCardsOnTheTable: []
   enemyCardsOnTheTable: []
+  doubleEnemyCardsOnTheTable: []
   enemyBurnedCards: []
   burnedCards: []
   playingCards: []
   displayCards: []
+  player: {fileID: 0}
+  enemy: {fileID: 0}
   popupMode: 0
   discardMode: 0
   burnMode: 0
@@ -8139,6 +8143,72 @@ MonoBehaviour:
   m_Spacing: {x: 60, y: 60}
   m_Constraint: 1
   m_ConstraintCount: 5
+--- !u!1 &1494985583
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1494985585}
+  - component: {fileID: 1494985584}
+  m_Layer: 0
+  m_Name: Player Side
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1494985584
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1494985583}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d502e991adbf5544aa0626a1b97d2361, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  StartPosition: {x: -1114, y: -716}
+  Cards:
+  - {fileID: 244743375}
+  - {fileID: 844233117}
+  - {fileID: 1069955257}
+  - {fileID: 356043242}
+  - {fileID: 1114553802}
+  - {fileID: 1694147272}
+  - {fileID: 337953123}
+  - {fileID: 2080296080}
+  - {fileID: 2074750915}
+  TableCards: []
+  DoubleTableCards: []
+  DiscardedCards: []
+  BurnedCards: []
+  HandPosition: -370
+  DiscardPosition: {x: 1150, y: -700}
+  Hp: 0
+  HiglightPosition: 50
+  CardsOnTheTableCounter: 0
+  ManaPopUp: {fileID: 442792983}
+  Strength: 0
+--- !u!4 &1494985585
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1494985583}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.19327, y: -1.8419986, z: 1413.3694}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1525394476
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10086,6 +10156,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1868908582}
   - component: {fileID: 1868908581}
+  - component: {fileID: 1868908583}
   m_Layer: 0
   m_Name: Stat Manager
   m_TagString: Untagged
@@ -10143,6 +10214,31 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1868908583
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1868908580}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d502e991adbf5544aa0626a1b97d2361, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  StartPosition: {x: 0, y: 0}
+  Cards: []
+  TableCards: []
+  DoubleTableCards: []
+  DiscardedCards: []
+  BurnedCards: []
+  HandPosition: 0
+  DiscardPosition: {x: 0, y: 0}
+  Hp: 0
+  HiglightPosition: 0
+  CardsOnTheTableCounter: 0
+  ManaPopUp: {fileID: 0}
+  Strength: 0
 --- !u!1 &1869517108
 GameObject:
   m_ObjectHideFlags: 0
@@ -11046,7 +11142,6 @@ RectTransform:
   - {fileID: 179990770}
   - {fileID: 553318472}
   - {fileID: 442792986}
-  - {fileID: 501257632}
   - {fileID: 1145594939}
   - {fileID: 1525394477}
   - {fileID: 860522190}
@@ -11056,6 +11151,7 @@ RectTransform:
   - {fileID: 1366080280}
   - {fileID: 368022781}
   - {fileID: 1913992072}
+  - {fileID: 501257632}
   - {fileID: 1181475338}
   - {fileID: 899784078}
   - {fileID: 1955994157}
@@ -12330,6 +12426,74 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2115578562
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2115578564}
+  - component: {fileID: 2115578563}
+  m_Layer: 0
+  m_Name: Enemy Side
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2115578563
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2115578562}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d502e991adbf5544aa0626a1b97d2361, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  StartPosition: {x: -1114, y: 716}
+  Cards:
+  - {fileID: 1703050176}
+  - {fileID: 706891948}
+  - {fileID: 195119002}
+  - {fileID: 751337387}
+  - {fileID: 647284766}
+  - {fileID: 879633809}
+  - {fileID: 151268981}
+  - {fileID: 1754363111}
+  - {fileID: 1797171601}
+  - {fileID: 120519343}
+  - {fileID: 1240629553}
+  TableCards: []
+  DoubleTableCards: []
+  DiscardedCards: []
+  BurnedCards: []
+  HandPosition: 370
+  DiscardPosition: {x: 1150, y: 700}
+  Hp: 0
+  HiglightPosition: -50
+  CardsOnTheTableCounter: 0
+  ManaPopUp: {fileID: 553318471}
+  Strength: 0
+--- !u!4 &2115578564
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2115578562}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.19327, y: -1.8419986, z: 1413.3694}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2119302097
 GameObject:
   m_ObjectHideFlags: 0
@@ -12533,3 +12697,5 @@ SceneRoots:
   - {fileID: 2088159022}
   - {fileID: 432050088}
   - {fileID: 1868908582}
+  - {fileID: 1494985585}
+  - {fileID: 2115578564}
