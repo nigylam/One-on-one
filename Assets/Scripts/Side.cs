@@ -56,6 +56,7 @@ public class Side : MonoBehaviour
     public void DiscardCards()
     {
         DiscardCards(TableCards.Count);
+        DoubleTableCards.Clear();
     }
 
     public void DiscardCards(int numberOfCards)
@@ -93,6 +94,10 @@ public class Side : MonoBehaviour
             int randomIndex = Random.Range(i, Cards.Count);
             Cards[i] = Cards[randomIndex];
             Cards[randomIndex] = temp;
+        }
+        foreach(GameObject card in Cards)
+        {
+            card.transform.localPosition = StartPosition;
         }
         //cardManager.CallAnimation("shuffle");
     }

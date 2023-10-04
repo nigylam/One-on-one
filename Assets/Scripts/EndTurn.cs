@@ -19,13 +19,13 @@ public class EndTurn : MonoBehaviour
         if (curentTurn % 2 == 1)
         {
             cardManagerScript.player.DiscardCards();
-            //cardManagerScript.player.DrawCard();
+            cardManagerScript.player.DrawCard();
             curentTurn++;
         } else
         {
-            cardManagerScript.player.DrawCard();
-            //cardManagerScript.enemy.DiscardCards();
-            //cardManagerScript.enemy.DrawCard();
+            //cardManagerScript.player.DrawCard();
+            cardManagerScript.enemy.DiscardCards();
+            cardManagerScript.enemy.DrawCard();
             //cardManagerScript.enemy.DrawCard(5);
             curentTurn++;
         }

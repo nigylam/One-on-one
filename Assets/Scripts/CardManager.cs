@@ -41,9 +41,9 @@ public class CardManager : MonoBehaviour
     public bool burnMode;
 
     bool drawCompleted = true;
-    int drawHowTimes = 0;
+    //int drawHowTimes = 0;
 
-    bool shuffledComplete = true;
+    //bool shuffledComplete = true;
 
     void Awake()
     {
@@ -70,24 +70,31 @@ public class CardManager : MonoBehaviour
 
     public void CallAnimation(string type, GameObject objectAnimation = null)
     {
-        if (type == "draw") { StartCoroutine(CalculateCardPosition(objectAnimation)); }
+        if (type == "draw") {
+            StartCoroutine(CalculateCardPosition(objectAnimation)); 
+        }
         else if (type == "discard") { StartCoroutine(CalculateCardPositionDiscarding(objectAnimation)); }
-        else if (type == "shuffle") { StartCoroutine(ShuffleCards()); }
+        //else if (type == "shuffle") { StartCoroutine(ShuffleCards()); }
 
     }
 
-    public IEnumerator ShuffleCards()
+    
+    /*
+    public IEnumerator ShuffleCards(Side side)
     {
-        while (!drawCompleted)
+        foreach (GameObject card in side.Cards)
         {
-            yield return null;
+            while (card.transformPosition)
+            {
+                yield return null;
+            }
         }
 
         yield return new WaitForSeconds(0.3f);
 
         drawCompleted = false;
 
-    }
+    }*/
 
     public IEnumerator CalculateCardPosition(GameObject card)
     {
@@ -153,6 +160,28 @@ public class CardManager : MonoBehaviour
         }
         yield return new WaitForSeconds(0.3f);
         drawCompleted = true;
+    }
+
+    public IEnumerator ShufflingDeck(Side side, bool isThisStartOfBattle = false)
+    {
+        if (isThisStartOfBattle == false)
+        {
+            while (side.DiscardedCards.Count > 0)
+            {
+                GameObject card = side.DiscardedCards[0];
+                side.Cards.Add(card);
+                side.DiscardedCards.RemoveAt(0);
+            }
+        }
+        for (int i = 0; i < side.Cards.Count; i++)
+        {
+            GameObject temp = side.Cards[i];
+            int randomIndex = Random.Range(i, side.Cards.Count);
+            side.Cards[i] = side.Cards[randomIndex];
+            side.Cards[randomIndex] = temp;
+        }
+        yield return new WaitForSeconds(1f);
+        //shuffledComplete = true;
     }
 
 }
