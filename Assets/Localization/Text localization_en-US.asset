@@ -172,6 +172,18 @@ MonoBehaviour:
     m_Localized: Draw 2 cards then discard 1 card.
     m_Metadata:
       m_Items: []
+  - m_Id: 11285824198422528
+    m_Localized: Next turn draw 1 more card.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11292770561437696
+    m_Localized: Next turn draw 1 more card.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11292804778569728
+    m_Localized: Maneuver
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:

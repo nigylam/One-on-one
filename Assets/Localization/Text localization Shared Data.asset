@@ -159,6 +159,18 @@ MonoBehaviour:
     m_Key: GraySkill1_Description
     m_Metadata:
       m_Items: []
+  - m_Id: 11285824198422528
+    m_Key: AddCard_Tip
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11292770561437696
+    m_Key: GraySkill2_Description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11292804778569728
+    m_Key: GraySkill2_Title
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

@@ -40,6 +40,13 @@ public class CardsActions : MonoBehaviour
                 StartCoroutine(CardScript.ManaSpending(1));
                 yield return new WaitUntil(() => CardScript.playerActionCompleted);
                 break;
+            case "GraySkill2":
+                CardScript.cardSide.AddCardBuff(1);
+                //yield return new WaitForSecondsRealtime(.6f);
+                //StartCoroutine(CardScript.ManaSpending(1));
+                //yield return new WaitUntil(() => CardScript.playerActionCompleted);
+                CardScript.playerActionCompleted = true;
+                break;
         }
     }
 }

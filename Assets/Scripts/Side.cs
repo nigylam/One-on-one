@@ -6,7 +6,6 @@ public class Side : MonoBehaviour
 {
     CardManager cardManager;
 
-
     public Vector2 StartPosition;
     public List<GameObject> Cards;
     public List<GameObject> TableCards;
@@ -22,6 +21,9 @@ public class Side : MonoBehaviour
     public GameObject ManaPopUp;
     public int Strength;
     public int StartDrawCards = 5;
+    public int AddCard = 0;
+
+    int _savedTurn = 0;
 
     public int Block
     {
@@ -29,6 +31,25 @@ public class Side : MonoBehaviour
         set
         {
             block = Mathf.Max(0, value);
+        }
+    }
+
+    public void AddCardBuff(int numberOfCards)
+    {
+        AddCard += numberOfCards;
+        StartDrawCards += numberOfCards;
+
+        _savedTurn = cardManager.curentTurn;
+    }
+
+    void RemoveAddCardBuff()
+    {
+        if (cardManager.curentTurn > _savedTurn)
+        {
+            AddCard = 0;
+            StartDrawCards = 5;
+
+            _savedTurn = 0;
         }
     }
 
@@ -122,6 +143,11 @@ public class Side : MonoBehaviour
         //CardManager = ;
         cardManager = GameObject.Find("Card Manager").GetComponent<CardManager>();
         // Debug.Log("Awake in SIde happens");
+    }
+
+    void Update()
+    {
+        RemoveAddCardBuff();
     }
 
 }

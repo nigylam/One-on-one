@@ -41,8 +41,9 @@ public class CardManager : MonoBehaviour
     public bool burnMode;
 
     bool drawCompleted = true;
-    //int drawHowTimes = 0;
 
+    public int curentTurn = 1;
+    //int drawHowTimes = 0;
     //bool shuffledComplete = true;
 
     void Awake()
@@ -59,9 +60,8 @@ public class CardManager : MonoBehaviour
 
     void Start()
     {
-        enemy.DrawCard(5);
-        player.DrawCard(4);
-        Debug.Log(5 / 2);
+        enemy.DrawCard();
+        player.DrawCard();
     }
 
     void Update()

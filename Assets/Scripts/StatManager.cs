@@ -24,6 +24,9 @@ public class StatManager : MonoBehaviour
     public GameObject strengthCounter;
     public GameObject enemyStrengthCounter;
 
+    public GameObject AddCards;
+    public GameObject AddCardsCounter;
+
     public int drawPileCounter = 5;
     public int enemyDrawPileCounter = 5;
     public int discardPileCounter = 0;
@@ -46,12 +49,15 @@ public class StatManager : MonoBehaviour
     TextMeshProUGUI strengthCounterText;
     TextMeshProUGUI enemyStrengthCounterText;
 
+    TextMeshProUGUI AddCardsCounterText;
+
     public GameObject CardSacrPopUp;
     public GameObject CardDiscPopUp;
 
     // Start is called before the first frame update
     void Start()
     {
+        // сократить!!!
         drawCounter = drawPile.GetComponent<TextMeshProUGUI>();
         enemyDrawCounter = enemyDrawPile.GetComponent<TextMeshProUGUI>();
         discardCounter = discardPile.GetComponent<TextMeshProUGUI>();
@@ -66,15 +72,17 @@ public class StatManager : MonoBehaviour
         enemyStrengthCounterText = enemyStrengthCounter.GetComponent<TextMeshProUGUI>();
 
         cardManagerScript = CardManager.GetComponent<CardManager>();
+
+        AddCardsCounterText = AddCardsCounter.GetComponent<TextMeshProUGUI>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        drawCounter.text = "" + cardManagerScript.cards.Count;
-        enemyDrawCounter.text = "" + cardManagerScript.enemyCards.Count;
-        discardCounter.text = "" + cardManagerScript.discardedCards.Count;
-        enemyDiscardCounter.text = "" + cardManagerScript.discardedEnemyCards.Count;
+        drawCounter.text = "" + cardManagerScript.player.Cards.Count;
+        enemyDrawCounter.text = "" + cardManagerScript.enemy.Cards.Count;
+        discardCounter.text = "" + cardManagerScript.player.DiscardedCards.Count;
+        enemyDiscardCounter.text = "" + cardManagerScript.enemy.DiscardedCards.Count;
 
         healthPoints.text = "" + cardManagerScript.player.Hp;
         enemyHealthPoints.text = "" + cardManagerScript.enemy.Hp;
@@ -83,6 +91,8 @@ public class StatManager : MonoBehaviour
 
         strengthCounterText.text = "" + cardManagerScript.player.Strength;
         enemyStrengthCounterText.text = "" + cardManagerScript.enemy.Strength;
+
+        AddCardsCounterText.text = "" + cardManagerScript.player.AddCard;
 
         if (cardManagerScript.player.Strength == 0)
         {
@@ -98,6 +108,14 @@ public class StatManager : MonoBehaviour
         else
         {
             enemyStrength.SetActive(true);
+        }
+        if (cardManagerScript.player.AddCard == 0)
+        {
+            AddCards.SetActive(false);
+        }
+        else
+        {
+            AddCards.SetActive(true);
         }
     }
 }
