@@ -10,27 +10,12 @@ public class CardManager : MonoBehaviour
     public GameObject Canvas;
     private SpriteRenderer sprite;
 
-    //public int StrTest = 1;
-
     public GameObject StatManager;
     StatManager statManagerScript;
 
     public CardData cardData;
 
-    //side lists
-    public List<GameObject> cards = new List<GameObject>();
-    public List<GameObject> enemyCards = new List<GameObject>();
-    public List<GameObject> discardedCards = new List<GameObject>();
-    public List<GameObject> discardedEnemyCards = new List<GameObject>();
-    public List<GameObject> cardsOnTheTable = new List<GameObject>();
-    public List<GameObject> doubleCardsOnTheTable = new List<GameObject>();
-    public List<GameObject> enemyCardsOnTheTable = new List<GameObject>();
-    public List<GameObject> doubleEnemyCardsOnTheTable = new List<GameObject>();
-    public List<GameObject> enemyBurnedCards = new List<GameObject>();
-    public List<GameObject> burnedCards = new List<GameObject>();
     public List<GameObject> playingCards = new List<GameObject>();
-
-    // common lists
     public List<GameObject> displayCards = new List<GameObject>();
 
     public Side player;
@@ -41,16 +26,7 @@ public class CardManager : MonoBehaviour
     public bool burnMode;
 
     bool drawCompleted = true;
-
-    int tableCards = 0;
-
     public int curentTurn = 1;
-    //int drawHowTimes = 0;
-    //bool shuffledComplete = true;
-
-
-    // new code for events
-    private Queue<CardEvent> cardEvents = new Queue<CardEvent>();
 
     private Queue<CardEvent> eventQueue = new Queue<CardEvent>();
     private bool isProcessingQueue = false;
@@ -67,14 +43,16 @@ public class CardManager : MonoBehaviour
         cardData = gameObject.GetComponent<CardData>();
 
         player.CardAction += OnCardAction;
-        //player.CardDiscarded += OnCardDiscarded;
-
         enemy.CardAction += OnCardAction;
-        //enemy.CardDiscarded += OnCardDiscarded;
     }
 
     void Start()
     {
+        player.DrawCounter = player.Cards.Count;
+        player.DiscardCounter = 0;
+        enemy.DrawCounter = enemy.Cards.Count; 
+        enemy.DiscardCounter = 0;
+
         enemy.DrawCards();
         player.DrawCards();
     }
@@ -85,7 +63,12 @@ public class CardManager : MonoBehaviour
         {
             StartCoroutine(ProcessEventQueue());
         }
-        ProcessCardEvents();
+
+        // эти два форича должны быть заменены ивентами
+        foreach(GameObject card in playingCards)
+        {
+            card.GetComponent<CardScript>().desiredPosition = new Vector2(0,0);
+        }
     }
 
     IEnumerator ProcessEventQueue()
@@ -104,6 +87,10 @@ public class CardManager : MonoBehaviour
         else if (cardEvent.ActionType == CardActionType.Shuffle)
         {
             PlayShuffleAnimation(cardEvent.TriggeringSide);
+        }
+        else if (cardEvent.ActionType == CardActionType.Burn)
+        {
+            PlayBurnAnimation(cardEvent.Card, cardEvent.TriggeringSide);
         }
         yield return new WaitForSeconds(0.3f);
         isProcessingQueue = false;
@@ -125,17 +112,15 @@ public class CardManager : MonoBehaviour
         side.DoubleTableCards.Add(card);
         card.transform.localPosition = side.StartPosition;
         CalculateTableCardsPosition(side);
+        side.DrawCounter--;
     }
 
     void PlayDiscardAnimation(GameObject card, Side side)
     {
         side.DoubleTableCards.Remove(card);
-        //if (side.Cards.Contains(card))
-        //{ card.transform.localPosition = side.StartPosition; } else { card.transform.localPosition = side.DiscardPosition; }
-
         card.GetComponent<CardScript>().desiredPosition = side.DiscardPosition;
-        //Debug.Log(card.name + " " + card.transform.localPosition);
         CalculateTableCardsPosition(side);
+        side.DiscardCounter++;
     }
     void PlayShuffleAnimation(Side side)
     {
@@ -149,11 +134,17 @@ public class CardManager : MonoBehaviour
             card.transform.localPosition = side.DiscardPosition;
             card.GetComponent<CardScript>().desiredPosition = side.DiscardPosition;
         }
+
+        side.DrawCounter += side.DiscardCounter;
+        side.DiscardCounter = 0;
     }
 
-    public void AddCardEvent(GameObject card, CardActionType actionType, Side triggeringSide)
+    void PlayBurnAnimation(GameObject card, Side side)
     {
-        cardEvents.Enqueue(new CardEvent(card, actionType, triggeringSide));
+        if (side.DoubleTableCards.Contains(card)) { side.DoubleTableCards.Remove(card); }
+        card.transform.localPosition = new Vector2(2000, 2000);
+        card.GetComponent<CardScript>().isntDragging = false;
+        CalculateTableCardsPosition(side);
     }
 
     public void CalculateTableCardsPosition(Side side)
@@ -168,26 +159,9 @@ public class CardManager : MonoBehaviour
             sprite = Card.GetComponent<SpriteRenderer>();
             sprite.sortingOrder = cardIndex;
             float desiredX = -halfWidth + (offset * cardIndex);
-            //grid.startPosition = Card.transform.localPosition;
             grid.desiredPosition = new Vector2(desiredX, side.HandPosition);
             grid.timestamp = Time.time + grid.timeBetweenMoves;
             grid.startPosition = grid.desiredPosition;
-        }
-    }
-
-    void ProcessCardEvents()
-    {
-        if (cardEvents.Count > 0)
-        {
-            CardEvent cardEvent = cardEvents.Dequeue();
-            Debug.Log($"Event: {cardEvent.ActionType} triggered by {cardEvent.TriggeringSide}");
-            switch (cardEvent.ActionType)
-            {
-                case CardActionType.Draw:
-                    break;
-                case CardActionType.Discard:
-                    break;
-            }
         }
     }
 }
@@ -196,8 +170,9 @@ public enum CardActionType
 {
     Draw,
     Discard,
-    Shuffle
-    // Add more action types as needed
+    Shuffle,
+    Burn,
+    Playing
 }
 
 public class CardEvent

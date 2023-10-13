@@ -317,8 +317,8 @@ public class CardScript : MonoBehaviour
             }
             else if (cardManagerScript.burnMode)
             {
-                cardSide.TableCards.Remove(gameObject);
-                cardSide.BurnedCards.Add(gameObject);
+                //cardSide.TableCards.Remove(gameObject);
+                cardSide.BurnCard(gameObject);
             }
             else
             {
@@ -326,7 +326,7 @@ public class CardScript : MonoBehaviour
                 {
                     if (isOverDropZone)
                     {
-                        cardSide.TableCards.Remove(gameObject);
+                        cardSide.PlayCard(gameObject);
                         StartCoroutine(CardPlaying());
                     }
                 }
@@ -352,7 +352,7 @@ public class CardScript : MonoBehaviour
             cardSide.Block += cardBlock;
             otherSide.Hp = finalDamage > 0 ? otherSide.DealDamage(finalDamage) : otherSide.Hp;
             cardSide.Strength += cardStrength;
-            cardSide.DrawCards(1);
+            cardSide.DrawCards(cardDraw);
         }
         else
         {

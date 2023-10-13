@@ -79,10 +79,10 @@ public class StatManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        drawCounter.text = "" + cardManagerScript.player.Cards.Count;
-        enemyDrawCounter.text = "" + cardManagerScript.enemy.Cards.Count;
-        discardCounter.text = "" + cardManagerScript.player.DiscardedCards.Count;
-        enemyDiscardCounter.text = "" + cardManagerScript.enemy.DiscardedCards.Count;
+        drawCounter.text = "" + cardManagerScript.player.DrawCounter;
+        enemyDrawCounter.text = "" + cardManagerScript.enemy.DrawCounter;
+        discardCounter.text = "" + cardManagerScript.player.DiscardCounter;
+        enemyDiscardCounter.text = "" + cardManagerScript.enemy.DiscardCounter;
 
         healthPoints.text = "" + cardManagerScript.player.Hp;
         enemyHealthPoints.text = "" + cardManagerScript.enemy.Hp;

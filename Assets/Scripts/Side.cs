@@ -6,8 +6,6 @@ using UnityEngine;
 public class Side : MonoBehaviour
 {
     public event Action<GameObject, Side, CardActionType> CardAction;
-    //public event Action<GameObject, Side> CardDiscarded;
-    //public event Action<Side> Shuffle;
 
     CardManager cardManager;
 
@@ -30,6 +28,9 @@ public class Side : MonoBehaviour
     public int Strength;
     public int StartDrawCards = 5;
     public int AddCard = 0;
+
+    public int DrawCounter = 0;
+    public int DiscardCounter = 0;
 
     int _savedTurn = 0;
     private int _block;
@@ -74,6 +75,7 @@ public class Side : MonoBehaviour
     public void DiscardCard(GameObject card)
     {
         if (TableCards.Contains(card)) { TableCards.Remove(card); }
+        if (cardManager.playingCards.Contains(card)) { cardManager.playingCards.Remove(card); }
         DiscardedCards.Add(card);
         CardAction?.Invoke(card, this, CardActionType.Discard);
     }
@@ -92,7 +94,6 @@ public class Side : MonoBehaviour
         {
             GameObject card = TableCards[TableCards.Count - 1];
             DiscardCard(card);
-            //cardManager.CallAnimation("discard", card);
         }
     }
 
@@ -112,7 +113,20 @@ public class Side : MonoBehaviour
             Cards[i] = Cards[randomIndex];
             Cards[randomIndex] = temp;
         }
-        //cardManager.CallAnimation("shuffle");
+    }
+
+    public void PlayCard(GameObject card)
+    {
+        if (TableCards.Contains(card)) { TableCards.Remove(card); }
+        // все, что дальше, должно происходить уже в кардменеджере
+        cardManager.playingCards.Add(card);
+    }
+
+    public void BurnCard(GameObject card)
+    {
+        if (TableCards.Contains(card)) { TableCards.Remove(card); }
+        BurnedCards.Add(card);
+        CardAction?.Invoke(card, this, CardActionType.Burn);
     }
 
     public void AddCardBuff(int numberOfCards)
@@ -151,21 +165,12 @@ public class Side : MonoBehaviour
 
     void Awake()
     {
-        //CardManager = ;
         cardManager = GameObject.Find("Card Manager").GetComponent<CardManager>();
-        // Debug.Log("Awake in SIde happens");
     }
 
     void Update()
     {
         RemoveAddCardBuff();
-
-
-
-        foreach (GameObject card in TableCards)
-        {
-        }
-
     }
 
 }
