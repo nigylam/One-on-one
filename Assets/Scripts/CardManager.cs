@@ -42,9 +42,18 @@ public class CardManager : MonoBehaviour
 
     bool drawCompleted = true;
 
+    int tableCards = 0;
+
     public int curentTurn = 1;
     //int drawHowTimes = 0;
     //bool shuffledComplete = true;
+
+
+    // new code for events
+    private Queue<CardEvent> cardEvents = new Queue<CardEvent>();
+
+    private Queue<CardEvent> eventQueue = new Queue<CardEvent>();
+    private bool isProcessingQueue = false;
 
     void Awake()
     {
@@ -56,45 +65,164 @@ public class CardManager : MonoBehaviour
         enemy.Hp = statManagerScript.enemyHp;
 
         cardData = gameObject.GetComponent<CardData>();
+
+        player.CardAction += OnCardAction;
+        //player.CardDiscarded += OnCardDiscarded;
+
+        enemy.CardAction += OnCardAction;
+        //enemy.CardDiscarded += OnCardDiscarded;
     }
 
     void Start()
     {
-        enemy.DrawCard();
-        player.DrawCard();
+        enemy.DrawCards();
+        player.DrawCards();
     }
 
     void Update()
     {
+        if (!isProcessingQueue && eventQueue.Count > 0)
+        {
+            StartCoroutine(ProcessEventQueue());
+        }
+        ProcessCardEvents();
     }
 
-    public void CallAnimation(string type, GameObject objectAnimation = null)
+    IEnumerator ProcessEventQueue()
+    {
+        isProcessingQueue = true;
+        CardEvent cardEvent = eventQueue.Dequeue();
+        
+        if (cardEvent.ActionType == CardActionType.Draw)
+        {
+            PlayDrawAnimation(cardEvent.Card, cardEvent.TriggeringSide);
+        }
+        else if (cardEvent.ActionType == CardActionType.Discard)
+        {
+            PlayDiscardAnimation(cardEvent.Card, cardEvent.TriggeringSide);
+        }
+        else if (cardEvent.ActionType == CardActionType.Shuffle)
+        {
+            PlayShuffleAnimation(cardEvent.TriggeringSide);
+        }
+        yield return new WaitForSeconds(0.3f);
+        isProcessingQueue = false;
+    }
+
+    void OnDestroy()
+    {
+        player.CardAction -= OnCardAction;
+        enemy.CardAction -= OnCardAction;
+    }
+
+    void OnCardAction(GameObject card, Side side, CardActionType cardActionType)
+    {
+        eventQueue.Enqueue(new CardEvent(card, cardActionType, side));
+    }
+
+    void PlayDrawAnimation(GameObject card, Side side)
+    {
+        side.DoubleTableCards.Add(card);
+        card.transform.localPosition = side.StartPosition;
+        CalculateTableCardsPosition(side);
+    }
+
+    void PlayDiscardAnimation(GameObject card, Side side)
+    {
+        side.DoubleTableCards.Remove(card);
+        //if (side.Cards.Contains(card))
+        //{ card.transform.localPosition = side.StartPosition; } else { card.transform.localPosition = side.DiscardPosition; }
+
+        card.GetComponent<CardScript>().desiredPosition = side.DiscardPosition;
+        //Debug.Log(card.name + " " + card.transform.localPosition);
+        CalculateTableCardsPosition(side);
+    }
+    void PlayShuffleAnimation(Side side)
+    {
+        foreach(GameObject card in side.Cards)
+        {
+            card.transform.localPosition = side.StartPosition;
+            card.GetComponent<CardScript>().desiredPosition = side.StartPosition;
+        }
+        foreach (GameObject card in side.DiscardedCards)
+        {
+            card.transform.localPosition = side.DiscardPosition;
+            card.GetComponent<CardScript>().desiredPosition = side.DiscardPosition;
+        }
+    }
+
+    public void AddCardEvent(GameObject card, CardActionType actionType, Side triggeringSide)
+    {
+        cardEvents.Enqueue(new CardEvent(card, actionType, triggeringSide));
+    }
+
+    public void CalculateTableCardsPosition(Side side)
+    {
+        int offset = 105;
+        int width = (side.DoubleTableCards.Count - 1) * offset;
+        int halfWidth = width / 2;
+        for (int cardIndex = 0; cardIndex < side.DoubleTableCards.Count; cardIndex++)
+        {
+            GameObject Card = side.DoubleTableCards[cardIndex];
+            CardScript grid = Card.GetComponent<CardScript>();
+            sprite = Card.GetComponent<SpriteRenderer>();
+            sprite.sortingOrder = cardIndex;
+            float desiredX = -halfWidth + (offset * cardIndex);
+            //grid.startPosition = Card.transform.localPosition;
+            grid.desiredPosition = new Vector2(desiredX, side.HandPosition);
+            grid.timestamp = Time.time + grid.timeBetweenMoves;
+            grid.startPosition = grid.desiredPosition;
+        }
+    }
+
+    void ProcessCardEvents()
+    {
+        if (cardEvents.Count > 0)
+        {
+            CardEvent cardEvent = cardEvents.Dequeue();
+            Debug.Log($"Event: {cardEvent.ActionType} triggered by {cardEvent.TriggeringSide}");
+            switch (cardEvent.ActionType)
+            {
+                case CardActionType.Draw:
+                    break;
+                case CardActionType.Discard:
+                    break;
+            }
+        }
+    }
+}
+
+public enum CardActionType
+{
+    Draw,
+    Discard,
+    Shuffle
+    // Add more action types as needed
+}
+
+public class CardEvent
+{
+    public GameObject Card;
+    public CardActionType ActionType;
+    public Side TriggeringSide;
+
+    public CardEvent(GameObject card, CardActionType actionType, Side triggeringSide)
+    {
+        Card = card;
+        ActionType = actionType;
+        TriggeringSide = triggeringSide;
+    }
+}
+
+/*
+ * public void CallAnimation(string type, GameObject objectAnimation = null)
     {
         if (type == "draw") {
             StartCoroutine(CalculateCardPosition(objectAnimation)); 
         }
         else if (type == "discard") { StartCoroutine(CalculateCardPositionDiscarding(objectAnimation)); }
-        //else if (type == "shuffle") { StartCoroutine(ShuffleCards()); }
-
+        else if (type == "shuffle") { StartCoroutine(ShuffleCards()); }
     }
-
-    
-    /*
-    public IEnumerator ShuffleCards(Side side)
-    {
-        foreach (GameObject card in side.Cards)
-        {
-            while (card.transformPosition)
-            {
-                yield return null;
-            }
-        }
-
-        yield return new WaitForSeconds(0.3f);
-
-        drawCompleted = false;
-
-    }*/
 
     public IEnumerator CalculateCardPosition(GameObject card)
     {
@@ -106,24 +234,8 @@ public class CardManager : MonoBehaviour
         Side side;
         if (player.TableCards.Contains(card)) { side = player; }
         else { side = enemy; }
-
         side.DoubleTableCards.Add(card);
-        int offset = 105;
-        int width = (side.DoubleTableCards.Count-1) * offset;
-        int halfWidth = width / 2;
-        int startX = 0 - halfWidth;
-        for (int cardIndex = 0; cardIndex < side.DoubleTableCards.Count; cardIndex++)
-        {
-            GameObject Card = side.DoubleTableCards[cardIndex];
-            CardScript grid = Card.GetComponent<CardScript>();
-            sprite = Card.GetComponent<SpriteRenderer>();
-            sprite.sortingOrder = cardIndex;
-            float desiredX = startX + (offset * cardIndex);
-            //grid.startPosition = Card.transform.localPosition;
-            grid.desiredPosition = new Vector2(desiredX, side.HandPosition);
-            grid.timestamp = Time.time + grid.timeBetweenMoves;
-            grid.startPosition = grid.desiredPosition;
-        }
+        CalculateTableCardsPosition(side);
         yield return new WaitForSeconds(0.3f);
         drawCompleted = true;
     }
@@ -134,32 +246,53 @@ public class CardManager : MonoBehaviour
         {
             yield return null; // Wait for the next frame.
         }
-
         drawCompleted = false;
-
         Side side;
-        if (player.DiscardedCards.Contains(card)) { side = player; }
-        else { side = enemy; }
-
+        if (player.DiscardedCards.Contains(card)) { side = player; } else { side = enemy; }
         side.DoubleTableCards.Remove(card);
+        CalculateTableCardsPosition(side);
+        yield return new WaitForSeconds(0.3f);
+        drawCompleted = true;
+    }
+
+    public void CalculateTableCardsPosition(Side side)
+    {
         int offset = 105;
         int width = (side.DoubleTableCards.Count - 1) * offset;
         int halfWidth = width / 2;
-        int startX = 0 - halfWidth;
         for (int cardIndex = 0; cardIndex < side.DoubleTableCards.Count; cardIndex++)
         {
             GameObject Card = side.DoubleTableCards[cardIndex];
             CardScript grid = Card.GetComponent<CardScript>();
             sprite = Card.GetComponent<SpriteRenderer>();
             sprite.sortingOrder = cardIndex;
-            float desiredX = startX + (offset * cardIndex);
+            float desiredX = -halfWidth + (offset * cardIndex);
             //grid.startPosition = Card.transform.localPosition;
             grid.desiredPosition = new Vector2(desiredX, side.HandPosition);
             grid.timestamp = Time.time + grid.timeBetweenMoves;
             grid.startPosition = grid.desiredPosition;
         }
+    }
+
+    public IEnumerator ShuffleCards()
+    {
+        Side[] sides = new Side[] { player, enemy };
+        foreach (Side side in sides)
+        {
+            while (!drawCompleted)
+            {
+                yield return null; // Wait for the next frame.
+            }
+            drawCompleted = false;
+            foreach (GameObject card in side.Cards)
+            {
+
+                card.transform.localPosition = side.StartPosition;
+            }
+        }
         yield return new WaitForSeconds(0.3f);
         drawCompleted = true;
+
     }
 
     public IEnumerator ShufflingDeck(Side side, bool isThisStartOfBattle = false)
@@ -183,6 +316,4 @@ public class CardManager : MonoBehaviour
         yield return new WaitForSeconds(1f);
         //shuffledComplete = true;
     }
-
-}
-
+*/

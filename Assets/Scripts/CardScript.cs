@@ -218,29 +218,30 @@ public class CardScript : MonoBehaviour
 
     public void CardPlacing()
     {
+
         if (cardSide.DiscardedCards.Contains(gameObject))
         {
-            desiredPosition = cardSide.DiscardPosition;
+            //desiredPosition = cardSide.DiscardPosition;
             sprite.sortingLayerName = "Default";
             transform.localScale = new Vector2(1f, 1f);
         }
         else if (cardSide.Cards.Contains(gameObject))
         {
-            desiredPosition = cardSide.StartPosition;
+            //desiredPosition = cardSide.StartPosition;
             sprite.sortingLayerName = "Default";
             transform.localScale = new Vector2(1f, 1f);
         }
         else if (cardManagerScript.playingCards.Contains(gameObject))
         {
-            desiredPosition = new Vector2(0, 0);
+            //desiredPosition = new Vector2(0, 0);
             transform.localScale = new Vector2(1f, 1f);
             sprite.sortingLayerName = "Default";
             sprite.sortingOrder = 0;
         }
         else if (cardSide.BurnedCards.Contains(gameObject))
         {
-            transform.localPosition = new Vector2(1000, 1000);
-            desiredPosition = new Vector2(1000, 1000);
+            //transform.localPosition = new Vector2(1000, 1000);
+            //desiredPosition = new Vector2(1000, 1000);
         }
         else if (cardManagerScript.displayCards.Contains(gameObject))
         {
@@ -351,7 +352,7 @@ public class CardScript : MonoBehaviour
             cardSide.Block += cardBlock;
             otherSide.Hp = finalDamage > 0 ? otherSide.DealDamage(finalDamage) : otherSide.Hp;
             cardSide.Strength += cardStrength;
-            cardSide.DrawCard(1);
+            cardSide.DrawCards(1);
         }
         else
         {

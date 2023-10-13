@@ -1,20 +1,28 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Side : MonoBehaviour
 {
+    public event Action<GameObject, Side, CardActionType> CardAction;
+    //public event Action<GameObject, Side> CardDiscarded;
+    //public event Action<Side> Shuffle;
+
     CardManager cardManager;
 
-    public Vector2 StartPosition;
+    [HideInInspector]
     public List<GameObject> Cards;
+    [HideInInspector]
     public List<GameObject> TableCards;
+    [HideInInspector]
     public List<GameObject> DoubleTableCards;
+    [HideInInspector]
     public List<GameObject> DiscardedCards;
     public List<GameObject> BurnedCards;
-    public int HandPosition;
+    public Vector2 StartPosition;
     public Vector2 DiscardPosition;
-    private int block;
+    public int HandPosition;
     public int Hp;
     public int HiglightPosition;
     public int CardsOnTheTableCounter = 0;
@@ -24,14 +32,87 @@ public class Side : MonoBehaviour
     public int AddCard = 0;
 
     int _savedTurn = 0;
+    private int _block;
 
     public int Block
     {
-        get => block;
+        get => _block;
         set
         {
-            block = Mathf.Max(0, value);
+            _block = Mathf.Max(0, value);
         }
+    }
+
+    public void DrawCard(GameObject card)
+    {
+        TableCards.Add(card);
+        Cards.Remove(card);
+        CardAction?.Invoke(card, this, CardActionType.Draw);
+    }
+
+
+    public void DrawCards()
+    {
+        DrawCards(StartDrawCards);
+    }
+
+    public void DrawCards(int numberOfCards)
+    {
+        int i = TableCards.Count;
+        while (TableCards.Count < numberOfCards + i)
+        {
+            if (Cards.Count == 0)
+            {
+                ShufflingDrawDeck();
+                CardAction?.Invoke(null, this, CardActionType.Shuffle);
+            }
+            GameObject card = Cards[0];
+            DrawCard(card);
+        }
+    }
+
+    public void DiscardCard(GameObject card)
+    {
+        if (TableCards.Contains(card)) { TableCards.Remove(card); }
+        DiscardedCards.Add(card);
+        CardAction?.Invoke(card, this, CardActionType.Discard);
+    }
+
+    public void DiscardCards()
+    {
+        DiscardCards(TableCards.Count);
+        DoubleTableCards.Clear();
+    }
+
+    public void DiscardCards(int numberOfCards)
+    {
+        int cardsToDiscard = Mathf.Min(numberOfCards, TableCards.Count);
+
+        for (int i = 0; i < cardsToDiscard; i++)
+        {
+            GameObject card = TableCards[TableCards.Count - 1];
+            DiscardCard(card);
+            //cardManager.CallAnimation("discard", card);
+        }
+    }
+
+    public void ShufflingDrawDeck()
+    {
+        while (DiscardedCards.Count > 0)
+        {
+
+            GameObject card = DiscardedCards[0];
+            Cards.Add(card);
+            DiscardedCards.RemoveAt(0);
+        }
+        for (int i = 0; i < Cards.Count; i++)
+        {
+            GameObject temp = Cards[i];
+            int randomIndex = UnityEngine.Random.Range(i, Cards.Count);
+            Cards[i] = Cards[randomIndex];
+            Cards[randomIndex] = temp;
+        }
+        //cardManager.CallAnimation("shuffle");
     }
 
     public void AddCardBuff(int numberOfCards)
@@ -51,76 +132,6 @@ public class Side : MonoBehaviour
 
             _savedTurn = 0;
         }
-    }
-
-    public void DrawCard()
-    {
-        DrawCard(StartDrawCards);
-    }
-
-    public void DrawCard(int numberOfCards)
-    {
-        int i = TableCards.Count;
-        while (TableCards.Count < numberOfCards + i)
-        {
-            if (Cards.Count == 0)
-            {
-                ShufflingDrawDeck();
-            }
-            GameObject card = Cards[0];
-            TableCards.Add(card);
-            Cards.RemoveAt(0);
-            cardManager.CallAnimation("draw", card);
-        }
-    }
-
-    public void DiscardCards()
-    {
-        DiscardCards(TableCards.Count);
-        DoubleTableCards.Clear();
-    }
-
-    public void DiscardCards(int numberOfCards)
-    {
-        int cardsToDiscard = Mathf.Min(numberOfCards, TableCards.Count);
-
-        for (int i = 0; i < cardsToDiscard; i++)
-        {
-            GameObject card = TableCards[TableCards.Count - 1];
-            TableCards.RemoveAt(TableCards.Count - 1);
-            DiscardedCards.Add(card);
-            cardManager.CallAnimation("discard", card);
-        }
-    }
-
-    public void DiscardCard(GameObject card)
-    {
-        if (TableCards.Contains(card)) { TableCards.Remove(card); }
-        DiscardedCards.Add(card);
-        cardManager.CallAnimation("discard", card);
-    }
-
-    public void ShufflingDrawDeck()
-    {
-        while (DiscardedCards.Count > 0)
-        {
-
-            GameObject card = DiscardedCards[0];
-            Cards.Add(card);
-            DiscardedCards.RemoveAt(0);
-        }
-        for (int i = 0; i < Cards.Count; i++)
-        {
-            GameObject temp = Cards[i];
-            int randomIndex = Random.Range(i, Cards.Count);
-            Cards[i] = Cards[randomIndex];
-            Cards[randomIndex] = temp;
-        }
-        foreach(GameObject card in Cards)
-        {
-            card.transform.localPosition = StartPosition;
-        }
-        //cardManager.CallAnimation("shuffle");
     }
 
     public int DealDamage(int damage)
@@ -148,6 +159,13 @@ public class Side : MonoBehaviour
     void Update()
     {
         RemoveAddCardBuff();
+
+
+
+        foreach (GameObject card in TableCards)
+        {
+        }
+
     }
 
 }

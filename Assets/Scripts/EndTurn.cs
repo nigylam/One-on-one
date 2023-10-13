@@ -16,15 +16,36 @@ public class EndTurn : MonoBehaviour
         if (cardManagerScript.curentTurn % 2 == 1)
         {
             cardManagerScript.player.DiscardCards();
-            cardManagerScript.player.DrawCard();
-            cardManagerScript.curentTurn++;
-        } else
-        {
-            //cardManagerScript.player.DrawCard();
-            cardManagerScript.enemy.DiscardCards();
-            cardManagerScript.enemy.DrawCard();
-            //cardManagerScript.enemy.DrawCard(5);
+            cardManagerScript.player.DrawCards();
             cardManagerScript.curentTurn++;
         }
+        else
+        {
+            cardManagerScript.enemy.DiscardCards();
+            cardManagerScript.enemy.DrawCards();
+            cardManagerScript.curentTurn++;
+        }
+
+        string i = "";
+
+        Debug.Log("Table cards: ");
+        foreach (GameObject Card in cardManagerScript.player.TableCards)
+        {
+            i += Card.name;
+            i += ", ";
+        }
+
+        Debug.Log(i);
+
+        i = "";
+
+        Debug.Log("Draw cards: ");
+        foreach (GameObject Card in cardManagerScript.player.Cards)
+        {
+            i += Card.name;
+            i += ", ";
+        }
+
+        Debug.Log(i);
     }
 }

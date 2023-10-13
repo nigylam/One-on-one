@@ -35,7 +35,7 @@ public class CardsActions : MonoBehaviour
         switch (CardScript.cardId)
         {
             case "GraySkill1":
-                CardScript.cardSide.DrawCard(2);
+                CardScript.cardSide.DrawCards(2);
                 //yield return new WaitForSecondsRealtime(.6f);
                 StartCoroutine(CardScript.ManaSpending(1));
                 yield return new WaitUntil(() => CardScript.playerActionCompleted);
