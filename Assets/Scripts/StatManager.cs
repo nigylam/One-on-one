@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.UI;
 using TMPro;
+using UnityEngine.Localization.Components;
 
 public class StatManager : MonoBehaviour
 {
@@ -51,13 +52,14 @@ public class StatManager : MonoBehaviour
 
     TextMeshProUGUI AddCardsCounterText;
 
-    public GameObject CardSacrPopUp;
-    public GameObject CardDiscPopUp;
+    public GameObject CardBurnDiscardPopUp;
+    //public GameObject CardDiscPopUp;
+
+    LocalizeStringEvent tipLocizeText;
 
     // Start is called before the first frame update
     void Start()
     {
-        // сократить!!!
         drawCounter = drawPile.GetComponent<TextMeshProUGUI>();
         enemyDrawCounter = enemyDrawPile.GetComponent<TextMeshProUGUI>();
         discardCounter = discardPile.GetComponent<TextMeshProUGUI>();
@@ -74,6 +76,8 @@ public class StatManager : MonoBehaviour
         cardManagerScript = CardManager.GetComponent<CardManager>();
 
         AddCardsCounterText = AddCardsCounter.GetComponent<TextMeshProUGUI>();
+
+        tipLocizeText = CardBurnDiscardPopUp.transform.GetChild(0).GetComponent<LocalizeStringEvent>();
     }
 
     // Update is called once per frame
@@ -117,5 +121,33 @@ public class StatManager : MonoBehaviour
         {
             AddCards.SetActive(true);
         }
+    }
+
+    public void EnablingPopUp(PopUpTextType popUpTextType)
+    {
+        CardBurnDiscardPopUp.SetActive(true);
+        switch (popUpTextType)
+        {
+            case PopUpTextType.DiscardPlayerCard:
+                tipLocizeText.StringReference.TableEntryReference = "DiscPlayerPop_Tip";
+                break;
+            case PopUpTextType.DiscardEnemyCard:
+                tipLocizeText.StringReference.TableEntryReference = "DiscEnemyPop_Tip";
+                break;
+            case PopUpTextType.BurnPlayerCard:
+                tipLocizeText.StringReference.TableEntryReference = "SacrPlayerPop_Tip";
+                break;
+            case PopUpTextType.BurnEnemyCard:
+                tipLocizeText.StringReference.TableEntryReference = "SacrEnemyPop_Tip";
+                break;
+        }
+    }
+
+    public enum PopUpTextType
+    {
+        DiscardPlayerCard,
+        DiscardEnemyCard,
+        BurnPlayerCard,
+        BurnEnemyCard
     }
 }

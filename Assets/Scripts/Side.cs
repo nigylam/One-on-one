@@ -5,10 +5,19 @@ using UnityEngine;
 
 public class Side : MonoBehaviour
 {
-    public event Action<GameObject, Side, CardActionType> CardAction;
+    public event Action<GameObject, Side, IPlayable> CardAction;
 
     CardManager cardManager;
+    public BurnAnimation burnAnimation;
+    public ShuffleAnimation shuffleAnimation;
+    public DiscardAnimation discardAnimation;
+    public DrawAnimation drawAnimation;
 
+    public GameObject[] CardList = new GameObject[] {};
+
+    //public string[] CardList = new 
+
+    // У тебя точно под них область памяти выделяется, если ты их только объявляешь?
     [HideInInspector]
     public List<GameObject> Cards;
     [HideInInspector]
@@ -24,13 +33,16 @@ public class Side : MonoBehaviour
     public int Hp;
     public int HiglightPosition;
     public int CardsOnTheTableCounter = 0;
-    public GameObject ManaPopUp;
+    //public GameObject ManaPopUp;
     public int Strength;
     public int StartDrawCards = 5;
     public int AddCard = 0;
 
     public int DrawCounter = 0;
     public int DiscardCounter = 0;
+
+    public bool discardMode = false;
+    public bool burnMode = false;
 
     int _savedTurn = 0;
     private int _block;
@@ -48,7 +60,7 @@ public class Side : MonoBehaviour
     {
         TableCards.Add(card);
         Cards.Remove(card);
-        CardAction?.Invoke(card, this, CardActionType.Draw);
+        CardAction?.Invoke(card, this, drawAnimation);
     }
 
 
@@ -65,7 +77,7 @@ public class Side : MonoBehaviour
             if (Cards.Count == 0)
             {
                 ShufflingDrawDeck();
-                CardAction?.Invoke(null, this, CardActionType.Shuffle);
+                CardAction?.Invoke(null, this, shuffleAnimation);
             }
             GameObject card = Cards[0];
             DrawCard(card);
@@ -77,7 +89,7 @@ public class Side : MonoBehaviour
         if (TableCards.Contains(card)) { TableCards.Remove(card); }
         if (cardManager.playingCards.Contains(card)) { cardManager.playingCards.Remove(card); }
         DiscardedCards.Add(card);
-        CardAction?.Invoke(card, this, CardActionType.Discard);
+        CardAction?.Invoke(card, this, discardAnimation);
     }
 
     public void DiscardCards()
@@ -126,7 +138,7 @@ public class Side : MonoBehaviour
     {
         if (TableCards.Contains(card)) { TableCards.Remove(card); }
         BurnedCards.Add(card);
-        CardAction?.Invoke(card, this, CardActionType.Burn);
+        CardAction?.Invoke(card, this, burnAnimation);
     }
 
     public void AddCardBuff(int numberOfCards)
@@ -166,7 +178,17 @@ public class Side : MonoBehaviour
     void Awake()
     {
         cardManager = GameObject.Find("Card Manager").GetComponent<CardManager>();
-    }
+        burnAnimation = new BurnAnimation();
+        shuffleAnimation = new ShuffleAnimation();
+        discardAnimation = new DiscardAnimation();
+        drawAnimation= new DrawAnimation();
+
+        Cards.Clear();
+        foreach (GameObject card in CardList)
+        {
+            Cards.Add(card);
+        }
+}
 
     void Update()
     {

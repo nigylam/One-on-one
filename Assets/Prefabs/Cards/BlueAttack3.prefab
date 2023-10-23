@@ -228,7 +228,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 18.6
+  m_fontSize: 21.05
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -425,7 +425,6 @@ GameObject:
   - component: {fileID: 8967302847072312819}
   - component: {fileID: 7536350666578198724}
   - component: {fileID: 7972316396848489508}
-  - component: {fileID: 6237133328077648652}
   m_Layer: 6
   m_Name: Tip text
   m_TagString: Untagged
@@ -480,9 +479,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "<b>\u041E\u0431\u043C\u0435\u043D:</b> \u0441\u0431\u0440\u043E\u0441\u044C\u0442\u0435
-    1 \u043A\u0430\u0440\u0442\u0443, \u0447\u0442\u043E\u0431\u044B \u0440\u0430\u0437\u044B\u0433\u0440\u0430\u0442\u044C
-    \u044D\u0442\u0443 \u043A\u0430\u0440\u0442\u0443"
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -551,46 +548,6 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &6237133328077648652
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3606392069860458598}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 56eb0353ae6e5124bb35b17aff880f16, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_StringReference:
-    m_TableReference:
-      m_TableCollectionName: GUID:f6f67a85ce6134647bbd865419258dd2
-    m_TableEntryReference:
-      m_KeyId: 1043068670717952
-      m_Key: 
-    m_FallbackState: 0
-    m_WaitForCompletion: 0
-    m_LocalVariables: []
-  m_FormatArguments: []
-  m_UpdateString:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 7972316396848489508}
-        m_TargetAssemblyTypeName: TMPro.TMP_Text, Unity.TextMeshPro
-        m_MethodName: set_text
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 1
-  references:
-    version: 2
-    RefIds: []
 --- !u!1 &8028736995283780242
 GameObject:
   m_ObjectHideFlags: 0
@@ -608,7 +565,7 @@ GameObject:
   - component: {fileID: 4692592177589050605}
   - component: {fileID: -8953157025670924184}
   m_Layer: 6
-  m_Name: BlueAttack2
+  m_Name: BlueAttack3
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -622,7 +579,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8028736995283780242}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -6.769262}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -631,7 +588,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -714, y: -384.33}
+  m_AnchoredPosition: {x: -1114, y: -716}
   m_SizeDelta: {x: 180, y: 260}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2141206403525276502
@@ -755,7 +712,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 36ae1320a4dd8b04ba573e97f2b994dd, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 8ae6e43589a584e439afc77a632b0559, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -779,7 +736,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Mana: 0
-  cardId: BlueAttack2
+  cardId: BlueAttack3
   cardType: 0
   cardSide: {fileID: 0}
   otherSide: {fileID: 0}
@@ -792,13 +749,14 @@ MonoBehaviour:
   CardCanvas: {fileID: 8357627663482668944}
   cardCanvas: {fileID: 0}
   timeBetweenMoves: 0.3333
-  timestamp: 0
+  timestamp: 3.137115
   interpolationSpeed: 6
-  desiredPosition: {x: 0, y: 0}
-  startPosition: {x: 0, y: 0}
+  desiredPosition: {x: -210, y: -370}
+  startPosition: {x: -210, y: -370}
   sprite: {fileID: 0}
   isntDragging: 1
   playerActionCompleted: 0
+  enemyCardsDiscarded: 0
 --- !u!114 &4692592177589050605
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -811,8 +769,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2c06c9fd8c46014085b1ffe344021f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CardManager: {fileID: 0}
-  StatManager: {fileID: 0}
 --- !u!114 &-8953157025670924184
 MonoBehaviour:
   m_ObjectHideFlags: 0

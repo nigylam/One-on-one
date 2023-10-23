@@ -132,11 +132,11 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 1052134570733568
-    m_Key: SacrPop_Tip
+    m_Key: SacrPlayerPop_Tip
     m_Metadata:
       m_Items: []
   - m_Id: 1052429484830720
-    m_Key: DiscPop_Tip
+    m_Key: DiscPlayerPop_Tip
     m_Metadata:
       m_Items: []
   - m_Id: 4373107910914048
@@ -169,6 +169,30 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 11292804778569728
     m_Key: GraySkill2_Title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 16361592200900608
+    m_Key: BlueAttack3_Description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 16364998311292928
+    m_Key: BlueAttack3_Title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 17052875034734592
+    m_Key: BlueSkill1_Title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 17052954395160576
+    m_Key: BlueSkill1_Description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 17071598747529216
+    m_Key: DiscEnemyPop_Tip
+    m_Metadata:
+      m_Items: []
+  - m_Id: 17071705438040064
+    m_Key: SacrEnemyPop_Tip
     m_Metadata:
       m_Items: []
   m_Metadata:

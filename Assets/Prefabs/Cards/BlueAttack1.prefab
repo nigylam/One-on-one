@@ -530,6 +530,8 @@ GameObject:
   - component: {fileID: 3802097458618923779}
   - component: {fileID: 5954773653441942917}
   - component: {fileID: 2391956349935236582}
+  - component: {fileID: 4031767773175230937}
+  - component: {fileID: 753386214891343445}
   m_Layer: 6
   m_Name: Description
   m_TagString: Untagged
@@ -653,6 +655,73 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &4031767773175230937
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5603386387703426426}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56eb0353ae6e5124bb35b17aff880f16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_StringReference:
+    m_TableReference:
+      m_TableCollectionName: GUID:f6f67a85ce6134647bbd865419258dd2
+    m_TableEntryReference:
+      m_KeyId: 44323762089984
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables:
+    - name: card
+      variable:
+        rid: 2336424126492704770
+  m_FormatArguments: []
+  m_UpdateString:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2391956349935236582}
+        m_TargetAssemblyTypeName: TMPro.TMP_Text, Unity.TextMeshPro
+        m_MethodName: set_text
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
+  references:
+    version: 2
+    RefIds:
+    - rid: 2336424126492704770
+      type: {class: ObjectVariable, ns: UnityEngine.Localization.SmartFormat.PersistentVariables, asm: Unity.Localization}
+      data:
+        m_Value: {fileID: 753386214891343445}
+--- !u!114 &753386214891343445
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5603386387703426426}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28e26eae1d308a84b9174eca1a91b934, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  finalDamage: 0
+  block: 0
+  mana: 0
+  gainStrength: 0
+  gainDexterity: 0
+  drawCards: 0
+  addCardBuff: 0
+  cardScript: {fileID: 0}
 --- !u!1 &8028736995283780242
 GameObject:
   m_ObjectHideFlags: 0
@@ -840,6 +909,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f6bf974f8541544184cd83e737e1cda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Mana: 0
+  cardId: BlueAttack1
+  cardType: 0
+  cardSide: {fileID: 0}
+  otherSide: {fileID: 0}
+  lastStrength: -1
+  finalDamage: 0
+  PlayingArea: {fileID: 0}
+  CardDescription: {fileID: 5603386387703426426}
+  CardTitle: {fileID: 2132320923402515562}
+  CardTypePrint: {fileID: 3010741301563811397}
+  CardCanvas: {fileID: 8558252261259335834}
+  cardCanvas: {fileID: 0}
   timeBetweenMoves: 0.3333
   timestamp: 0
   interpolationSpeed: 6
@@ -847,23 +929,7 @@ MonoBehaviour:
   startPosition: {x: 0, y: 0}
   sprite: {fileID: 0}
   isntDragging: 1
-  StatManager: {fileID: 0}
-  PlayingArea: {fileID: 0}
-  CardManager: {fileID: 0}
-  CardDescription: {fileID: 5603386387703426426}
-  CardTitle: {fileID: 2132320923402515562}
-  CardTypePrint: {fileID: 3010741301563811397}
-  CardCanvas: {fileID: 8558252261259335834}
-  cardMana: 0
-  cardId: BlueAttack1
-  cardDescriptionDynamic: 
-  cardType: 0
-  cardDamage: 0
-  finalDamage: 0
-  cardBlock: 0
-  cardStrength: 0
-  cardDraw: 0
-  lastStrength: -1
+  playerActionCompleted: 0
 --- !u!114 &4692592177589050605
 MonoBehaviour:
   m_ObjectHideFlags: 0

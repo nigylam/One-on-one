@@ -4,24 +4,16 @@ using UnityEngine;
 
 public class CardsActions : MonoBehaviour
 {
-    CardScript CardScript;
-
-    public GameObject CardManager;
-    CardManager cardManagerScript;
-
-    public GameObject StatManager;
-    StatManager statManagerScript;
+    CardScript cardScript;
+    CardManager cardManager;
+    StatManager statManager;
 
 
     void Start()
     {
-        CardScript = gameObject.GetComponent<CardScript>();
-
-        StatManager = GameObject.Find("Stat Manager");
-        statManagerScript = StatManager.GetComponent<StatManager>();
-
-        CardManager = GameObject.Find("Card Manager");
-        cardManagerScript = CardManager.GetComponent<CardManager>();
+        cardScript = gameObject.GetComponent<CardScript>();
+        statManager = GameObject.Find("Stat Manager").GetComponent<StatManager>();
+        cardManager = GameObject.Find("Card Manager").GetComponent<CardManager>();
 
     }
 
@@ -32,20 +24,27 @@ public class CardsActions : MonoBehaviour
 
     public IEnumerator PlaySpecialCard()
     {
-        switch (CardScript.cardId)
+        switch (cardScript.cardId)
         {
             case "GraySkill1":
-                CardScript.cardSide.DrawCards(2);
-                //yield return new WaitForSecondsRealtime(.6f);
-                StartCoroutine(CardScript.ManaSpending(1));
-                yield return new WaitUntil(() => CardScript.playerActionCompleted);
+                cardScript.cardSide.DrawCards(2);
+                StartCoroutine(cardScript.ManaSpending(1, cardScript.cardSide));
+                yield return new WaitUntil(() => cardScript.playerActionCompleted);
                 break;
             case "GraySkill2":
-                CardScript.cardSide.AddCardBuff(1);
-                //yield return new WaitForSecondsRealtime(.6f);
-                //StartCoroutine(CardScript.ManaSpending(1));
-                //yield return new WaitUntil(() => CardScript.playerActionCompleted);
-                CardScript.playerActionCompleted = true;
+                cardScript.cardSide.AddCardBuff(1);
+                cardScript.playerActionCompleted = true;
+                break;
+            case "BlueAttack3":
+                if (cardManager.eventStack.Peek().Card.GetComponent<CardScript>().cardType == CardScript.CardType.Attack)
+                {
+                    cardScript.otherSide.DealDamage(cardScript.finalDamage);
+                }
+                cardScript.playerActionCompleted = true;
+                break;
+            case "BlueSkill1":
+                StartCoroutine(cardScript.ManaSpending(1, cardScript.otherSide));
+                yield return new WaitUntil(() => cardScript.enemyCardsDiscarded);
                 break;
         }
     }

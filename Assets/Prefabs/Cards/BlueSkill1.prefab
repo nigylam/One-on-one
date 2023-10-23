@@ -87,7 +87,6 @@ GameObject:
   - component: {fileID: 5511859023663415167}
   - component: {fileID: 4194700594927853653}
   - component: {fileID: 5763985296419422801}
-  - component: {fileID: 2130203702679634644}
   m_Layer: 6
   m_Name: Tip text
   m_TagString: Untagged
@@ -142,8 +141,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "<b>\u0411\u043B\u043E\u043A</b> \u043F\u0440\u0435\u0434\u043E\u0442\u0432\u0440\u0430\u0449\u0430\u0435\u0442
-    \u043F\u043E\u043B\u0443\u0447\u0435\u043D\u0438\u0435 \u0443\u0440\u043E\u043D\u0430"
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -212,46 +210,6 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &2130203702679634644
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1937309574803583654}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 56eb0353ae6e5124bb35b17aff880f16, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_StringReference:
-    m_TableReference:
-      m_TableCollectionName: GUID:f6f67a85ce6134647bbd865419258dd2
-    m_TableEntryReference:
-      m_KeyId: 1043601661898752
-      m_Key: 
-    m_FallbackState: 0
-    m_WaitForCompletion: 0
-    m_LocalVariables: []
-  m_FormatArguments: []
-  m_UpdateString:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 5763985296419422801}
-        m_TargetAssemblyTypeName: TMPro.TMP_Text, Unity.TextMeshPro
-        m_MethodName: set_text
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 1
-  references:
-    version: 2
-    RefIds: []
 --- !u!1 &2250875439560931922
 GameObject:
   m_ObjectHideFlags: 0
@@ -462,8 +420,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190080
-  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -480,10 +438,10 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
+  m_fontSize: 45.3
   m_fontSizeBase: 24
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
@@ -516,7 +474,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 29.76561, y: -5.416153, z: 21.123932, w: -41.287796}
+  m_margin: {x: 29.76561, y: -7.050949, z: 21.123932, w: -43.73996}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -541,6 +499,7 @@ MonoBehaviour:
   gainDexterity: 0
   drawCards: 0
   addCardBuff: 0
+  sideStrength: 0
   cardScript: {fileID: 0}
 --- !u!114 &8950317007537124634
 MonoBehaviour:
@@ -558,7 +517,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:f6f67a85ce6134647bbd865419258dd2
     m_TableEntryReference:
-      m_KeyId: 51037240569856
+      m_KeyId: 17052954395160576
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -623,7 +582,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 96.8}
+  m_AnchoredPosition: {x: 0, y: 104.2}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8334288723758914463
@@ -663,8 +622,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190080
-  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -717,7 +676,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 62.05478, y: 2.9712524, z: 59.752502, w: 23.336838}
+  m_margin: {x: 34.263382, y: 2.9712524, z: 34.41333, w: 23.336838}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -845,7 +804,7 @@ GameObject:
   - component: {fileID: 2519207900757032547}
   - component: {fileID: 2359494858930964208}
   m_Layer: 6
-  m_Name: BlueDefend1
+  m_Name: BlueSkill1
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -992,7 +951,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 28afcc64c073083419dbeabfe23650e6, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ff86f050a55ba02408b04b6c19b35243, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -1016,7 +975,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Mana: 0
-  cardId: BlueDefend1
+  cardId: BlueSkill1
   cardType: 1
   cardSide: {fileID: 0}
   otherSide: {fileID: 0}
@@ -1036,6 +995,7 @@ MonoBehaviour:
   sprite: {fileID: 0}
   isntDragging: 1
   playerActionCompleted: 0
+  enemyCardsDiscarded: 0
 --- !u!114 &2519207900757032547
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1048,8 +1008,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2c06c9fd8c46014085b1ffe344021f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CardManager: {fileID: 0}
-  StatManager: {fileID: 0}
 --- !u!114 &2359494858930964208
 MonoBehaviour:
   m_ObjectHideFlags: 0

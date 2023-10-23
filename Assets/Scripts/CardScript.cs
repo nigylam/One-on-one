@@ -12,6 +12,40 @@ using UnityEngine.EventSystems;
 
 public class CardScript : MonoBehaviour
 {
+    //card data
+    public int Mana;
+    public string cardId;
+    //public string cardDescriptionDynamic;
+    //public string cardTitle;
+    public CardType cardType;
+    public Side cardSide;
+    public Side otherSide;
+    public int lastStrength = -1;
+    public int finalDamage = 0;
+
+    /*
+    public int cardDamage = 0;
+    public int cardBlock = 0;
+    public int cardStrength = 0;
+    public int cardDraw = 0;
+    public bool special;
+    */
+
+    //access to another objects
+    public GameObject PlayingArea;
+    StatManager statManager;
+    CardManager cardManager;
+    CardsActions cardsActions;
+    public GameObject CardDescription;
+    public GameObject CardTitle;
+    public GameObject CardTypePrint;
+    TextMeshProUGUI CardDescriptionText;
+    TextMeshProUGUI CardTitleText;
+    TextMeshProUGUI CardTypeText;
+    public GameObject CardCanvas;
+    public Canvas cardCanvas;
+    CardData cardData;
+
     // animations and controll
     public float timeBetweenMoves = 0.333f;
     public float timestamp;
@@ -22,42 +56,9 @@ public class CardScript : MonoBehaviour
     bool isOverDropZone = false;
     public bool isntDragging = true;
     public bool playerActionCompleted = false;
+    public bool enemyCardsDiscarded = false;
 
-    //access to another objects
-    public GameObject StatManager;
-    public GameObject PlayingArea;
-    StatManager statManagerScript;
-    public GameObject CardManager;
-    CardManager cardManagerScript;
-    CardsActions CardsActions;
-    public GameObject CardDescription;
-    public GameObject CardTitle;
-    public GameObject CardTypePrint;
-    TextMeshProUGUI CardDescriptionText;
-    TextMeshProUGUI CardTitleText;
-    TextMeshProUGUI CardTypeText;
-    public GameObject CardCanvas;
-    public Canvas cardCanvas;
-
-    //card data
-    public int cardMana;
-    public string cardId;
-    //[TextArea()]
-    //public string cardDescription;
-    public string cardDescriptionDynamic;
-    //public string cardTitle;
-    public CardType cardType;
-    public int cardDamage = 0;
-    public int finalDamage = 0;
-    public int cardBlock = 0;
-    public int cardStrength = 0;
-    public int cardDraw = 0;
-    public int lastStrength = -1;
-    public Side cardSide;
-    public Side otherSide;
-    public bool special;
-
-    //Card card;
+    public Card card;
 
     public enum CardType
     {
@@ -75,59 +76,39 @@ public class CardScript : MonoBehaviour
     {
         sprite = GetComponent<SpriteRenderer>();
         PlayingArea = GameObject.Find("Playing Area");
-        StatManager = GameObject.Find("Stat Manager");
-        statManagerScript = StatManager.GetComponent<StatManager>();
-        CardManager = GameObject.Find("Card Manager");
-        cardManagerScript = CardManager.GetComponent<CardManager>();
-        CardsActions = GetComponent<CardsActions>();
+        statManager = GameObject.Find("Stat Manager").GetComponent<StatManager>();
+        cardManager = GameObject.Find("Card Manager").GetComponent<CardManager>();
+        cardsActions = GetComponent<CardsActions>();
         CardDescriptionText = CardDescription.GetComponent<TextMeshProUGUI>();
         CardTitleText = CardTitle.GetComponent<TextMeshProUGUI>();
         CardTypeText = CardTypePrint.GetComponent<TextMeshProUGUI>();
         cardCanvas = CardCanvas.GetComponent<Canvas>();
         desiredPosition = new Vector2(-2000, 0);
-
-        //card = cardManagerScript.cardData.cardDictionary[cardId];
-
-        if (gameObject.tag == "Player")
-        {
-            cardSide = cardManagerScript.player;
-            otherSide = cardManagerScript.enemy;
-        }
-        else
-        {
-            cardSide = cardManagerScript.enemy;
-            otherSide = cardManagerScript.player;
-        }
+        cardData = GameObject.Find("Card Manager").GetComponent<CardData>();
+        card = cardData.cardDictionary[cardId];
+        CardSideDefining();
+        CardTypeDefining();
 
         CardTitleText.text = LocalizationSettings.StringDatabase.GetLocalizedString(cardId + "_Title");
-
-        switch (cardType)
-        {
-            case CardType.Attack:
-                CardTypeText.text = LocalizationSettings.StringDatabase.GetLocalizedString("Attack_Type");
-                break;
-            case CardType.Defend:
-                CardTypeText.text = LocalizationSettings.StringDatabase.GetLocalizedString("Defend_Type");
-                break;
-            case CardType.Skill:
-                CardTypeText.text = LocalizationSettings.StringDatabase.GetLocalizedString("Skill_Type"); ;
-                break;
-            case CardType.Power:
-                CardTypeText.text = LocalizationSettings.StringDatabase.GetLocalizedString("Power_Type"); ;
-                break;
-        }
     }
     void Update()
     {
         //if(cardId == "BlueAttack2") { Debug.Log(desiredPosition); }
-        DescriptionTranscription();
+        //DescriptionTranscription();
         CardPlacing();
+        finalDamage = card.Damage + cardSide.Strength;
+        LerpAndLayerControlling();
+        cardCanvas.sortingLayerName = sprite.sortingLayerName;
+    }
+
+    void LerpAndLayerControlling()
+    {
         if (isntDragging)
         {
             transform.localPosition = Vector2.Lerp(transform.localPosition, desiredPosition, interpolationSpeed * Time.deltaTime);
             cardCanvas.sortingOrder = sprite.sortingOrder;
         }
-        else if (cardManagerScript.popupMode)
+        else if (cardManager.popupMode)
         {
             return;
         }
@@ -135,11 +116,230 @@ public class CardScript : MonoBehaviour
         {
             cardCanvas.sortingOrder = sprite.sortingOrder + 2;
         }
-        cardCanvas.sortingLayerName = sprite.sortingLayerName;
-        CardDescriptionText.text = cardDescriptionDynamic;
     }
 
-    public void DescriptionTranscription()
+    // вот это заменить тоже как с интерфейсами в кардменеджере
+    void CardTypeDefining()
+    {
+        if (cardId.Contains("Attack"))
+        {
+            cardType = CardType.Attack;
+            CardTypeText.text = LocalizationSettings.StringDatabase.GetLocalizedString("Attack_Type");
+        }
+        else if (cardId.Contains("Defend"))
+        {
+            cardType = CardType.Defend;
+            CardTypeText.text = LocalizationSettings.StringDatabase.GetLocalizedString("Defend_Type");
+        }
+        else if (cardId.Contains("Skill"))
+        {
+            cardType = CardType.Skill;
+            CardTypeText.text = LocalizationSettings.StringDatabase.GetLocalizedString("Skill_Type");
+        }
+        else if (cardId.Contains("Power"))
+        {
+            cardType = CardType.Power;
+            CardTypeText.text = LocalizationSettings.StringDatabase.GetLocalizedString("Power_Type");
+        }
+    }
+
+    void CardSideDefining()
+    {
+        if (gameObject.tag == "Player")
+        {
+            cardSide = cardManager.player;
+            otherSide = cardManager.enemy;
+        }
+        else
+        {
+            cardSide = cardManager.enemy;
+            otherSide = cardManager.player;
+        }
+    }
+
+    public void CardPlacing()
+    {
+
+        if (cardSide.DiscardedCards.Contains(gameObject))
+        {
+            sprite.sortingLayerName = "Default";
+            transform.localScale = new Vector2(1f, 1f);
+        }
+        else if (cardSide.Cards.Contains(gameObject))
+        {
+            sprite.sortingLayerName = "Default";
+            transform.localScale = new Vector2(1f, 1f);
+        }
+        else if (cardManager.playingCards.Contains(gameObject))
+        {
+            transform.localScale = new Vector2(1f, 1f);
+            sprite.sortingLayerName = "Default";
+            sprite.sortingOrder = 0;
+        }
+        else if (cardManager.displayCards.Contains(gameObject))
+        {
+            isntDragging = false;
+            sprite.sortingLayerName = "Top";
+            sprite.sortingOrder = 3;
+        }
+    }
+
+    public void OnMouseEnter()
+    {
+        if (Time.time >= timestamp)
+        {
+            if (cardSide.TableCards.Contains(gameObject) && cardManager.popupMode == false)
+            {
+                sprite.sortingLayerName = "Top";
+                desiredPosition += new Vector2(0, cardSide.HiglightPosition);
+                timestamp = Time.time + timeBetweenMoves;
+                transform.localScale = new Vector2(1.2f, 1.2f);
+            }
+        }
+    }
+    public void OnMouseExit()
+    {
+        if (cardSide.TableCards.Contains(gameObject))
+        {
+            desiredPosition = startPosition;
+            timestamp = Time.time + timeBetweenMoves;
+            sprite.sortingLayerName = "Default";
+            transform.localScale = new Vector2(1f, 1f);
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        isOverDropZone = true;
+        PlayingArea = collision.gameObject;
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        isOverDropZone = false;
+        PlayingArea = null;
+    }
+
+    public void OnMouseDrag()
+    {
+        if (cardSide.TableCards.Contains(gameObject) && cardManager.popupMode == false)
+        {
+            isntDragging = false;
+            sprite.sortingLayerName = "Top";
+            transform.localScale = new Vector2(1f, 1f);
+            if (cardSide.TableCards.Contains(gameObject))
+            {
+                Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                transform.position = mousePosition;
+            }
+        }
+    }
+
+    public void OnMouseUp()
+    {
+        isntDragging = true;
+        if (cardSide.TableCards.Contains(gameObject))
+        {
+            if (cardSide.discardMode)
+            {          
+                cardSide.DiscardCard(gameObject);
+            }
+            else if (cardSide.burnMode)
+            {
+                cardSide.BurnCard(gameObject);
+            }
+            else
+            {
+                if (card.Mana <= cardSide.TableCards.Count - 1)
+                {
+                    if (isOverDropZone)
+                    {
+                        cardSide.PlayCard(gameObject);
+                        StartCoroutine(CardPlaying());
+                    }
+                }
+            }
+        }
+    }
+
+    public IEnumerator CardPlaying()
+    {
+        if (card.Mana > 0)
+        {
+            if (cardSide == cardManager.enemy)
+            {
+                StartCoroutine(ManaSpending(card.Mana, cardSide, false));
+            } else
+            {
+                StartCoroutine(ManaSpending(card.Mana, cardSide));
+            }
+            yield return new WaitUntil(() => playerActionCompleted);
+        }
+        if (!card.IsSpecial)
+        {
+            cardSide.Block += card.Block;
+            otherSide.Hp = finalDamage > 0 ? otherSide.DealDamage(finalDamage) : otherSide.Hp;
+            cardSide.Strength += card.GainStrength;
+            cardSide.DrawCards(card.DrawCards);
+            cardSide.AddCardBuff(card.AddCardBuff);
+        }
+        else
+        {
+            StartCoroutine(cardsActions.PlaySpecialCard());
+            yield return new WaitUntil(() => playerActionCompleted);
+        }
+        playerActionCompleted = false;
+        if (cardType == CardType.Power) { cardSide.BurnCard(gameObject); }
+        else { cardSide.DiscardCard(gameObject); }
+    }
+
+    public IEnumerator ManaSpending(int numberOfCards, Side side, bool isDiscard = true)
+    {
+        int initialCardCount = side.TableCards.Count;
+        cardManager.playingCards.Add(gameObject);
+
+        // надо упростить
+        if (side == cardSide)
+        {
+            if (isDiscard)
+            {
+                side.discardMode = true;
+                statManager.EnablingPopUp(StatManager.PopUpTextType.DiscardPlayerCard);
+            }
+            else
+            {
+                side.burnMode = true;
+                statManager.EnablingPopUp(StatManager.PopUpTextType.BurnPlayerCard);
+            }
+        } else
+        {
+            if (isDiscard)
+            {
+                side.discardMode = true;
+                statManager.EnablingPopUp(StatManager.PopUpTextType.DiscardEnemyCard);
+            }
+            else
+            {
+                side.burnMode = true;
+                statManager.EnablingPopUp(StatManager.PopUpTextType.BurnEnemyCard);
+            }
+        }
+        
+        
+        yield return new WaitUntil(() => side.TableCards.Count <= initialCardCount - numberOfCards);
+        playerActionCompleted = true;
+        enemyCardsDiscarded = true;
+        statManager.CardBurnDiscardPopUp.SetActive(false);
+        statManager.CardBurnDiscardPopUp.SetActive(false);
+        side.discardMode = false;
+        side.burnMode = false;
+        cardManager.playingCards.Remove(gameObject);
+    }
+}
+
+
+/*
+ * public void DescriptionTranscription()
     {
         if (cardSide.Strength != lastStrength)
         {
@@ -215,173 +415,4 @@ public class CardScript : MonoBehaviour
         }
 
     }
-
-    public void CardPlacing()
-    {
-
-        if (cardSide.DiscardedCards.Contains(gameObject))
-        {
-            //desiredPosition = cardSide.DiscardPosition;
-            sprite.sortingLayerName = "Default";
-            transform.localScale = new Vector2(1f, 1f);
-        }
-        else if (cardSide.Cards.Contains(gameObject))
-        {
-            //desiredPosition = cardSide.StartPosition;
-            sprite.sortingLayerName = "Default";
-            transform.localScale = new Vector2(1f, 1f);
-        }
-        else if (cardManagerScript.playingCards.Contains(gameObject))
-        {
-            //desiredPosition = new Vector2(0, 0);
-            transform.localScale = new Vector2(1f, 1f);
-            sprite.sortingLayerName = "Default";
-            sprite.sortingOrder = 0;
-        }
-        else if (cardSide.BurnedCards.Contains(gameObject))
-        {
-            //transform.localPosition = new Vector2(1000, 1000);
-            //desiredPosition = new Vector2(1000, 1000);
-        }
-        else if (cardManagerScript.displayCards.Contains(gameObject))
-        {
-            isntDragging = false;
-            sprite.sortingLayerName = "Top";
-            sprite.sortingOrder = 3;
-        }
-    }
-
-    public void OnMouseEnter()
-    {
-        if (Time.time >= timestamp)
-        {
-            if (cardSide.TableCards.Contains(gameObject) && cardManagerScript.popupMode == false)
-            {
-                sprite.sortingLayerName = "Top";
-                desiredPosition += new Vector2(0, cardSide.HiglightPosition);
-                timestamp = Time.time + timeBetweenMoves;
-                transform.localScale = new Vector2(1.2f, 1.2f);
-            }
-        }
-    }
-    public void OnMouseExit()
-    {
-        if (cardSide.TableCards.Contains(gameObject))
-        {
-            desiredPosition = startPosition;
-            timestamp = Time.time + timeBetweenMoves;
-            sprite.sortingLayerName = "Default";
-            transform.localScale = new Vector2(1f, 1f);
-        }
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        isOverDropZone = true;
-        PlayingArea = collision.gameObject;
-    }
-
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-        isOverDropZone = false;
-        PlayingArea = null;
-    }
-
-    public void OnMouseDrag()
-    {
-        if (cardSide.TableCards.Contains(gameObject) && cardManagerScript.popupMode == false)
-        {
-            isntDragging = false;
-            sprite.sortingLayerName = "Top";
-            transform.localScale = new Vector2(1f, 1f);
-            //desiredPosition = transform.position;
-            if (cardSide.TableCards.Contains(gameObject))
-            {
-                //isDragging = true;
-                Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                transform.position = mousePosition;
-            }
-
-            //sprite.sortingOrder = 2;
-        }
-    }
-
-    public void OnMouseUp()
-    {
-        isntDragging = true;
-        if (cardSide.TableCards.Contains(gameObject))
-        {
-            if (cardManagerScript.discardMode)
-            {          
-                cardSide.DiscardCard(gameObject);
-            }
-            else if (cardManagerScript.burnMode)
-            {
-                //cardSide.TableCards.Remove(gameObject);
-                cardSide.BurnCard(gameObject);
-            }
-            else
-            {
-                if (cardMana <= cardSide.TableCards.Count - 1)
-                {
-                    if (isOverDropZone)
-                    {
-                        cardSide.PlayCard(gameObject);
-                        StartCoroutine(CardPlaying());
-                    }
-                }
-            }
-        }
-    }
-
-    public IEnumerator CardPlaying()
-    {
-        if (cardMana > 0)
-        {
-            if (cardSide == cardManagerScript.enemy)
-            {
-                StartCoroutine(ManaSpending(cardMana, false));
-            } else
-            {
-                StartCoroutine(ManaSpending(cardMana));
-            }
-            yield return new WaitUntil(() => playerActionCompleted);
-        }
-        if (!special)
-        {
-            cardSide.Block += cardBlock;
-            otherSide.Hp = finalDamage > 0 ? otherSide.DealDamage(finalDamage) : otherSide.Hp;
-            cardSide.Strength += cardStrength;
-            cardSide.DrawCards(cardDraw);
-        }
-        else
-        {
-            StartCoroutine(CardsActions.PlaySpecialCard());
-            yield return new WaitUntil(() => playerActionCompleted);
-        }
-        playerActionCompleted = false;
-        if (cardType == CardType.Power) { cardSide.BurnedCards.Add(gameObject); }
-        else { cardSide.DiscardCard(gameObject); }
-    }
-
-    public IEnumerator ManaSpending(int numberOfCards, bool isDiscard = true)
-    {
-        int initialCardCount = cardSide.TableCards.Count;
-        cardManagerScript.playingCards.Add(gameObject);
-        if (isDiscard) { 
-            cardManagerScript.discardMode = true;
-            cardManagerScript.player.ManaPopUp.SetActive(true);
-        } else { 
-            cardManagerScript.burnMode = true;
-            cardManagerScript.enemy.ManaPopUp.SetActive(true);
-        }
-        
-        yield return new WaitUntil(() => cardSide.TableCards.Count <= initialCardCount - numberOfCards);
-        playerActionCompleted = true;
-        cardSide.ManaPopUp.SetActive(false);
-        otherSide.ManaPopUp.SetActive(false);
-        cardManagerScript.discardMode = false;
-        cardManagerScript.burnMode = false;
-        cardManagerScript.playingCards.Remove(gameObject);
-    }
-}
+*/

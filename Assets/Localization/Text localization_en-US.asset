@@ -28,29 +28,35 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 44323762089984
-    m_Localized: Deal [5] damage.
+    m_Localized: Deal {card.finalDamage} damage.
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 2721703719461978129
   - m_Id: 45145141030912
-    m_Localized: Deal [6] damage.
+    m_Localized: Deal  {card.sideStrength:cond:>0?<color=green>{card.finalDamage}</color>|=0?{card.finalDamage}|{card.finalDamage}}
+      damage.
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 2721703719461978129
   - m_Id: 50800505663488
     m_Localized: Uppercut
     m_Metadata:
       m_Items: []
   - m_Id: 50883343167488
-    m_Localized: 'Swap: 1. Deal [4] damage. Draws {1} card.'
+    m_Localized: 'Swap: {card.mana}. Deal {card.finalDamage}  damage. Draws {card.drawCards}
+      card.'
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 2721703719461978129
   - m_Id: 51009814016000
     m_Localized: Block
     m_Metadata:
       m_Items: []
   - m_Id: 51037240569856
-    m_Localized: Gain ;6? block.
+    m_Localized: Gain {card.block} block.
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 2721703719461978129
   - m_Id: 51107499356160
     m_Localized: Strike
     m_Metadata:
@@ -60,25 +66,29 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 51251267514368
-    m_Localized: 'Sacrifice: 2. Deal [12] damage.'
+    m_Localized: 'Sacrifice: {card.mana}. Deal {card.sideStrength:cond:>0?<color=green>{card.finalDamage}</color>|=0?{card.finalDamage}|{card.finalDamage}}
+      damage.'
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 2721703719461978129
   - m_Id: 51276399783936
     m_Localized: Block
     m_Metadata:
       m_Items: []
   - m_Id: 51282963869696
-    m_Localized: Gain ;5? block.
+    m_Localized: Gain {card.block} block.
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 2721703719461978129
   - m_Id: 51288852672512
     m_Localized: Iron fist
     m_Metadata:
       m_Items: []
   - m_Id: 51310268788736
-    m_Localized: 'Sacrifice: 1. Gain (1) strength.'
+    m_Localized: 'Sacrifice: {card.mana}. Gain {card.gainStrength} strength.'
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 2721703719461978129
   - m_Id: 678170296070144
     m_Localized: Attack
     m_Metadata:
@@ -145,11 +155,11 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 1052134570733568
-    m_Localized: Chose cards to burn.
+    m_Localized: Chose cards from your hand to burn.
     m_Metadata:
       m_Items: []
   - m_Id: 1052429484830720
-    m_Localized: Chose cards to discard.
+    m_Localized: Chose cards from your to discard.
     m_Metadata:
       m_Items: []
   - m_Id: 4373107910914048
@@ -169,19 +179,47 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 8327422686015488
-    m_Localized: Draw 2 cards then discard 1 card.
+    m_Localized: Draw {card.drawCards} cards then discard 1 card.
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 2721703719461978129
   - m_Id: 11285824198422528
     m_Localized: Next turn draw 1 more card.
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 2721703719461978129
   - m_Id: 11292770561437696
-    m_Localized: Next turn draw 1 more card.
+    m_Localized: Next turn draw {card.addCardBuff} more card.
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 2721703719461978129
   - m_Id: 11292804778569728
     m_Localized: Maneuver
+    m_Metadata:
+      m_Items: []
+  - m_Id: 16361592200900608
+    m_Localized: Discard a card. If this is attack deals 9 damage.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 16364998311292928
+    m_Localized: Cutting
+    m_Metadata:
+      m_Items: []
+  - m_Id: 17052875034734592
+    m_Localized: Throw
+    m_Metadata:
+      m_Items: []
+  - m_Id: 17052954395160576
+    m_Localized: 'Swap: {card.mana}. Discard one card from enemy''s hand.'
+    m_Metadata:
+      m_Items:
+      - rid: 2721703719461978129
+  - m_Id: 17071598747529216
+    m_Localized: Chose cards from enemy's hand to discard.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 17071705438040064
+    m_Localized: Chose cards from enemy's hand to burn.
     m_Metadata:
       m_Items: []
   references:
@@ -190,4 +228,4 @@ MonoBehaviour:
     - rid: 2721703719461978129
       type: {class: SmartFormatTag, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
       data:
-        m_Entries: 0030d8783f7c03000030d85ea59d0300
+        m_Entries: 0030d8783f7c03000030d85ea59d0300003018ee4f2800000030182c0f29000000309833472e0000003098086b2e0000003098dd9c2e00000030d83ea42e00000030589aaa2e00000030182fbf951d00003058b6651828000030d809b71e28000030185992953c00

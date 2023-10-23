@@ -279,6 +279,8 @@ GameObject:
   - component: {fileID: 1239438111970755199}
   - component: {fileID: 5789155343562888091}
   - component: {fileID: 5860729971184931956}
+  - component: {fileID: 2971694997289947688}
+  - component: {fileID: 8624753483069140554}
   m_Layer: 6
   m_Name: Description
   m_TagString: Untagged
@@ -360,7 +362,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 48.75
+  m_fontSize: 21.65
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -402,6 +404,73 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &2971694997289947688
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3315774707024180401}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28e26eae1d308a84b9174eca1a91b934, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  finalDamage: 0
+  block: 0
+  mana: 0
+  gainStrength: 0
+  gainDexterity: 0
+  drawCards: 0
+  addCardBuff: 0
+  cardScript: {fileID: 0}
+--- !u!114 &8624753483069140554
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3315774707024180401}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56eb0353ae6e5124bb35b17aff880f16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_StringReference:
+    m_TableReference:
+      m_TableCollectionName: GUID:f6f67a85ce6134647bbd865419258dd2
+    m_TableEntryReference:
+      m_KeyId: 8327422686015488
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables:
+    - name: card
+      variable:
+        rid: 2336424126492704773
+  m_FormatArguments: []
+  m_UpdateString:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5860729971184931956}
+        m_TargetAssemblyTypeName: TMPro.TMP_Text, Unity.TextMeshPro
+        m_MethodName: set_text
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
+  references:
+    version: 2
+    RefIds:
+    - rid: 2336424126492704773
+      type: {class: ObjectVariable, ns: UnityEngine.Localization.SmartFormat.PersistentVariables, asm: Unity.Localization}
+      data:
+        m_Value: {fileID: 2971694997289947688}
 --- !u!1 &4261463755961891536
 GameObject:
   m_ObjectHideFlags: 0
@@ -665,6 +734,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f6bf974f8541544184cd83e737e1cda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Mana: 0
+  cardId: GraySkill1
+  cardType: 3
+  cardSide: {fileID: 0}
+  otherSide: {fileID: 0}
+  lastStrength: -1
+  finalDamage: 0
+  PlayingArea: {fileID: 0}
+  CardDescription: {fileID: 3315774707024180401}
+  CardTitle: {fileID: 1258943701050630431}
+  CardTypePrint: {fileID: 8484961433361121637}
+  CardCanvas: {fileID: 6461773189511183962}
+  cardCanvas: {fileID: 0}
   timeBetweenMoves: 0.3333
   timestamp: 3.941959
   interpolationSpeed: 6
@@ -673,25 +755,6 @@ MonoBehaviour:
   sprite: {fileID: 0}
   isntDragging: 1
   playerActionCompleted: 0
-  StatManager: {fileID: 0}
-  PlayingArea: {fileID: 0}
-  CardManager: {fileID: 0}
-  CardDescription: {fileID: 3315774707024180401}
-  CardTitle: {fileID: 1258943701050630431}
-  CardTypePrint: {fileID: 8484961433361121637}
-  CardCanvas: {fileID: 6461773189511183962}
-  cardCanvas: {fileID: 0}
-  cardMana: 0
-  cardId: GraySkill1
-  cardDescriptionDynamic: 
-  cardType: 3
-  cardDamage: 0
-  finalDamage: 0
-  cardBlock: 0
-  cardStrength: 0
-  cardDraw: 0
-  lastStrength: -1
-  special: 0
 --- !u!114 &4351014071588378674
 MonoBehaviour:
   m_ObjectHideFlags: 0

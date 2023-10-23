@@ -1,8 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Localization;
-using UnityEngine.Localization.Settings;
 
 public class CardData : MonoBehaviour
 {
@@ -10,48 +8,37 @@ public class CardData : MonoBehaviour
 
     void Awake()
     {
-        //LocalizationSettings.SelectedLocale = LocalizationSettings.AvailableLocales.GetLocale("en-US");
-
-        cardDictionary["BlueAttack1"] = new Card { Title = GetLocalizedString("BlueAttack1_Title"), Description = GetLocalizedString("BlueAttack1_Description"), Type = Card.CardType.Attack };
-        cardDictionary["BlueAttack2"] = new Card { Title = GetLocalizedString("BlueAttack2_Title"), Description = GetLocalizedString("BlueAttack2_Description"), Type = 0, Mana = 1 };
-        cardDictionary["BlueDefend1"] = new Card { Title = GetLocalizedString("BlueDefend1_Title"), Description = GetLocalizedString("BlueDefend1_Description"), Type = Card.CardType.Defend };
-        cardDictionary["RedAttack1"] = new Card { Title = GetLocalizedString("RedAttack1_Title"), Description = GetLocalizedString("RedAttack1_Description"), Type = Card.CardType.Attack };
-        cardDictionary["RedAttack2"] = new Card { Title = GetLocalizedString("RedAttack2_Title"), Description = GetLocalizedString("RedAttack2_Description"), Type = Card.CardType.Attack, Mana = 2 };
-        cardDictionary["RedDefend1"] = new Card { Title = GetLocalizedString("RedDefend1_Title"), Description = GetLocalizedString("RedDefend1_Description"), Type = Card.CardType.Defend };
-        cardDictionary["RedPower1"] = new Card { Title = GetLocalizedString("RedPower1_Title"), Description = GetLocalizedString("RedPower1_Description"), Type = Card.CardType.Power, Mana = 1 };
-        //cardDictionary["BlueAttack1"] = new Card { Title = "Удар", Description = "Наносит [5] урона", Type = 0 };
-        //cardDictionary["BlueAttack1"] = new Card { Title = "Удар", Description = "Наносит [5] урона", Type = 0 };
-        //cardDictionary["BlueAttack1"] = new Card { Title = "Удар", Description = "Наносит [5] урона", Type = 0 };
-        //cardDictionary["BlueAttack1"] = new Card { Title = "Удар", Description = "Наносит [5] урона", Type = 0 };
-    }
-
-    string GetLocalizedString(string key)
-    {
-        return LocalizationSettings.StringDatabase.GetLocalizedString(key);
-    }
-
-    void Start()
-    {
-        Card Red = new Card { Title = "Удар", Description = "Наносит 5 урона", Type = 0 };
-
-
+        cardDictionary["BlueAttack1"] = new Card {Damage = 5 };
+        cardDictionary["BlueAttack2"] = new Card { Mana = 1, Damage = 4, DrawCards = 2 };
+        cardDictionary["BlueDefend1"] = new Card { Block = 6 };
+        cardDictionary["RedAttack1"] = new Card { Damage = 6 };
+        cardDictionary["RedAttack2"] = new Card { Damage = 12, Mana = 2 };
+        cardDictionary["RedDefend1"] = new Card { Block = 5 };
+        cardDictionary["RedPower1"] = new Card { GainStrength = 1, Mana = 1 };
+        cardDictionary["GraySkill1"] = new Card { IsSpecial = true, DrawCards = 2 };
+        cardDictionary["GraySkill2"] = new Card { AddCardBuff = 1 };
+        cardDictionary["BlueAttack3"] = new Card { IsSpecial = true, Damage = 9, Mana = 1 };
+        cardDictionary["BlueSkill1"] = new Card { IsSpecial = true, Mana = 1 };
     }
 }
 
 public class Card
 {
-    public string Title;
-    public string Description;
-    public CardType Type;
     public int Mana = 0;
     public bool IsSpecial = false;
-
-    public enum CardType
-    {
-        Attack = 0,
-        Defend = 1,
-        Skill = 3,
-        Power = 4
-    }
+    public int Damage = 0;
+    public int Block = 0;
+    public int GainStrength = 0;
+    public int GainDexterity = 0;
+    public int DrawCards = 0;
+    public int AddCardBuff = 0;
 }
 
+/*
+public enum CardType
+{
+    Attack = 0,
+    Defend = 1,
+    Skill = 3,
+    Power = 4
+}*/

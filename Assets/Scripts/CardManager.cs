@@ -22,14 +22,15 @@ public class CardManager : MonoBehaviour
     public Side enemy;
 
     public bool popupMode = false;
-    public bool discardMode;
-    public bool burnMode;
+    //public bool discardMode;
+    //public bool burnMode;
 
-    bool drawCompleted = true;
     public int curentTurn = 1;
 
     private Queue<CardEvent> eventQueue = new Queue<CardEvent>();
     private bool isProcessingQueue = false;
+
+    public Stack<CardEvent> eventStack = new Stack<CardEvent>();
 
     void Awake()
     {
@@ -75,23 +76,7 @@ public class CardManager : MonoBehaviour
     {
         isProcessingQueue = true;
         CardEvent cardEvent = eventQueue.Dequeue();
-        
-        if (cardEvent.ActionType == CardActionType.Draw)
-        {
-            PlayDrawAnimation(cardEvent.Card, cardEvent.TriggeringSide);
-        }
-        else if (cardEvent.ActionType == CardActionType.Discard)
-        {
-            PlayDiscardAnimation(cardEvent.Card, cardEvent.TriggeringSide);
-        }
-        else if (cardEvent.ActionType == CardActionType.Shuffle)
-        {
-            PlayShuffleAnimation(cardEvent.TriggeringSide);
-        }
-        else if (cardEvent.ActionType == CardActionType.Burn)
-        {
-            PlayBurnAnimation(cardEvent.Card, cardEvent.TriggeringSide);
-        }
+        cardEvent.ActionType.PlayAnimation(cardEvent.Card, cardEvent.TriggeringSide);
         yield return new WaitForSeconds(0.3f);
         isProcessingQueue = false;
     }
@@ -102,12 +87,116 @@ public class CardManager : MonoBehaviour
         enemy.CardAction -= OnCardAction;
     }
 
-    void OnCardAction(GameObject card, Side side, CardActionType cardActionType)
+    void OnCardAction(GameObject card, Side side, IPlayable cardActionType)
     {
         eventQueue.Enqueue(new CardEvent(card, cardActionType, side));
+        eventStack.Push(new CardEvent(card, cardActionType, side));
     }
+}
 
-    void PlayDrawAnimation(GameObject card, Side side)
+public interface IPlayable
+{
+    public void PlayAnimation(GameObject card, Side side);
+}
+
+public class DrawAnimation : IPlayable
+{
+    public void PlayAnimation(GameObject card, Side side)
+    {
+        side.DoubleTableCards.Add(card);
+        card.transform.localPosition = side.StartPosition;
+        CardAnimationUtility.CalculateTableCardsPosition(side);
+        side.DrawCounter--;
+    }
+}
+
+public class DiscardAnimation : IPlayable
+{
+    public void PlayAnimation(GameObject card, Side side)
+    {
+        side.DoubleTableCards.Remove(card);
+        card.GetComponent<CardScript>().desiredPosition = side.DiscardPosition;
+        CardAnimationUtility.CalculateTableCardsPosition(side);
+        side.DiscardCounter++;
+    }
+}
+
+public class ShuffleAnimation : IPlayable
+{
+    public void PlayAnimation(GameObject card, Side side)
+    {
+        foreach (GameObject cardD in side.Cards)
+        {
+            cardD.transform.localPosition = side.StartPosition;
+            cardD.GetComponent<CardScript>().desiredPosition = side.StartPosition;
+        }
+        foreach (GameObject cardD in side.DiscardedCards)
+        {
+            cardD.transform.localPosition = side.DiscardPosition;
+            cardD.GetComponent<CardScript>().desiredPosition = side.DiscardPosition;
+        }
+
+        side.DrawCounter += side.DiscardCounter;
+        side.DiscardCounter = 0;
+    }
+}
+public class BurnAnimation : IPlayable
+{
+    public void PlayAnimation(GameObject card, Side side)
+    {
+        if (side.DoubleTableCards.Contains(card)) { side.DoubleTableCards.Remove(card); }
+        card.transform.localPosition = new Vector2(2000, 2000);
+        card.GetComponent<CardScript>().isntDragging = false;
+        CardAnimationUtility.CalculateTableCardsPosition(side);
+    }
+}
+
+public class CardEvent
+{
+    public GameObject Card;
+    public IPlayable ActionType;
+    public Side TriggeringSide;
+
+    public CardEvent(GameObject card, IPlayable actionType, Side triggeringSide)
+    {
+        Card = card;
+        ActionType = actionType;
+        TriggeringSide = triggeringSide;
+    }
+}
+
+public static class CardAnimationUtility
+{
+    public static void CalculateTableCardsPosition(Side side)
+    {
+        int offset = 125;
+        int width = (side.DoubleTableCards.Count - 1) * offset;
+        int halfWidth = width / 2;
+        for (int cardIndex = 0; cardIndex < side.DoubleTableCards.Count; cardIndex++)
+        {
+            GameObject Card = side.DoubleTableCards[cardIndex];
+            CardScript grid = Card.GetComponent<CardScript>();
+            SpriteRenderer sprite = Card.GetComponent<SpriteRenderer>();
+            sprite.sortingOrder = cardIndex;
+            float desiredX = -halfWidth + (offset * cardIndex);
+            grid.desiredPosition = new Vector2(desiredX, side.HandPosition);
+            grid.timestamp = Time.time + grid.timeBetweenMoves;
+            grid.startPosition = grid.desiredPosition;
+        }
+    }
+}
+
+public enum CardActionType
+{
+    Draw,
+    Discard,
+    Shuffle,
+    Burn,
+    Playing
+}
+
+/*
+ *void PlayDrawAnimation(GameObject card, Side side)
     {
         side.DoubleTableCards.Add(card);
         card.transform.localPosition = side.StartPosition;
@@ -146,50 +235,6 @@ public class CardManager : MonoBehaviour
         card.GetComponent<CardScript>().isntDragging = false;
         CalculateTableCardsPosition(side);
     }
-
-    public void CalculateTableCardsPosition(Side side)
-    {
-        int offset = 105;
-        int width = (side.DoubleTableCards.Count - 1) * offset;
-        int halfWidth = width / 2;
-        for (int cardIndex = 0; cardIndex < side.DoubleTableCards.Count; cardIndex++)
-        {
-            GameObject Card = side.DoubleTableCards[cardIndex];
-            CardScript grid = Card.GetComponent<CardScript>();
-            sprite = Card.GetComponent<SpriteRenderer>();
-            sprite.sortingOrder = cardIndex;
-            float desiredX = -halfWidth + (offset * cardIndex);
-            grid.desiredPosition = new Vector2(desiredX, side.HandPosition);
-            grid.timestamp = Time.time + grid.timeBetweenMoves;
-            grid.startPosition = grid.desiredPosition;
-        }
-    }
-}
-
-public enum CardActionType
-{
-    Draw,
-    Discard,
-    Shuffle,
-    Burn,
-    Playing
-}
-
-public class CardEvent
-{
-    public GameObject Card;
-    public CardActionType ActionType;
-    public Side TriggeringSide;
-
-    public CardEvent(GameObject card, CardActionType actionType, Side triggeringSide)
-    {
-        Card = card;
-        ActionType = actionType;
-        TriggeringSide = triggeringSide;
-    }
-}
-
-/*
  * public void CallAnimation(string type, GameObject objectAnimation = null)
     {
         if (type == "draw") {
