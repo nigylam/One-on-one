@@ -56,7 +56,6 @@ public class CardScript : MonoBehaviour
     bool isOverDropZone = false;
     public bool isntDragging = true;
     public bool playerActionCompleted = false;
-    public bool enemyCardsDiscarded = false;
 
     public Card card;
 
@@ -241,7 +240,7 @@ public class CardScript : MonoBehaviour
         if (cardSide.TableCards.Contains(gameObject))
         {
             if (cardSide.discardMode)
-            {          
+            {
                 cardSide.DiscardCard(gameObject);
             }
             else if (cardSide.burnMode)
@@ -285,12 +284,15 @@ public class CardScript : MonoBehaviour
         }
         else
         {
+            playerActionCompleted = false;
             StartCoroutine(cardsActions.PlaySpecialCard());
             yield return new WaitUntil(() => playerActionCompleted);
         }
         playerActionCompleted = false;
         if (cardType == CardType.Power) { cardSide.BurnCard(gameObject); }
-        else { cardSide.DiscardCard(gameObject); }
+        else {
+            Debug.Log("check: " + gameObject.name);
+            cardSide.DiscardCard(gameObject); }
     }
 
     public IEnumerator ManaSpending(int numberOfCards, Side side, bool isDiscard = true)
@@ -328,8 +330,6 @@ public class CardScript : MonoBehaviour
         
         yield return new WaitUntil(() => side.TableCards.Count <= initialCardCount - numberOfCards);
         playerActionCompleted = true;
-        enemyCardsDiscarded = true;
-        statManager.CardBurnDiscardPopUp.SetActive(false);
         statManager.CardBurnDiscardPopUp.SetActive(false);
         side.discardMode = false;
         side.burnMode = false;

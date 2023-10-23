@@ -44,7 +44,7 @@ public class CardsActions : MonoBehaviour
                 break;
             case "BlueSkill1":
                 StartCoroutine(cardScript.ManaSpending(1, cardScript.otherSide));
-                yield return new WaitUntil(() => cardScript.enemyCardsDiscarded);
+                yield return new WaitUntil(() => cardScript.playerActionCompleted);
                 break;
         }
     }
