@@ -19,6 +19,7 @@ public class CardData : MonoBehaviour
         cardDictionary["GraySkill2"] = new Card { AddCardBuff = 1 };
         cardDictionary["BlueAttack3"] = new Card { IsSpecial = true, Damage = 9, Mana = 1 };
         cardDictionary["BlueSkill1"] = new Card { IsSpecial = true, Mana = 1 };
+        cardDictionary["BlueSkill2"] = new Card { IsSpecial = true };
     }
 }
 

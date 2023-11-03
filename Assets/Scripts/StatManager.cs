@@ -52,10 +52,14 @@ public class StatManager : MonoBehaviour
 
     TextMeshProUGUI AddCardsCounterText;
 
+    public bool cardsChoosed = true;
+
     public GameObject CardBurnDiscardPopUp;
+    public GameObject CardDiscBurnButton;
+    public GameObject CardDiscBurnButtonButton;
     //public GameObject CardDiscPopUp;
 
-    LocalizeStringEvent tipLocizeText;
+    public LocalizeStringEvent tipLocizeText;
 
     // Start is called before the first frame update
     void Start()
@@ -123,9 +127,9 @@ public class StatManager : MonoBehaviour
         }
     }
 
-    public void EnablingPopUp(PopUpTextType popUpTextType)
+    /*
+    public void EnablingPopUp(Side side, ITypeMana manaType, int numberOfCards = 0)
     {
-        CardBurnDiscardPopUp.SetActive(true);
         switch (popUpTextType)
         {
             case PopUpTextType.DiscardPlayerCard:
@@ -140,7 +144,18 @@ public class StatManager : MonoBehaviour
             case PopUpTextType.BurnEnemyCard:
                 tipLocizeText.StringReference.TableEntryReference = "SacrEnemyPop_Tip";
                 break;
+            case PopUpTextType.DiscardAnyPlayerCards:
+                tipLocizeText.StringReference.TableEntryReference = "DiscAnyPlayerPop_Tip";
+                CardDiscBurnButton.SetActive(true);
+                break;
         }
+    }
+    */
+
+    public void DisablingPopUp()
+    {
+        CardBurnDiscardPopUp.SetActive(false);
+        CardDiscBurnButton.SetActive(false);
     }
 
     public enum PopUpTextType
@@ -148,6 +163,7 @@ public class StatManager : MonoBehaviour
         DiscardPlayerCard,
         DiscardEnemyCard,
         BurnPlayerCard,
-        BurnEnemyCard
+        BurnEnemyCard,
+        DiscardAnyPlayerCards
     }
 }

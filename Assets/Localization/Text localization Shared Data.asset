@@ -195,6 +195,22 @@ MonoBehaviour:
     m_Key: SacrEnemyPop_Tip
     m_Metadata:
       m_Items: []
+  - m_Id: 18166334040322048
+    m_Key: Accept_Button
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20926726927822848
+    m_Key: BlueSkill2_Description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22151705245790208
+    m_Key: BlueSkill2_Title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22159523285839872
+    m_Key: DiscAnyPlayerPop_Tip
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

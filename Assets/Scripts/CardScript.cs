@@ -15,25 +15,15 @@ public class CardScript : MonoBehaviour
     //card data
     public int Mana;
     public string cardId;
-    //public string cardDescriptionDynamic;
-    //public string cardTitle;
     public CardType cardType;
     public Side cardSide;
     public Side otherSide;
     public int lastStrength = -1;
     public int finalDamage = 0;
 
-    /*
-    public int cardDamage = 0;
-    public int cardBlock = 0;
-    public int cardStrength = 0;
-    public int cardDraw = 0;
-    public bool special;
-    */
-
     //access to another objects
     public GameObject PlayingArea;
-    StatManager statManager;
+    public StatManager statManager;
     CardManager cardManager;
     CardsActions cardsActions;
     public GameObject CardDescription;
@@ -57,7 +47,12 @@ public class CardScript : MonoBehaviour
     public bool isntDragging = true;
     public bool playerActionCompleted = false;
 
+    public int cardsDiscarded = 0;
+
     public Card card;
+
+    public DiscardType discardType = new DiscardType();
+    public SacrificeType sacrificeType = new SacrificeType();
 
     public enum CardType
     {
@@ -92,12 +87,20 @@ public class CardScript : MonoBehaviour
     }
     void Update()
     {
-        //if(cardId == "BlueAttack2") { Debug.Log(desiredPosition); }
-        //DescriptionTranscription();
         CardPlacing();
         finalDamage = card.Damage + cardSide.Strength;
         LerpAndLayerControlling();
         cardCanvas.sortingLayerName = sprite.sortingLayerName;
+
+        if (cardManager.playingCards.Contains(gameObject))
+        {
+            if(cardManager.eventStack.Count > 0)
+            {
+                CardEvent newEvent = cardManager.eventStack.Pop();
+                if (newEvent.ActionType == cardSide.discardAnimation)
+                    cardsDiscarded++;
+            }
+        }
     }
 
     void LerpAndLayerControlling()
@@ -265,13 +268,7 @@ public class CardScript : MonoBehaviour
     {
         if (card.Mana > 0)
         {
-            if (cardSide == cardManager.enemy)
-            {
-                StartCoroutine(ManaSpending(card.Mana, cardSide, false));
-            } else
-            {
-                StartCoroutine(ManaSpending(card.Mana, cardSide));
-            }
+            StartCoroutine(ManaSpending());
             yield return new WaitUntil(() => playerActionCompleted);
         }
         if (!card.IsSpecial)
@@ -290,129 +287,103 @@ public class CardScript : MonoBehaviour
         }
         playerActionCompleted = false;
         if (cardType == CardType.Power) { cardSide.BurnCard(gameObject); }
-        else {
-            Debug.Log("check: " + gameObject.name);
-            cardSide.DiscardCard(gameObject); }
+        else
+        {
+            cardSide.DiscardCard(gameObject);
+        }
     }
 
-    public IEnumerator ManaSpending(int numberOfCards, Side side, bool isDiscard = true)
+    public IEnumerator ManaSpending()
+    {
+        if (cardSide == cardManager.enemy)
+            StartCoroutine(ManaSpending(cardSide, sacrificeType, card.Mana));
+        else
+            StartCoroutine(ManaSpending(cardSide, discardType, card.Mana));
+        yield return null;
+    }
+
+    public IEnumerator ManaSpending(Side side, ITypeMana manaType, int numberOfCards = 0, bool isEnemy = false)
     {
         int initialCardCount = side.TableCards.Count;
-        cardManager.playingCards.Add(gameObject);
 
-        // надо упростить
-        if (side == cardSide)
-        {
-            if (isDiscard)
-            {
-                side.discardMode = true;
-                statManager.EnablingPopUp(StatManager.PopUpTextType.DiscardPlayerCard);
-            }
-            else
-            {
-                side.burnMode = true;
-                statManager.EnablingPopUp(StatManager.PopUpTextType.BurnPlayerCard);
-            }
-        } else
-        {
-            if (isDiscard)
-            {
-                side.discardMode = true;
-                statManager.EnablingPopUp(StatManager.PopUpTextType.DiscardEnemyCard);
-            }
-            else
-            {
-                side.burnMode = true;
-                statManager.EnablingPopUp(StatManager.PopUpTextType.BurnEnemyCard);
-            }
-        }
-        
-        
+        manaType.ActivateMode(side, numberOfCards, isEnemy);
+
+        yield return new WaitUntil(() => statManager.cardsChoosed);
         yield return new WaitUntil(() => side.TableCards.Count <= initialCardCount - numberOfCards);
         playerActionCompleted = true;
-        statManager.CardBurnDiscardPopUp.SetActive(false);
-        side.discardMode = false;
-        side.burnMode = false;
-        cardManager.playingCards.Remove(gameObject);
+        manaType.DisableMode(side);
     }
 }
 
-
-/*
- * public void DescriptionTranscription()
+public interface ITypeMana
+{
+    public void ActivateMode(Side side, int numberOfCards, bool isEnemy);
+    public void DisableMode(Side side);
+}
+public class DiscardType : ITypeMana
+{
+    public void ActivateMode(Side side, int numberOfCards, bool isEnemy = false)
     {
-        if (cardSide.Strength != lastStrength)
+        StatManager statManager = GameObject.Find("Stat Manager").GetComponent<StatManager>();
+        side.discardMode = true;
+        statManager.CardBurnDiscardPopUp.SetActive(true);
+        if (numberOfCards == 0)
         {
-            lastStrength = cardSide.Strength;
-            finalDamage = 0;
-            cardDescriptionDynamic = LocalizationSettings.StringDatabase.GetLocalizedString(cardId + "_Description");
-            //string cardDescriptionDynamicWithoutTags;
-            if (cardDescriptionDynamic.Contains("["))
+            statManager.CardDiscBurnButton.SetActive(true);
+            statManager.tipLocizeText.StringReference.TableEntryReference = "DiscAnyPlayerPop_Tip";
+        }
+        else
+        {
+            if (!isEnemy)
             {
-                int firstSym = cardDescriptionDynamic.IndexOf('[');
-                int secondSym = cardDescriptionDynamic.IndexOf(']');
-                string damage = "";
-                for (int i = firstSym + 1; i < secondSym; i++)
-                {
-                    damage += cardDescriptionDynamic[i];
-                }
-                cardDamage = Int32.Parse(damage);
-                cardDescriptionDynamic = cardDescriptionDynamic.Replace("[", "");
-                cardDescriptionDynamic = cardDescriptionDynamic.Replace("]", "");
-                finalDamage = cardDamage + cardSide.Strength;
-                cardDescriptionDynamic = cardDescriptionDynamic.Replace(damage, finalDamage.ToString());
-
-
-                if (cardSide.Strength != 0)
-                {
-                    string coloredDamage = "<color=" + (cardSide.Strength > 0 ? "green" : "red") + ">" + finalDamage.ToString() + "</color>";
-                    cardDescriptionDynamic = cardDescriptionDynamic.Replace(finalDamage.ToString(), coloredDamage);
-                }
-
+                statManager.tipLocizeText.StringReference.TableEntryReference = "DiscPlayerPop_Tip";
             }
-            if (cardDescriptionDynamic.Contains(";"))
+            else
             {
-                int firstSym = cardDescriptionDynamic.IndexOf(';');
-                int secondSym = cardDescriptionDynamic.IndexOf('?');
-                string block = "";
-                for (int i = firstSym + 1; i < secondSym; i++)
-                {
-                    block += cardDescriptionDynamic[i];
-                }
-                cardBlock = Int32.Parse(block);
-                cardDescriptionDynamic = cardDescriptionDynamic.Replace(";", "");
-                cardDescriptionDynamic = cardDescriptionDynamic.Replace("?", "");
-                cardDescriptionDynamic = cardDescriptionDynamic.Replace(block, cardBlock.ToString());
-            }
-            if (cardDescriptionDynamic.Contains("{"))
-            {
-                int firstSym = cardDescriptionDynamic.IndexOf('{');
-                int secondSym = cardDescriptionDynamic.IndexOf('}');
-                string draw = "";
-                for (int i = firstSym + 1; i < secondSym; i++)
-                {
-                    draw += cardDescriptionDynamic[i];
-                }
-                cardDraw = Int32.Parse(draw);
-                cardDescriptionDynamic = cardDescriptionDynamic.Replace("{", "");
-                cardDescriptionDynamic = cardDescriptionDynamic.Replace("}", "");
-                cardDescriptionDynamic = cardDescriptionDynamic.Replace(draw, cardDraw.ToString());
-            }
-            if (cardDescriptionDynamic.Contains("("))
-            {
-                int firstSym = cardDescriptionDynamic.IndexOf('(');
-                int secondSym = cardDescriptionDynamic.IndexOf(')');
-                string strength = "";
-                for (int i = firstSym + 1; i < secondSym; i++)
-                {
-                    strength += cardDescriptionDynamic[i];
-                }
-                cardStrength = Int32.Parse(strength);
-                cardDescriptionDynamic = cardDescriptionDynamic.Replace("(", "");
-                cardDescriptionDynamic = cardDescriptionDynamic.Replace(")", "");
-                cardDescriptionDynamic = cardDescriptionDynamic.Replace(strength, cardStrength.ToString());
+                statManager.tipLocizeText.StringReference.TableEntryReference = "DiscEnemyPop_Tip";
             }
         }
-
     }
-*/
+
+    public void DisableMode(Side side)
+    {
+        StatManager statManager = GameObject.Find("Stat Manager").GetComponent<StatManager>();
+        side.discardMode = false;
+        statManager.DisablingPopUp();
+    }
+}
+
+public class SacrificeType : ITypeMana
+{
+    public void ActivateMode(Side side, int numberOfCards, bool isEnemy = false)
+    {
+        StatManager statManager = GameObject.Find("Stat Manager").GetComponent<StatManager>();
+        side.burnMode = true;
+        statManager.CardBurnDiscardPopUp.SetActive(true);
+        if (numberOfCards == 0)
+        {
+            statManager.CardDiscBurnButton.SetActive(true);
+
+            // добавить этот текст в словарь
+            statManager.tipLocizeText.StringReference.TableEntryReference = "SacrAnyPlayerPop_Tip";
+        }
+        else
+        {
+            if (!isEnemy)
+            {
+                statManager.tipLocizeText.StringReference.TableEntryReference = "SacrPlayerPop_Tip";
+            }
+            else
+            {
+                statManager.tipLocizeText.StringReference.TableEntryReference = "SacrEnemyPop_Tip";
+            }
+        }
+    }
+
+    public void DisableMode(Side side)
+    {
+        StatManager statManager = GameObject.Find("Stat Manager").GetComponent<StatManager>();
+        side.burnMode = false;
+        statManager.DisablingPopUp();
+    }
+}

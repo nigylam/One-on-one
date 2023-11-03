@@ -28,7 +28,7 @@ public class CardsActions : MonoBehaviour
         {
             case "GraySkill1":
                 cardScript.cardSide.DrawCards(2);
-                StartCoroutine(cardScript.ManaSpending(1, cardScript.cardSide));
+                StartCoroutine(cardScript.ManaSpending(cardScript.cardSide, cardScript.discardType, 1));
                 yield return new WaitUntil(() => cardScript.playerActionCompleted);
                 break;
             case "GraySkill2":
@@ -43,8 +43,16 @@ public class CardsActions : MonoBehaviour
                 cardScript.playerActionCompleted = true;
                 break;
             case "BlueSkill1":
-                StartCoroutine(cardScript.ManaSpending(1, cardScript.otherSide));
+                StartCoroutine(cardScript.ManaSpending(cardScript.otherSide, cardScript.discardType, 1));
                 yield return new WaitUntil(() => cardScript.playerActionCompleted);
+                break;
+            case "BlueSkill2":
+                StartCoroutine(cardScript.ManaSpending(cardScript.cardSide, cardScript.discardType));
+                yield return new WaitUntil(() => cardScript.playerActionCompleted);
+                cardScript.playerActionCompleted = false;
+                StartCoroutine(cardScript.ManaSpending(cardScript.otherSide, cardScript.discardType, cardScript.cardsDiscarded, true));
+                yield return new WaitUntil(() => cardScript.playerActionCompleted);
+                cardScript.cardsDiscarded = 0;
                 break;
         }
     }

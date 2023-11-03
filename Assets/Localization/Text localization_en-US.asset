@@ -222,6 +222,22 @@ MonoBehaviour:
     m_Localized: Chose cards from enemy's hand to burn.
     m_Metadata:
       m_Items: []
+  - m_Id: 18166334040322048
+    m_Localized: Accept
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20926726927822848
+    m_Localized: 'Swap: X. Discard X cards from enemy''s hand.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22151705245790208
+    m_Localized: Bypass
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22159523285839872
+    m_Localized: Discard any number of your cards.
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:

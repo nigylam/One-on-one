@@ -87,7 +87,7 @@ GameObject:
   - component: {fileID: 5511859023663415167}
   - component: {fileID: 4194700594927853653}
   - component: {fileID: 5763985296419422801}
-  - component: {fileID: 4653373620772263177}
+  - component: {fileID: 7336203270973052813}
   m_Layer: 6
   m_Name: Tip text
   m_TagString: Untagged
@@ -211,7 +211,7 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &4653373620772263177
+--- !u!114 &7336203270973052813
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -558,7 +558,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:f6f67a85ce6134647bbd865419258dd2
     m_TableEntryReference:
-      m_KeyId: 17052954395160576
+      m_KeyId: 20926726927822848
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -845,7 +845,7 @@ GameObject:
   - component: {fileID: 2519207900757032547}
   - component: {fileID: 2359494858930964208}
   m_Layer: 6
-  m_Name: BlueSkill1
+  m_Name: BlueSkill2
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -992,7 +992,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: ff86f050a55ba02408b04b6c19b35243, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 9db269e90bc48954cbf8d07bdbbd9253, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -1016,13 +1016,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Mana: 0
-  cardId: BlueSkill1
-  cardType: 1
+  cardId: BlueSkill2
+  cardType: 3
   cardSide: {fileID: 0}
   otherSide: {fileID: 0}
   lastStrength: -1
   finalDamage: 0
   PlayingArea: {fileID: 0}
+  statManager: {fileID: 0}
   CardDescription: {fileID: 3365156928020984180}
   CardTitle: {fileID: 4549824116006204111}
   CardTypePrint: {fileID: 2250875439560931922}

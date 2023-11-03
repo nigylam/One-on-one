@@ -92,6 +92,8 @@ public class CardManager : MonoBehaviour
         eventQueue.Enqueue(new CardEvent(card, cardActionType, side));
         eventStack.Push(new CardEvent(card, cardActionType, side));
     }
+
+
 }
 
 public interface IPlayable
