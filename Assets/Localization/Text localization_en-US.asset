@@ -43,7 +43,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 50883343167488
-    m_Localized: 'Swap: {card.mana}. Deal {card.finalDamage}  damage. Draws {card.drawCards}
+    m_Localized: 'Swap: {card.mana}. Deals {card.finalDamage}  damage. Draws {card.drawCards}
       card.'
     m_Metadata:
       m_Items:
@@ -238,10 +238,42 @@ MonoBehaviour:
     m_Localized: Discard any number of your cards.
     m_Metadata:
       m_Items: []
+  - m_Id: 26490547901837312
+    m_Localized: Crane's style
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26514410916294656
+    m_Localized: 'Swap: {card.mana}. Deals damage equal to half of your block.'
+    m_Metadata:
+      m_Items:
+      - rid: 2721703719461978129
+  - m_Id: 26515817023156224
+    m_Localized: Fist of rage
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26515986657587200
+    m_Localized: 'Sacrifice: {card.mana}. Deal {card.sideStrength:cond:>0?<color=green>{card.finalDamage}</color>|=0?{card.finalDamage}|{card.finalDamage}}
+      damage. Gane 1 rage.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26516597079814144
+    m_Localized: Plan of revenge
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26516802005118976
+    m_Localized: 'Sacrifice: {card.mana}. For each discarded or burned card from
+      your hand get 1 more card at the begining of the next turn.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 27216663063048192
+    m_Localized: 'Deals '
+    m_Metadata:
+      m_Items:
+      - rid: 2721703719461978129
   references:
     version: 2
     RefIds:
     - rid: 2721703719461978129
       type: {class: SmartFormatTag, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
       data:
-        m_Entries: 0030d8783f7c03000030d85ea59d0300003018ee4f2800000030182c0f29000000309833472e0000003098086b2e0000003098dd9c2e00000030d83ea42e00000030589aaa2e00000030182fbf951d00003058b6651828000030d809b71e28000030185992953c00
+        m_Entries: 0030d8783f7c03000030d85ea59d0300003018ee4f2800000030182c0f29000000309833472e0000003098086b2e0000003098dd9c2e00000030d83ea42e00000030589aaa2e00000030182fbf951d00003058b6651828000030d809b71e28000030185992953c000030185cb7325e000030d82d69b16000

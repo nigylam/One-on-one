@@ -12,6 +12,7 @@ public class Side : MonoBehaviour
     public ShuffleAnimation shuffleAnimation;
     public DiscardAnimation discardAnimation;
     public DrawAnimation drawAnimation;
+    public AddAnimation playAnimation;
 
     public GameObject[] CardList = new GameObject[] {};
 
@@ -130,8 +131,7 @@ public class Side : MonoBehaviour
     public void PlayCard(GameObject card)
     {
         if (TableCards.Contains(card)) { TableCards.Remove(card); }
-        // все, что дальше, должно происходить уже в кардменеджере
-        cardManager.playingCards.Add(card);
+        CardAction?.Invoke(card, this, playAnimation);
     }
 
     public void BurnCard(GameObject card)
@@ -182,6 +182,7 @@ public class Side : MonoBehaviour
         shuffleAnimation = new ShuffleAnimation();
         discardAnimation = new DiscardAnimation();
         drawAnimation= new DrawAnimation();
+        playAnimation = new AddAnimation();
 
         Cards.Clear();
         foreach (GameObject card in CardList)

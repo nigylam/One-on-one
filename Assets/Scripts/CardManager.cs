@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.UI;
 using TMPro;
+using System;
 
 public class CardManager : MonoBehaviour
 {
@@ -56,6 +57,11 @@ public class CardManager : MonoBehaviour
 
         enemy.DrawCards();
         player.DrawCards();
+
+        int i = 5;
+        int e = 2;
+
+        //Debug.Log(Math.Ceiling(Convert.ToSingle(i) / Convert.ToSingle(e)));
     }
 
     void Update()
@@ -76,6 +82,11 @@ public class CardManager : MonoBehaviour
     {
         isProcessingQueue = true;
         CardEvent cardEvent = eventQueue.Dequeue();
+        if (cardEvent.ActionType == null)
+        {
+            Debug.Log(cardEvent.Card.name);
+            Debug.Log("ActionType component is not found!");
+        }
         cardEvent.ActionType.PlayAnimation(cardEvent.Card, cardEvent.TriggeringSide);
         yield return new WaitForSeconds(0.3f);
         isProcessingQueue = false;
@@ -92,13 +103,23 @@ public class CardManager : MonoBehaviour
         eventQueue.Enqueue(new CardEvent(card, cardActionType, side));
         eventStack.Push(new CardEvent(card, cardActionType, side));
     }
-
-
 }
 
 public interface IPlayable
 {
     public void PlayAnimation(GameObject card, Side side);
+}
+
+public class AddAnimation : IPlayable
+{
+    CardManager cardManager = GameObject.Find("Card Manager").GetComponent<CardManager>();
+    public void PlayAnimation(GameObject card, Side side)
+    {
+        Debug.Log("check");
+        cardManager.playingCards.Add(card);
+        side.DoubleTableCards.Remove(card);
+        CardAnimationUtility.CalculateTableCardsPosition(side);
+    }
 }
 
 public class DrawAnimation : IPlayable
@@ -114,9 +135,13 @@ public class DrawAnimation : IPlayable
 
 public class DiscardAnimation : IPlayable
 {
+    CardManager cardManager = GameObject.Find("Card Manager").GetComponent<CardManager>();
     public void PlayAnimation(GameObject card, Side side)
     {
-        side.DoubleTableCards.Remove(card);
+        if (cardManager.playingCards.Contains(card))
+            cardManager.playingCards.Remove(card);
+        if (side.DoubleTableCards.Contains(card))
+            side.DoubleTableCards.Remove(card);
         card.GetComponent<CardScript>().desiredPosition = side.DiscardPosition;
         CardAnimationUtility.CalculateTableCardsPosition(side);
         side.DiscardCounter++;

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Components;
+using System;
 
 public class CardDescription : MonoBehaviour
 {
@@ -14,6 +15,8 @@ public class CardDescription : MonoBehaviour
     public int drawCards = 0;
     public int addCardBuff = 0;
     public int sideStrength = 0;
+
+    public int finalDamageHalfBlock;
 
     public CardScript cardScript;
     LocalizeStringEvent localizeStringEventComp;
@@ -35,6 +38,8 @@ public class CardDescription : MonoBehaviour
         drawCards = cardScript.card.DrawCards;
         addCardBuff = cardScript.card.AddCardBuff;
         sideStrength = cardScript.cardSide.Strength;
+
+        finalDamageHalfBlock = Convert.ToInt32(Math.Ceiling(Convert.ToSingle(cardScript.cardSide.Block) / 2));
         localizeStringEventComp.RefreshString();
     }
 }

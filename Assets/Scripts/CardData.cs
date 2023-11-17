@@ -9,17 +9,21 @@ public class CardData : MonoBehaviour
     void Awake()
     {
         cardDictionary["BlueAttack1"] = new Card {Damage = 5 };
-        cardDictionary["BlueAttack2"] = new Card { Mana = 1, Damage = 4, DrawCards = 2 };
-        cardDictionary["BlueDefend1"] = new Card { Block = 6 };
+        cardDictionary["BlueAttack2"] = new Card { Mana = 1, Damage = 5, DrawCards = 2 };
+        cardDictionary["BlueAttack3"] = new Card { IsSpecial = true, Damage = 9, Mana = 1 };
+        cardDictionary["BlueDefend1"] = new Card { Block = 8 };
+        cardDictionary["BlueSkill1"] = new Card { IsSpecial = true, Mana = 1 };
+        cardDictionary["BlueSkill2"] = new Card { IsSpecial = true };
         cardDictionary["RedAttack1"] = new Card { Damage = 6 };
-        cardDictionary["RedAttack2"] = new Card { Damage = 12, Mana = 2 };
+        cardDictionary["RedAttack2"] = new Card { Damage = 12, Mana = 1 };
         cardDictionary["RedDefend1"] = new Card { Block = 5 };
         cardDictionary["RedPower1"] = new Card { GainStrength = 1, Mana = 1 };
         cardDictionary["GraySkill1"] = new Card { IsSpecial = true, DrawCards = 2 };
         cardDictionary["GraySkill2"] = new Card { AddCardBuff = 1 };
-        cardDictionary["BlueAttack3"] = new Card { IsSpecial = true, Damage = 9, Mana = 1 };
-        cardDictionary["BlueSkill1"] = new Card { IsSpecial = true, Mana = 1 };
-        cardDictionary["BlueSkill2"] = new Card { IsSpecial = true };
+        // добавить
+        cardDictionary["BlueAttack4"] = new Card { Mana = 1, IsSpecial = true };
+        cardDictionary["RedAttack3"] = new Card { Mana = 1, Rage = 1, Damage = 8};
+        cardDictionary["RedPower2"] = new Card { IsSpecial = true };
     }
 }
 
@@ -33,6 +37,7 @@ public class Card
     public int GainDexterity = 0;
     public int DrawCards = 0;
     public int AddCardBuff = 0;
+    public int Rage = 0;
 }
 
 /*

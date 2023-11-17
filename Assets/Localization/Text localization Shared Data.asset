@@ -15,160 +15,40 @@ MonoBehaviour:
   m_TableCollectionName: Text localization
   m_TableCollectionNameGuidString: f6f67a85ce6134647bbd865419258dd2
   m_Entries:
-  - m_Id: 397596438528
-    m_Key: BlueAttack1_Title
-    m_Metadata:
-      m_Items: []
-  - m_Id: 40414431686656
-    m_Key: End Turn
-    m_Metadata:
-      m_Items: []
-  - m_Id: 44323762089984
-    m_Key: BlueAttack1_Description
-    m_Metadata:
-      m_Items: []
-  - m_Id: 45145141030912
-    m_Key: RedAttack1_Description
-    m_Metadata:
-      m_Items: []
-  - m_Id: 50800505663488
-    m_Key: BlueAttack2_Title
-    m_Metadata:
-      m_Items: []
-  - m_Id: 50883343167488
-    m_Key: BlueAttack2_Description
-    m_Metadata:
-      m_Items: []
-  - m_Id: 51009814016000
-    m_Key: BlueDefend1_Title
-    m_Metadata:
-      m_Items: []
-  - m_Id: 51037240569856
-    m_Key: BlueDefend1_Description
-    m_Metadata:
-      m_Items: []
-  - m_Id: 51107499356160
-    m_Key: RedAttack1_Title
-    m_Metadata:
-      m_Items: []
-  - m_Id: 51185853149184
-    m_Key: RedAttack2_Title
-    m_Metadata:
-      m_Items: []
-  - m_Id: 51251267514368
-    m_Key: RedAttack2_Description
-    m_Metadata:
-      m_Items: []
-  - m_Id: 51276399783936
-    m_Key: RedDefend1_Title
-    m_Metadata:
-      m_Items: []
-  - m_Id: 51282963869696
-    m_Key: RedDefend1_Description
-    m_Metadata:
-      m_Items: []
-  - m_Id: 51288852672512
-    m_Key: RedPower1_Title
-    m_Metadata:
-      m_Items: []
-  - m_Id: 51310268788736
-    m_Key: RedPower1_Description
-    m_Metadata:
-      m_Items: []
-  - m_Id: 678170296070144
-    m_Key: Attack_Type
-    m_Metadata:
-      m_Items: []
-  - m_Id: 678239615332352
-    m_Key: Defend_Type
-    m_Metadata:
-      m_Items: []
-  - m_Id: 678279515746304
-    m_Key: Power_Type
-    m_Metadata:
-      m_Items: []
-  - m_Id: 678305415573504
-    m_Key: Skill_Type
-    m_Metadata:
-      m_Items: []
-  - m_Id: 981036982349824
-    m_Key: Strength_tip
-    m_Metadata:
-      m_Items: []
-  - m_Id: 1017758516523008
-    m_Key: Block_Tip
-    m_Metadata:
-      m_Items: []
-  - m_Id: 1018627815387136
-    m_Key: HP_Tip
-    m_Metadata:
-      m_Items: []
-  - m_Id: 1028013589803008
-    m_Key: EndTurn_Tip
-    m_Metadata:
-      m_Items: []
-  - m_Id: 1032676322062336
-    m_Key: DrawPile_Tip
-    m_Metadata:
-      m_Items: []
-  - m_Id: 1035408680431616
-    m_Key: DiscardPile_Tip
-    m_Metadata:
-      m_Items: []
-  - m_Id: 1043068670717952
-    m_Key: Swap_Tip
-    m_Metadata:
-      m_Items: []
-  - m_Id: 1043601661898752
-    m_Key: BlockCard_Tip
-    m_Metadata:
-      m_Items: []
-  - m_Id: 1044050616004608
-    m_Key: Sacr_Tip
-    m_Metadata:
-      m_Items: []
-  - m_Id: 1046368782659584
-    m_Key: SacrStr_Tip
-    m_Metadata:
-      m_Items: []
-  - m_Id: 1052134570733568
-    m_Key: SacrPlayerPop_Tip
-    m_Metadata:
-      m_Items: []
-  - m_Id: 1052429484830720
-    m_Key: DiscPlayerPop_Tip
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4373107910914048
-    m_Key: DrawPile_Popup_Title
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4373494688657408
-    m_Key: DiscardPile_Popup_Title
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4381851902291968
-    m_Key: Return_Button
-    m_Metadata:
-      m_Items: []
-  - m_Id: 8327314670104576
-    m_Key: GraySkill1_Title
-    m_Metadata:
-      m_Items: []
-  - m_Id: 8327422686015488
-    m_Key: GraySkill1_Description
+  - m_Id: 18166334040322048
+    m_Key: Accept_Button
     m_Metadata:
       m_Items: []
   - m_Id: 11285824198422528
     m_Key: AddCard_Tip
     m_Metadata:
       m_Items: []
-  - m_Id: 11292770561437696
-    m_Key: GraySkill2_Description
+  - m_Id: 678170296070144
+    m_Key: Attack_Type
     m_Metadata:
       m_Items: []
-  - m_Id: 11292804778569728
-    m_Key: GraySkill2_Title
+  - m_Id: 1017758516523008
+    m_Key: Block_Tip
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1043601661898752
+    m_Key: BlockCard_Tip
+    m_Metadata:
+      m_Items: []
+  - m_Id: 44323762089984
+    m_Key: BlueAttack1_Description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 397596438528
+    m_Key: BlueAttack1_Title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 50883343167488
+    m_Key: BlueAttack2_Description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 50800505663488
+    m_Key: BlueAttack2_Title
     m_Metadata:
       m_Items: []
   - m_Id: 16361592200900608
@@ -179,24 +59,28 @@ MonoBehaviour:
     m_Key: BlueAttack3_Title
     m_Metadata:
       m_Items: []
-  - m_Id: 17052875034734592
-    m_Key: BlueSkill1_Title
+  - m_Id: 26514410916294656
+    m_Key: BlueAttack4_Description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26490547901837312
+    m_Key: BlueAttack4_Title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 51037240569856
+    m_Key: BlueDefend1_Description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 51009814016000
+    m_Key: BlueDefend1_Title
     m_Metadata:
       m_Items: []
   - m_Id: 17052954395160576
     m_Key: BlueSkill1_Description
     m_Metadata:
       m_Items: []
-  - m_Id: 17071598747529216
-    m_Key: DiscEnemyPop_Tip
-    m_Metadata:
-      m_Items: []
-  - m_Id: 17071705438040064
-    m_Key: SacrEnemyPop_Tip
-    m_Metadata:
-      m_Items: []
-  - m_Id: 18166334040322048
-    m_Key: Accept_Button
+  - m_Id: 17052875034734592
+    m_Key: BlueSkill1_Title
     m_Metadata:
       m_Items: []
   - m_Id: 20926726927822848
@@ -207,8 +91,152 @@ MonoBehaviour:
     m_Key: BlueSkill2_Title
     m_Metadata:
       m_Items: []
+  - m_Id: 678239615332352
+    m_Key: Defend_Type
+    m_Metadata:
+      m_Items: []
   - m_Id: 22159523285839872
     m_Key: DiscAnyPlayerPop_Tip
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4373494688657408
+    m_Key: DiscardPile_Popup_Title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1035408680431616
+    m_Key: DiscardPile_Tip
+    m_Metadata:
+      m_Items: []
+  - m_Id: 17071598747529216
+    m_Key: DiscEnemyPop_Tip
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1052429484830720
+    m_Key: DiscPlayerPop_Tip
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4373107910914048
+    m_Key: DrawPile_Popup_Title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1032676322062336
+    m_Key: DrawPile_Tip
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40414431686656
+    m_Key: End Turn
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1028013589803008
+    m_Key: EndTurn_Tip
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8327422686015488
+    m_Key: GraySkill1_Description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8327314670104576
+    m_Key: GraySkill1_Title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11292770561437696
+    m_Key: GraySkill2_Description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11292804778569728
+    m_Key: GraySkill2_Title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1018627815387136
+    m_Key: HP_Tip
+    m_Metadata:
+      m_Items: []
+  - m_Id: 678279515746304
+    m_Key: Power_Type
+    m_Metadata:
+      m_Items: []
+  - m_Id: 45145141030912
+    m_Key: RedAttack1_Description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 51107499356160
+    m_Key: RedAttack1_Title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 51251267514368
+    m_Key: RedAttack2_Description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 51185853149184
+    m_Key: RedAttack2_Title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26515986657587200
+    m_Key: RedAttack3_Description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26515817023156224
+    m_Key: RedAttack3_Title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 51282963869696
+    m_Key: RedDefend1_Description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 51276399783936
+    m_Key: RedDefend1_Title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 51310268788736
+    m_Key: RedPower1_Description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 51288852672512
+    m_Key: RedPower1_Title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26516802005118976
+    m_Key: RedPower2_Description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26516597079814144
+    m_Key: RedPower2_Title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4381851902291968
+    m_Key: Return_Button
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1044050616004608
+    m_Key: Sacr_Tip
+    m_Metadata:
+      m_Items: []
+  - m_Id: 17071705438040064
+    m_Key: SacrEnemyPop_Tip
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1052134570733568
+    m_Key: SacrPlayerPop_Tip
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1046368782659584
+    m_Key: SacrStr_Tip
+    m_Metadata:
+      m_Items: []
+  - m_Id: 678305415573504
+    m_Key: Skill_Type
+    m_Metadata:
+      m_Items: []
+  - m_Id: 981036982349824
+    m_Key: Strength_tip
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1043068670717952
+    m_Key: Swap_Tip
+    m_Metadata:
+      m_Items: []
+  - m_Id: 27216663063048192
+    m_Key: HalfBlockDamage_Tip
     m_Metadata:
       m_Items: []
   m_Metadata:

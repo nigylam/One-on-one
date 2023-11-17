@@ -92,13 +92,15 @@ public class CardScript : MonoBehaviour
         LerpAndLayerControlling();
         cardCanvas.sortingLayerName = sprite.sortingLayerName;
 
-        if (cardManager.playingCards.Contains(gameObject))
+        if (cardManager.playingCards.Contains(gameObject) && cardId == "BlueSkill2")
         {
             if(cardManager.eventStack.Count > 0)
             {
                 CardEvent newEvent = cardManager.eventStack.Pop();
                 if (newEvent.ActionType == cardSide.discardAnimation)
+                {
                     cardsDiscarded++;
+                }
             }
         }
     }
@@ -291,6 +293,8 @@ public class CardScript : MonoBehaviour
         {
             cardSide.DiscardCard(gameObject);
         }
+        cardsDiscarded = 0;
+        cardManager.eventStack.Clear();
     }
 
     public IEnumerator ManaSpending()
