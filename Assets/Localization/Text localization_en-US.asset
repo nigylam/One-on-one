@@ -33,7 +33,7 @@ MonoBehaviour:
       m_Items:
       - rid: 2721703719461978129
   - m_Id: 45145141030912
-    m_Localized: Deal  {card.sideStrength:cond:>0?<color=green>{card.finalDamage}</color>|=0?{card.finalDamage}|{card.finalDamage}}
+    m_Localized: Deal {card.finalDamage:cond:>6?<color=green>{card.finalDamage}</color>|=6?{card.finalDamage}}}
       damage.
     m_Metadata:
       m_Items:
@@ -44,7 +44,7 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 50883343167488
     m_Localized: 'Swap: {card.mana}. Deals {card.finalDamage}  damage. Draws {card.drawCards}
-      card.'
+      cards.'
     m_Metadata:
       m_Items:
       - rid: 2721703719461978129
@@ -66,7 +66,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 51251267514368
-    m_Localized: 'Sacrifice: {card.mana}. Deal {card.sideStrength:cond:>0?<color=green>{card.finalDamage}</color>|=0?{card.finalDamage}|{card.finalDamage}}
+    m_Localized: 'Sacrifice: {card.mana}. Deal {card.finalDamage:cond:>12?<color=green>{card.finalDamage}</color>|=12?{card.finalDamage}}
       damage.'
     m_Metadata:
       m_Items:
@@ -252,10 +252,11 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 26515986657587200
-    m_Localized: 'Sacrifice: {card.mana}. Deal {card.sideStrength:cond:>0?<color=green>{card.finalDamage}</color>|=0?{card.finalDamage}|{card.finalDamage}}
+    m_Localized: 'Sacrifice: {card.mana}. Deal {card.finalDamage:cond:>8?<color=green>{card.finalDamage}</color>|=8?{card.finalDamage}}
       damage. Gane 1 rage.'
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 2721703719461978129
   - m_Id: 26516597079814144
     m_Localized: Plan of revenge
     m_Metadata:
@@ -266,14 +267,18 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 27216663063048192
-    m_Localized: 'Deals '
+    m_Localized: Deals {halfBlock.finalDamageHalfBlock} damage.
     m_Metadata:
       m_Items:
       - rid: 2721703719461978129
+  - m_Id: 28322895425449984
+    m_Localized: '<b>Rage</b>: attacks deals 1,5X damage.'
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:
     - rid: 2721703719461978129
       type: {class: SmartFormatTag, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
       data:
-        m_Entries: 0030d8783f7c03000030d85ea59d0300003018ee4f2800000030182c0f29000000309833472e0000003098086b2e0000003098dd9c2e00000030d83ea42e00000030589aaa2e00000030182fbf951d00003058b6651828000030d809b71e28000030185992953c000030185cb7325e000030d82d69b16000
+        m_Entries: 0030d8783f7c03000030d85ea59d0300003018ee4f2800000030182c0f29000000309833472e0000003098086b2e0000003098dd9c2e00000030d83ea42e00000030589aaa2e00000030182fbf951d00003058b6651828000030d809b71e28000030185992953c000030185cb7325e000030d82d69b160000030983d26345e00

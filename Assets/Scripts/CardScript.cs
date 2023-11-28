@@ -88,7 +88,7 @@ public class CardScript : MonoBehaviour
     void Update()
     {
         CardPlacing();
-        finalDamage = card.Damage + cardSide.Strength;
+        finalDamage = cardSide.Rage > 0 ? Convert.ToInt32(Math.Ceiling((1.5) * Convert.ToSingle(card.Damage + cardSide.Strength))) : card.Damage + cardSide.Strength;
         LerpAndLayerControlling();
         cardCanvas.sortingLayerName = sprite.sortingLayerName;
 
@@ -98,9 +98,7 @@ public class CardScript : MonoBehaviour
             {
                 CardEvent newEvent = cardManager.eventStack.Pop();
                 if (newEvent.ActionType == cardSide.discardAnimation)
-                {
                     cardsDiscarded++;
-                }
             }
         }
     }
@@ -200,6 +198,9 @@ public class CardScript : MonoBehaviour
                 transform.localScale = new Vector2(1.2f, 1.2f);
             }
         }
+
+        Debug.Log("dam " + card.Damage);
+        Debug.Log("fin " + finalDamage);
     }
     public void OnMouseExit()
     {
@@ -280,6 +281,7 @@ public class CardScript : MonoBehaviour
             cardSide.Strength += card.GainStrength;
             cardSide.DrawCards(card.DrawCards);
             cardSide.AddCardBuff(card.AddCardBuff);
+            cardSide.RageBuff(card.Rage);
         }
         else
         {

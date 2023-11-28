@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 public class CardsActions : MonoBehaviour
@@ -14,7 +15,6 @@ public class CardsActions : MonoBehaviour
         cardScript = gameObject.GetComponent<CardScript>();
         statManager = GameObject.Find("Stat Manager").GetComponent<StatManager>();
         cardManager = GameObject.Find("Card Manager").GetComponent<CardManager>();
-
     }
 
     void Update()
@@ -40,6 +40,10 @@ public class CardsActions : MonoBehaviour
                 {
                     cardScript.otherSide.DealDamage(cardScript.finalDamage);
                 }
+                cardScript.playerActionCompleted = true;
+                break;
+            case "BlueAttack4":
+                cardScript.otherSide.DealDamage(Convert.ToInt32(Math.Ceiling(Convert.ToSingle(cardScript.cardSide.Block)/2)));
                 cardScript.playerActionCompleted = true;
                 break;
             case "BlueSkill1":

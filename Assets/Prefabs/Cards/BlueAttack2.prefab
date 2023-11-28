@@ -228,7 +228,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 18.6
+  m_fontSize: 21.05
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -307,7 +307,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:f6f67a85ce6134647bbd865419258dd2
     m_TableEntryReference:
-      m_KeyId: 16361592200900608
+      m_KeyId: 50883343167488
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -786,6 +786,7 @@ MonoBehaviour:
   lastStrength: -1
   finalDamage: 0
   PlayingArea: {fileID: 0}
+  statManager: {fileID: 0}
   CardDescription: {fileID: 1276512857431061811}
   CardTitle: {fileID: 1144815945956904041}
   CardTypePrint: {fileID: 8797198727328554232}
@@ -799,6 +800,7 @@ MonoBehaviour:
   sprite: {fileID: 0}
   isntDragging: 1
   playerActionCompleted: 0
+  cardsDiscarded: 0
 --- !u!114 &4692592177589050605
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -811,8 +813,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2c06c9fd8c46014085b1ffe344021f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CardManager: {fileID: 0}
-  StatManager: {fileID: 0}
 --- !u!114 &-8953157025670924184
 MonoBehaviour:
   m_ObjectHideFlags: 0

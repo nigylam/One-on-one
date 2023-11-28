@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Settings;
@@ -23,6 +24,9 @@ public class TipStats : MonoBehaviour
 
     string finalString;
 
+    [HideInInspector]
+    public int finalDamageHalfBlock;
+
     void Start()
     {
         CardManager = GameObject.Find("Card Manager");
@@ -39,6 +43,8 @@ public class TipStats : MonoBehaviour
         //Debug.Log(strength);
         strength = tipSide.Strength;
         block = tipSide.Block;
+        finalDamageHalfBlock = Convert.ToInt32(Math.Ceiling(Convert.ToSingle(tipSide.Block) / 2));
+
         localizeStringEventComp.RefreshString();
     }
 }

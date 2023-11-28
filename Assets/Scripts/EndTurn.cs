@@ -18,12 +18,14 @@ public class EndTurn : MonoBehaviour
             cardManagerScript.player.DiscardCards();
             cardManagerScript.player.DrawCards();
             cardManagerScript.curentTurn++;
+            cardManagerScript.player.RageDecrease();
         }
         else
         {
             cardManagerScript.enemy.DiscardCards();
             cardManagerScript.enemy.DrawCards();
             cardManagerScript.curentTurn++;
+            cardManagerScript.enemy.RageDecrease();
         }
 
         string i = "";

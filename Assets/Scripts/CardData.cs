@@ -11,6 +11,7 @@ public class CardData : MonoBehaviour
         cardDictionary["BlueAttack1"] = new Card {Damage = 5 };
         cardDictionary["BlueAttack2"] = new Card { Mana = 1, Damage = 5, DrawCards = 2 };
         cardDictionary["BlueAttack3"] = new Card { IsSpecial = true, Damage = 9, Mana = 1 };
+        cardDictionary["BlueAttack4"] = new Card { Mana = 1, IsSpecial = true };
         cardDictionary["BlueDefend1"] = new Card { Block = 8 };
         cardDictionary["BlueSkill1"] = new Card { IsSpecial = true, Mana = 1 };
         cardDictionary["BlueSkill2"] = new Card { IsSpecial = true };
@@ -20,9 +21,9 @@ public class CardData : MonoBehaviour
         cardDictionary["RedPower1"] = new Card { GainStrength = 1, Mana = 1 };
         cardDictionary["GraySkill1"] = new Card { IsSpecial = true, DrawCards = 2 };
         cardDictionary["GraySkill2"] = new Card { AddCardBuff = 1 };
+        cardDictionary["RedAttack3"] = new Card { Mana = 1, Rage = 1, Damage = 8 };
+
         // добавить
-        cardDictionary["BlueAttack4"] = new Card { Mana = 1, IsSpecial = true };
-        cardDictionary["RedAttack3"] = new Card { Mana = 1, Rage = 1, Damage = 8};
         cardDictionary["RedPower2"] = new Card { IsSpecial = true };
     }
 }

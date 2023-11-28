@@ -239,6 +239,10 @@ MonoBehaviour:
     m_Key: HalfBlockDamage_Tip
     m_Metadata:
       m_Items: []
+  - m_Id: 28322895425449984
+    m_Key: Rage_Tip
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

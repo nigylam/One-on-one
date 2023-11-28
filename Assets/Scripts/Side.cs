@@ -36,6 +36,7 @@ public class Side : MonoBehaviour
     public int CardsOnTheTableCounter = 0;
     //public GameObject ManaPopUp;
     public int Strength;
+    public int Rage = 0;
     public int StartDrawCards = 5;
     public int AddCard = 0;
 
@@ -173,6 +174,17 @@ public class Side : MonoBehaviour
         }
 
         return Hp;
+    }
+
+    public void RageBuff(int numberOfTurns)
+    {
+        Rage += numberOfTurns;
+    }
+
+    public void RageDecrease()
+    {
+        if (Rage > 0)
+            Rage--;
     }
 
     void Awake()

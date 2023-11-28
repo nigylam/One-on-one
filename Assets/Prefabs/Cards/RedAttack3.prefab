@@ -36,8 +36,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -6.1, y: -58.4}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: -1.6057, y: -69.39772}
+  m_SizeDelta: {x: 161.4778, y: 98.5949}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &658328966873272209
 CanvasRenderer:
@@ -94,10 +94,10 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
+  m_fontSize: 21.55
   m_fontSizeBase: 24
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
@@ -130,7 +130,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 29.76561, y: -5.416153, z: 21.123932, w: -41.287796}
+  m_margin: {x: 0.8739319, y: 0.36216736, z: -0.70532227, w: -0.23127747}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -152,7 +152,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:f6f67a85ce6134647bbd865419258dd2
     m_TableEntryReference:
-      m_KeyId: 51251267514368
+      m_KeyId: 26515986657587200
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -202,6 +202,8 @@ MonoBehaviour:
   gainDexterity: 0
   drawCards: 0
   addCardBuff: 0
+  sideStrength: 0
+  damage: 0
   cardScript: {fileID: 0}
 --- !u!1 &2612352504542333853
 GameObject:
@@ -237,8 +239,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 106.8}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: -1.5967, y: 110.652176}
+  m_SizeDelta: {x: 133.6146, y: 21.6479}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8005907774619928873
 CanvasRenderer:
@@ -295,10 +297,10 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 18
+  m_fontSize: 19.4
   m_fontSizeBase: 18
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 1
@@ -331,7 +333,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 13.490524, y: 2.9712524, z: 15.176476, w: 23.336823}
+  m_margin: {x: -0.63430786, y: 0.4031372, z: 0.40961456, w: -0.43563843}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -354,7 +356,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &6017538269961357955
 RectTransform:
   m_ObjectHideFlags: 0
@@ -372,8 +374,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 206.49988, y: 54.9}
-  m_SizeDelta: {x: 200, y: 150}
+  m_AnchoredPosition: {x: 206.49988, y: 96.09202}
+  m_SizeDelta: {x: 200, y: 67.6158}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8055903728381385471
 CanvasRenderer:
@@ -527,7 +529,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 180, y: 260}
+    oldSize: {x: 180, y: 251}
     newSize: {x: 1.8, y: 2.6}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -577,7 +579,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 2c14ab678aadce7438773d01741afc82, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 2f5c0f6208ec47c47ace2e06ae00159a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -601,13 +603,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Mana: 0
-  cardId: RedAttack2
+  cardId: RedAttack3
   cardType: 0
   cardSide: {fileID: 0}
   otherSide: {fileID: 0}
   lastStrength: -1
   finalDamage: 0
   PlayingArea: {fileID: 0}
+  statManager: {fileID: 0}
   CardDescription: {fileID: 2286647698273541372}
   CardTitle: {fileID: 2612352504542333853}
   CardTypePrint: {fileID: 7705122816466980629}
@@ -621,6 +624,7 @@ MonoBehaviour:
   sprite: {fileID: 0}
   isntDragging: 1
   playerActionCompleted: 0
+  cardsDiscarded: 0
 --- !u!114 &6949863241593881535
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -633,8 +637,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2c06c9fd8c46014085b1ffe344021f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CardManager: {fileID: 0}
-  StatManager: {fileID: 0}
 --- !u!114 &2045555727772999489
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -788,8 +790,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -5.7, y: -19.6}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: -3.1319, y: -4.1911}
+  m_SizeDelta: {x: 85.7172, y: 23.0345}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6803649774624991891
 CanvasRenderer:
@@ -846,10 +848,10 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 16
+  m_fontSize: 20.05
   m_fontSizeBase: 16
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
@@ -882,7 +884,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 73.60483, y: 2.7165985, z: 66.23306, w: 28.07904}
+  m_margin: {x: -1.5135803, y: 0.14848328, z: -0.5388565, w: 0.4713745}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -923,8 +925,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 43.9}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: 0, y: 6.3}
+  m_SizeDelta: {x: 200, y: 47.2025}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2525108781895016114
 CanvasRenderer:
@@ -1021,7 +1023,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 3.4697266, y: 0, z: 5.782959, w: -87.96008}
+  m_margin: {x: 3.4697266, y: 0, z: 5.782959, w: -0.30322266}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -1043,7 +1045,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:f6f67a85ce6134647bbd865419258dd2
     m_TableEntryReference:
-      m_KeyId: 1044050616004608
+      m_KeyId: 28322895425449984
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0

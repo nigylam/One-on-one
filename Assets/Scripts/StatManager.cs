@@ -25,6 +25,9 @@ public class StatManager : MonoBehaviour
     public GameObject strengthCounter;
     public GameObject enemyStrengthCounter;
 
+    public GameObject enemyRage;
+    TextMeshProUGUI enemyRageCounter;
+
     public GameObject AddCards;
     public GameObject AddCardsCounter;
 
@@ -77,6 +80,8 @@ public class StatManager : MonoBehaviour
         strengthCounterText = strengthCounter.GetComponent<TextMeshProUGUI>();
         enemyStrengthCounterText = enemyStrengthCounter.GetComponent<TextMeshProUGUI>();
 
+        enemyRageCounter = enemyRage.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+
         cardManagerScript = CardManager.GetComponent<CardManager>();
 
         AddCardsCounterText = AddCardsCounter.GetComponent<TextMeshProUGUI>();
@@ -102,6 +107,8 @@ public class StatManager : MonoBehaviour
 
         AddCardsCounterText.text = "" + cardManagerScript.player.AddCard;
 
+        enemyRageCounter.text = "" + cardManagerScript.enemy.Rage;
+
         if (cardManagerScript.player.Strength == 0)
         {
             strength.SetActive(false);
@@ -124,6 +131,14 @@ public class StatManager : MonoBehaviour
         else
         {
             AddCards.SetActive(true);
+        }
+        if (cardManagerScript.enemy.Rage == 0)
+        {
+            enemyRage.SetActive(false);
+        }
+        else
+        {
+            enemyRage.SetActive(true);
         }
     }
 

@@ -15,8 +15,7 @@ public class CardDescription : MonoBehaviour
     public int drawCards = 0;
     public int addCardBuff = 0;
     public int sideStrength = 0;
-
-    public int finalDamageHalfBlock;
+    public int damage = 0;
 
     public CardScript cardScript;
     LocalizeStringEvent localizeStringEventComp;
@@ -27,9 +26,15 @@ public class CardDescription : MonoBehaviour
         localizeStringEventComp = gameObject.GetComponent<LocalizeStringEvent>();
     }
 
+    void Start()
+    {
+
+    }
+
     // Update is called once per frame
     void Update()
     {
+        damage = cardScript.card.Damage;
         finalDamage = cardScript.finalDamage;
         block = cardScript.card.Block;
         mana = cardScript.card.Mana;
@@ -38,8 +43,6 @@ public class CardDescription : MonoBehaviour
         drawCards = cardScript.card.DrawCards;
         addCardBuff = cardScript.card.AddCardBuff;
         sideStrength = cardScript.cardSide.Strength;
-
-        finalDamageHalfBlock = Convert.ToInt32(Math.Ceiling(Convert.ToSingle(cardScript.cardSide.Block) / 2));
         localizeStringEventComp.RefreshString();
     }
 }
