@@ -43,8 +43,11 @@ public class Side : MonoBehaviour
     public int DrawCounter = 0;
     public int DiscardCounter = 0;
 
+    public bool PlanRevenge = false;
+
     public bool discardMode = false;
     public bool burnMode = false;
+
 
     int _savedTurn = 0;
     private int _block;

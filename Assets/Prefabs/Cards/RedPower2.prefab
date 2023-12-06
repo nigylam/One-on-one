@@ -145,7 +145,6 @@ GameObject:
   - component: {fileID: 3353865902347874505}
   - component: {fileID: 8846746811387959960}
   - component: {fileID: 2484916604914705858}
-  - component: {fileID: 6006480806158131517}
   m_Layer: 6
   m_Name: Tip text
   m_TagString: Untagged
@@ -187,7 +186,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1915343202776416330}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
@@ -276,46 +275,6 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &6006480806158131517
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1915343202776416330}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 56eb0353ae6e5124bb35b17aff880f16, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_StringReference:
-    m_TableReference:
-      m_TableCollectionName: GUID:f6f67a85ce6134647bbd865419258dd2
-    m_TableEntryReference:
-      m_KeyId: 1046368782659584
-      m_Key: 
-    m_FallbackState: 0
-    m_WaitForCompletion: 0
-    m_LocalVariables: []
-  m_FormatArguments: []
-  m_UpdateString:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2484916604914705858}
-        m_TargetAssemblyTypeName: TMPro.TMP_Text, Unity.TextMeshPro
-        m_MethodName: set_text
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 1
-  references:
-    version: 2
-    RefIds: []
 --- !u!1 &3315774707024180401
 GameObject:
   m_ObjectHideFlags: 0
@@ -352,8 +311,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -58.4}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: -2.1972, y: -73.2}
+  m_SizeDelta: {x: 167.4824, y: 86.7691}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5789155343562888091
 CanvasRenderer:
@@ -410,8 +369,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
-  m_fontSizeBase: 24
+  m_fontSize: 14
+  m_fontSizeBase: 14
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -446,7 +405,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 29.76561, y: -5.416153, z: 21.123932, w: -41.287796}
+  m_margin: {x: -0.11541748, y: -0.14308167, z: 0.03147888, w: 0.89720154}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -471,6 +430,8 @@ MonoBehaviour:
   gainDexterity: 0
   drawCards: 0
   addCardBuff: 0
+  sideStrength: 0
+  damage: 0
   cardScript: {fileID: 0}
 --- !u!114 &7449456663883036392
 MonoBehaviour:
@@ -488,7 +449,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:f6f67a85ce6134647bbd865419258dd2
     m_TableEntryReference:
-      m_KeyId: 51310268788736
+      m_KeyId: 26516802005118976
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -536,7 +497,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4335659120358592092
 RectTransform:
   m_ObjectHideFlags: 0
@@ -709,7 +670,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 180, y: 260}
+    oldSize: {x: 180, y: 251}
     newSize: {x: 1.8, y: 2.6}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -759,7 +720,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
-  m_Sprite: {fileID: 21300000, guid: 59448cef0e095124b9a37d05be0f5444, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 9d2a20822313daf49aaccb4f1a850237, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -783,13 +744,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Mana: 0
-  cardId: RedPower1
+  cardId: RedPower2
   cardType: 4
   cardSide: {fileID: 0}
   otherSide: {fileID: 0}
   lastStrength: -1
   finalDamage: 0
   PlayingArea: {fileID: 0}
+  statManager: {fileID: 0}
   CardDescription: {fileID: 3315774707024180401}
   CardTitle: {fileID: 1258943701050630431}
   CardTypePrint: {fileID: 8484961433361121637}
@@ -803,6 +765,7 @@ MonoBehaviour:
   sprite: {fileID: 0}
   isntDragging: 1
   playerActionCompleted: 0
+  cardsDiscarded: 0
 --- !u!114 &4351014071588378674
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -815,8 +778,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2c06c9fd8c46014085b1ffe344021f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CardManager: {fileID: 0}
-  StatManager: {fileID: 0}
 --- !u!114 &6931389004534158712
 MonoBehaviour:
   m_ObjectHideFlags: 0

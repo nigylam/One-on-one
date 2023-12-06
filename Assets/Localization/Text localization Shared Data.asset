@@ -243,6 +243,10 @@ MonoBehaviour:
     m_Key: Rage_Tip
     m_Metadata:
       m_Items: []
+  - m_Id: 33419564135493632
+    m_Key: PlanRevenge_Tip
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

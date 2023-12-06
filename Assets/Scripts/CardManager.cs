@@ -57,11 +57,6 @@ public class CardManager : MonoBehaviour
 
         enemy.DrawCards();
         player.DrawCards();
-
-        int i = 5;
-        int e = 2;
-
-        //Debug.Log(Math.Ceiling(Convert.ToSingle(i) / Convert.ToSingle(e)));
     }
 
     void Update()
@@ -75,6 +70,19 @@ public class CardManager : MonoBehaviour
         foreach(GameObject card in playingCards)
         {
             card.GetComponent<CardScript>().desiredPosition = new Vector2(0,0);
+        }
+
+        PlanRevengeMode();
+    }
+
+
+    void PlanRevengeMode()
+    {
+        if (enemy.PlanRevenge)
+        {
+            CardEvent newEvent = eventStack.Pop();
+            if (newEvent.ActionType == enemy.discardAnimation || newEvent.ActionType == enemy.burnAnimation)
+                enemy.AddCardBuff(1);
         }
     }
 

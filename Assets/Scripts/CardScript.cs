@@ -198,9 +198,6 @@ public class CardScript : MonoBehaviour
                 transform.localScale = new Vector2(1.2f, 1.2f);
             }
         }
-
-        Debug.Log("dam " + card.Damage);
-        Debug.Log("fin " + finalDamage);
     }
     public void OnMouseExit()
     {
