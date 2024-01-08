@@ -29,10 +29,10 @@ public class CardManager : MonoBehaviour
     public int curentTurn = 1;
 
     private Queue<CardEvent> eventQueue = new Queue<CardEvent>();
-    private Queue<SacrDiscPopupEvent> SacrDiscPopupEventQueue = new Queue<SacrDiscPopupEvent>();
+    private Queue<StatEvent> statEventQueue = new Queue<StatEvent>();
 
     private bool isProcessingQueue = false;
-    private bool isProcessingSacrDiscPopupEventQueue = false;
+    private bool isProcessingStatEventQueue = false;
 
     public Stack<CardEvent> eventStack = new Stack<CardEvent>();
     public Dictionary<string, Card> cardDictionary = new Dictionary<string, Card>();
@@ -52,15 +52,30 @@ public class CardManager : MonoBehaviour
     public List<GameObject> playerTableCards = new List<GameObject>();
     public List<GameObject> enemyTableCards = new List<GameObject>();
 
-    public GameObject sacrificeDiscardCardsPopup;
-    public GameObject sacrificeDiscardCardsPopupWithButton;
-
-    public GameObject sacrDiscCardsPopup;
 
     void Awake()
     {
         enemyUi = new PlayerUi { StartPosition = EnemyStartPosition, DiscardPosition = EnemyDiscardPosition, TableCards = enemyTableCards, HandPosition = EnemyHandPosition, Side = enemy };
         playerUi = new PlayerUi { StartPosition = PlayerStartPosition, DiscardPosition = PlayerDiscardPosition, TableCards = playerTableCards, HandPosition = PlayerHandPosition, Side = player };
+
+        cardDictionary["BlueAttack1"] = new Card { Damage = 5 };
+        cardDictionary["BlueAttack2"] = new Card { Mana = 1, Damage = 5, DrawCards = 2 };
+        cardDictionary["BlueAttack3"] = new Card { IsSpecial = true, Damage = 9, Mana = 1 };
+        cardDictionary["BlueAttack4"] = new Card { Mana = 1, IsSpecial = true };
+        cardDictionary["BlueDefend1"] = new Card { Block = 8 };
+        cardDictionary["BlueSkill1"] = new Card { IsSpecial = true, Mana = 1 };
+        cardDictionary["BlueSkill2"] = new Card { IsSpecial = true };
+        cardDictionary["RedAttack1"] = new Card { Damage = 6 };
+        cardDictionary["RedAttack2"] = new Card { Damage = 12, Mana = 1 };
+        cardDictionary["RedDefend1"] = new Card { Block = 5 };
+        cardDictionary["RedPower1"] = new Card { GainStrength = 1, Mana = 1 };
+        cardDictionary["GraySkill1"] = new Card { IsSpecial = true, DrawCards = 2 };
+        cardDictionary["GraySkill2"] = new Card { AddCardBuff = 1 };
+        cardDictionary["RedAttack3"] = new Card { Mana = 1, Rage = 1, Damage = 8 };
+
+        cardDictionary["RedPower2"] = new Card { IsSpecial = true };
+
+
 
         statManagerScript = GameObject.Find("Stat Manager").GetComponent<StatManager>();
         player = GameObject.Find("Player Side").GetComponent<Side>();
@@ -76,8 +91,8 @@ public class CardManager : MonoBehaviour
         player.CardAction += OnCardAction;
         enemy.CardAction += OnCardAction;
 
-        player.SacrDiscPopup += OnSacrDiscPopup;
-        enemy.SacrDiscPopup += OnSacrDiscPopup;
+        player.StatsAction += OnStatsAction;
+        enemy.StatsAction += OnStatsAction;
     }
 
     void Start()
@@ -119,7 +134,6 @@ public class CardManager : MonoBehaviour
             foreach (GameObject card in side.CardList)
             {
                 Vector2 CardStartPosition = side == player ? PlayerStartPosition : EnemyStartPosition;
-                //в родительский элемент не забудь поместить
                 Instantiate(card, CardStartPosition, Quaternion.identity);
 
                 Card cardScript = card.GetComponent<Card>();
@@ -128,6 +142,7 @@ public class CardManager : MonoBehaviour
                 cardScript.eventStack = eventStack;
 
             }
+
         }
     }
 
@@ -158,41 +173,31 @@ public class CardManager : MonoBehaviour
         isProcessingQueue = false;
     }
 
-    // ты ивент назвал стат ивентом, а у тебя там только про ману все компоненты
-    IEnumerator ProcessSacrDiscPopupEventQueue()
+    IEnumerator ProcessStatEventQueue()
     {
-        isProcessingSacrDiscPopupEventQueue = true;
-        SacrDiscPopupEvent SacrDiscPopupEvent = SacrDiscPopupEventQueue.Dequeue();
+        isProcessingStatEventQueue = true;
+        StatEvent statEvent = statEventQueue.Dequeue();
 
-        if (SacrDiscPopupEvent.IsEnabling)
-            sacrDiscCardsPopup = EnableDiscSacrPopup(SacrDiscPopupEvent.Side, SacrDiscPopupEvent.ManaType, SacrDiscPopupEvent.Mana, SacrDiscPopupEvent.Card);
-        else
-            Destroy(sacrDiscCardsPopup);
+        PlayerUi side = cardEvent.TriggeringSide == player ? playerUi : enemyUi;
+        PlayAnimation(statEvent.Side, statEvent.ManaType, statEvent.Mana)
+
+        cardEvent.ActionType.PlayAnimation(cardEvent.Card, side);
         yield return new WaitForSeconds(0.3f);
         isProcessingQueue = false;
     }
 
-    GameObject EnableDiscSacrPopup(Side side, Side.ManaType manaType, int mana, Card card)
+    void PlayAnimation(Side side, Side.ManaType manaType, int mana)
     {
-        GameObject popup = mana == -1 ? sacrificeDiscardCardsPopupWithButton : sacrificeDiscardCardsPopup;
-        popup = Instantiate(popup, new Vector2(0, 0), Quaternion.identity);
-        popup.transform.parent = Canvas.transform;
-
-        SacrDiscPopup sacrDiscPopup = popup.transform.GetChildren.GetComponent<SacrDiscPopup>();
-        sacrDiscPopup.mana = mana;
-        sacrDiscPopup.manaType = manaType;
-        sacrDiscPopup.isEnemy = card.cardSide == side ? false : true;
 
     }
-     
 
     void OnDestroy()
     {
         player.CardAction -= OnCardAction;
         enemy.CardAction -= OnCardAction;
 
-        player.SacrDiscPopup -= OnSacrDiscPopup;
-        enemy.SacrDiscPopup -= OnSacrDiscPopup;
+        player.StatsAction -= OnStatsAction;
+        enemy.StatsAction -= OnStatsAction;
     }
 
     void OnCardAction(GameObject card, Side side, IPlayable cardActionType)
@@ -201,10 +206,10 @@ public class CardManager : MonoBehaviour
         eventStack.Push(new CardEvent(card, cardActionType, side));
     }
 
-    void OnSacrDiscPopup(Side side, Side.ManaType manaType, int mana, Card card, bool isEnabling)
+    void OnStatsAction(Side side, Side.ManaType manaType, int mana)
     {
         //в ту же очередь загружаем ивенты для активации поп-апов всяких, но не загружаем их в карточный стак. это окей?
-        SacrDiscPopupEventQueue.Enqueue(new SacrDiscPopupEvent(side, manaType, mana, card, isEnabling));
+        statEventQueue.Enqueue(new StatEvent(side, manaType, mana));
     }
 }
 
@@ -295,21 +300,17 @@ public class CardEvent
     }
 }
 
-public class SacrDiscPopupEvent
+public class StatEvent
 {
     public Side TriggeringSide;
     public Side.ManaType ManaType;
     public int Mana;
-    public Card Card;
-    public bool IsEnabling;
 
-    public SacrDiscPopupEvent(Side side, Side.ManaType manaType, int mana, Card card, bool isEnabling)
+    public StatEvent(Side side, Side.ManaType manaType, int mana)
     {
         TriggeringSide = side;
         ManaType = manaType;
         Mana = mana;
-        Card = card;
-        IsEnabling = isEnabling;
     }
 }
 

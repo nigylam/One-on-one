@@ -2,15 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CardData : MonoBehaviour
+[System.Serializable]
+public class CardData
 {
+
+    public string cardId;
+
+
+
     public Dictionary<string, Card> cardDictionary = new Dictionary<string, Card>();
 
     void Awake()
     {
         cardDictionary["BlueAttack1"] = new Card {Damage = 5 };
         cardDictionary["BlueAttack2"] = new Card { Mana = 1, Damage = 5, DrawCards = 2 };
-        cardDictionary["BlueAttack3"] = new Card { IsSpecial = true, Damage = 9, Mana = 1 };
+        cardDictionary["BlueAttack3"] = new Card { IsSpecial = true, Damage = 9};
         cardDictionary["BlueAttack4"] = new Card { Mana = 1, IsSpecial = true };
         cardDictionary["BlueDefend1"] = new Card { Block = 8 };
         cardDictionary["BlueSkill1"] = new Card { IsSpecial = true, Mana = 1 };
@@ -28,6 +34,7 @@ public class CardData : MonoBehaviour
     }
 }
 
+/*
 public class Card
 {
     public int Mana = 0;
@@ -40,6 +47,7 @@ public class Card
     public int AddCardBuff = 0;
     public int Rage = 0;
 }
+*/
 
 /*
 public enum CardType

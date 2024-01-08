@@ -5,23 +5,15 @@ using UnityEngine;
 using Akassets.SmoothGridLayout;
 using Unity.UI;
 using TMPro;
-using static CardScript;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Settings;
 using UnityEngine.EventSystems;
 
-public class CardScript : MonoBehaviour
+public class CardAnimationsControl : MonoBehaviour
 {
-    //card data
-    public int Mana;
-    public string cardId;
-    public CardType cardType;
-    public Side cardSide;
-    public Side otherSide;
-    public int lastStrength = -1;
-    public int finalDamage = 0;
+    //public Dictionary<string, Card> cardDictionary = new Dictionary<string, Card>();
 
-    //access to another objects
+
     public GameObject PlayingArea;
     public StatManager statManager;
     CardManager cardManager;
@@ -45,7 +37,8 @@ public class CardScript : MonoBehaviour
     public SpriteRenderer sprite;
     bool isOverDropZone = false;
     public bool isntDragging = true;
-    public bool playerActionCompleted = false;
+
+    public int finalDamage = 0;
 
     public int cardsDiscarded = 0;
 
@@ -54,17 +47,9 @@ public class CardScript : MonoBehaviour
     public DiscardType discardType = new DiscardType();
     public SacrificeType sacrificeType = new SacrificeType();
 
-    public enum CardType
-    {
-        Attack = 0,
-        Defend = 1,
-        Skill = 3,
-        Power = 4
-    }
+    public bool playerActionCompleted = false;
+    public int lastStrength = -1;
 
-    void Awake()
-    {
-    }
 
     void Start()
     {
@@ -79,27 +64,83 @@ public class CardScript : MonoBehaviour
         cardCanvas = CardCanvas.GetComponent<Canvas>();
         desiredPosition = new Vector2(-2000, 0);
         cardData = GameObject.Find("Card Manager").GetComponent<CardData>();
-        card = cardData.cardDictionary[cardId];
-        CardSideDefining();
-        CardTypeDefining();
 
-        CardTitleText.text = LocalizationSettings.StringDatabase.GetLocalizedString(cardId + "_Title");
+        card = gameObject.GetComponent<Card>();
+        //card = cardData.cardDictionary[cardId];
+        //CardSideDefining();
+        //CardTypeDefining();
+
+        CardTitleText.text = LocalizationSettings.StringDatabase.GetLocalizedString(card.cardId + "_Title");
     }
     void Update()
     {
+        finalDamage = card.cardSide.Rage > 0 ? Convert.ToInt32(Math.Ceiling((1.5) * Convert.ToSingle(card.Damage + card.cardSide.Strength))) : card.Damage + card.cardSide.Strength;
+
+        CardTypeDefining();
         CardPlacing();
-        finalDamage = cardSide.Rage > 0 ? Convert.ToInt32(Math.Ceiling((1.5) * Convert.ToSingle(card.Damage + cardSide.Strength))) : card.Damage + cardSide.Strength;
+
         LerpAndLayerControlling();
         cardCanvas.sortingLayerName = sprite.sortingLayerName;
 
-        if (cardManager.playingCards.Contains(gameObject) && cardId == "BlueSkill2")
+        // тоже костыль какой-то между логикой и контролем
+        if (cardManager.playingCards.Contains(gameObject) && card.cardId == "BlueSkill2")
         {
-            if(cardManager.eventStack.Count > 0)
+            if (cardManager.eventStack.Count > 0)
             {
                 CardEvent newEvent = cardManager.eventStack.Pop();
-                if (newEvent.ActionType == cardSide.discardAnimation)
+                if (newEvent.ActionType == card.cardSide.discardAnimation)
                     cardsDiscarded++;
             }
+        }
+    }
+
+    void CardTypeDefining()
+    {
+        if (card.cardId.Contains("Attack"))
+        {
+            card.cardType = Card.CardType.Attack;
+            CardTypeText.text = LocalizationSettings.StringDatabase.GetLocalizedString("Attack_Type");
+        }
+        else if (card.cardId.Contains("Defend"))
+        {
+            card.cardType = Card.CardType.Defend;
+            CardTypeText.text = LocalizationSettings.StringDatabase.GetLocalizedString("Defend_Type");
+        }
+        else if (card.cardId.Contains("Skill"))
+        {
+            card.cardType = Card.CardType.Skill;
+            CardTypeText.text = LocalizationSettings.StringDatabase.GetLocalizedString("Skill_Type");
+        }
+        else if (card.cardId.Contains("Power"))
+        {
+            card.cardType = Card.CardType.Power;
+            CardTypeText.text = LocalizationSettings.StringDatabase.GetLocalizedString("Power_Type");
+        }
+    }
+
+    public void CardPlacing()
+    {
+        if (card.cardSide.DiscardedCards.Contains(gameObject))
+        {
+            sprite.sortingLayerName = "Default";
+            transform.localScale = new Vector2(1f, 1f);
+        }
+        else if (card.cardSide.Cards.Contains(gameObject))
+        {
+            sprite.sortingLayerName = "Default";
+            transform.localScale = new Vector2(1f, 1f);
+        }
+        else if (cardManager.playingCards.Contains(gameObject))
+        {
+            transform.localScale = new Vector2(1f, 1f);
+            sprite.sortingLayerName = "Default";
+            sprite.sortingOrder = 0;
+        }
+        else if (cardManager.displayCards.Contains(gameObject))
+        {
+            isntDragging = false;
+            sprite.sortingLayerName = "Top";
+            sprite.sortingOrder = 3;
         }
     }
 
@@ -120,88 +161,24 @@ public class CardScript : MonoBehaviour
         }
     }
 
-    // вот это заменить тоже как с интерфейсами в кардменеджере
-    void CardTypeDefining()
-    {
-        if (cardId.Contains("Attack"))
-        {
-            cardType = CardType.Attack;
-            CardTypeText.text = LocalizationSettings.StringDatabase.GetLocalizedString("Attack_Type");
-        }
-        else if (cardId.Contains("Defend"))
-        {
-            cardType = CardType.Defend;
-            CardTypeText.text = LocalizationSettings.StringDatabase.GetLocalizedString("Defend_Type");
-        }
-        else if (cardId.Contains("Skill"))
-        {
-            cardType = CardType.Skill;
-            CardTypeText.text = LocalizationSettings.StringDatabase.GetLocalizedString("Skill_Type");
-        }
-        else if (cardId.Contains("Power"))
-        {
-            cardType = CardType.Power;
-            CardTypeText.text = LocalizationSettings.StringDatabase.GetLocalizedString("Power_Type");
-        }
-    }
-
-    void CardSideDefining()
-    {
-        if (gameObject.tag == "Player")
-        {
-            cardSide = cardManager.player;
-            otherSide = cardManager.enemy;
-        }
-        else
-        {
-            cardSide = cardManager.enemy;
-            otherSide = cardManager.player;
-        }
-    }
-
-    public void CardPlacing()
-    {
-
-        if (cardSide.DiscardedCards.Contains(gameObject))
-        {
-            sprite.sortingLayerName = "Default";
-            transform.localScale = new Vector2(1f, 1f);
-        }
-        else if (cardSide.Cards.Contains(gameObject))
-        {
-            sprite.sortingLayerName = "Default";
-            transform.localScale = new Vector2(1f, 1f);
-        }
-        else if (cardManager.playingCards.Contains(gameObject))
-        {
-            transform.localScale = new Vector2(1f, 1f);
-            sprite.sortingLayerName = "Default";
-            sprite.sortingOrder = 0;
-        }
-        else if (cardManager.displayCards.Contains(gameObject))
-        {
-            isntDragging = false;
-            sprite.sortingLayerName = "Top";
-            sprite.sortingOrder = 3;
-        }
-    }
-
     public void OnMouseEnter()
     {
         if (Time.time >= timestamp)
         {
-            if (cardSide.TableCards.Contains(gameObject) && cardManager.popupMode == false)
+            // вот этот иф должке быть заменен другим условием, которое здесь кратко записано. типа bool Showable
+            if (card.cardSide.TableCards.Contains(gameObject) && cardManager.popupMode == false)
             {
                 sprite.sortingLayerName = "Top";
-                desiredPosition += new Vector2(0, cardSide.HiglightPosition);
+                desiredPosition += new Vector2(0, card.cardSide.HiglightPosition);
                 timestamp = Time.time + timeBetweenMoves;
                 transform.localScale = new Vector2(1.2f, 1.2f);
             }
         }
     }
+
     public void OnMouseExit()
     {
-        if (cardSide.TableCards.Contains(gameObject))
+        if (card.cardSide.TableCards.Contains(gameObject))
         {
             desiredPosition = startPosition;
             timestamp = Time.time + timeBetweenMoves;
@@ -224,12 +201,12 @@ public class CardScript : MonoBehaviour
 
     public void OnMouseDrag()
     {
-        if (cardSide.TableCards.Contains(gameObject) && cardManager.popupMode == false)
+        if (card.cardSide.TableCards.Contains(gameObject) && cardManager.popupMode == false)
         {
             isntDragging = false;
             sprite.sortingLayerName = "Top";
             transform.localScale = new Vector2(1f, 1f);
-            if (cardSide.TableCards.Contains(gameObject))
+            if (card.cardSide.TableCards.Contains(gameObject))
             {
                 Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 transform.position = mousePosition;
@@ -240,25 +217,23 @@ public class CardScript : MonoBehaviour
     public void OnMouseUp()
     {
         isntDragging = true;
-        if (cardSide.TableCards.Contains(gameObject))
+
+
+        if (card.cardSide.TableCards.Contains(gameObject))
         {
-            if (cardSide.discardMode)
+            if (card.cardSide.discardMode)
             {
-                cardSide.DiscardCard(gameObject);
+                card.cardSide.DiscardCard(gameObject);
             }
-            else if (cardSide.burnMode)
+            else if (card.cardSide.burnMode)
             {
-                cardSide.BurnCard(gameObject);
+                card.cardSide.BurnCard(gameObject);
             }
             else
             {
-                if (card.Mana <= cardSide.TableCards.Count - 1)
+                if (isOverDropZone && card.Mana <= card.cardSide.TableCards.Count - 1)
                 {
-                    if (isOverDropZone)
-                    {
-                        cardSide.PlayCard(gameObject);
-                        StartCoroutine(CardPlaying());
-                    }
+                    StartCoroutine(CardPlaying());
                 }
             }
         }
@@ -266,42 +241,22 @@ public class CardScript : MonoBehaviour
 
     public IEnumerator CardPlaying()
     {
-        if (card.Mana > 0)
-        {
-            StartCoroutine(ManaSpending());
-            yield return new WaitUntil(() => playerActionCompleted);
-        }
-        if (!card.IsSpecial)
-        {
-            cardSide.Block += card.Block;
-            otherSide.Hp = finalDamage > 0 ? otherSide.DealDamage(finalDamage) : otherSide.Hp;
-            cardSide.Strength += card.GainStrength;
-            cardSide.DrawCards(card.DrawCards);
-            cardSide.AddCardBuff(card.AddCardBuff);
-            cardSide.RageBuff(card.Rage);
-        }
-        else
-        {
-            playerActionCompleted = false;
-            StartCoroutine(cardsActions.PlaySpecialCard());
-            yield return new WaitUntil(() => playerActionCompleted);
-        }
-        playerActionCompleted = false;
-        if (cardType == CardType.Power) { cardSide.BurnCard(gameObject); }
-        else
-        {
-            cardSide.DiscardCard(gameObject);
-        }
-        cardsDiscarded = 0;
-        cardManager.eventStack.Clear();
+        card.cardSide.PlayCard(gameObject);
+        card.cardSide.ManaSpend(card.Mana);
+        yield return new WaitUntil(() => !card.cardSide.manaSpendMode);
+        card.Play();
+        yield return new WaitUntil(() => !card.Playing);
+
+        card.RemoveFromTable();
     }
+
 
     public IEnumerator ManaSpending()
     {
         if (cardSide == cardManager.enemy)
-            StartCoroutine(ManaSpending(cardSide, sacrificeType, card.Mana));
+            StartCoroutine(ManaSpending(cardSide, sacrificeType, Mana));
         else
-            StartCoroutine(ManaSpending(cardSide, discardType, card.Mana));
+            StartCoroutine(ManaSpending(cardSide, discardType, Mana));
         yield return null;
     }
 

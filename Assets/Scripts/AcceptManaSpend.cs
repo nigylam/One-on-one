@@ -4,33 +4,29 @@ using UnityEngine;
 
 public class AcceptManaSpend : MonoBehaviour
 {
-    StatManager statManager;
+    CardManager cardManager;
 
-    //public bool cardsChoosed = true;
     public void OnClick()
     {
-        statManager.cardsChoosed = true;
+        cardManager.enemy.manaSpendMode = false;
+        cardManager.player.manaSpendMode = false;
     }
 
     void OnEnable()
     {
-        statManager = GameObject.Find("Stat Manager").GetComponent<StatManager>();
-        statManager.cardsChoosed = false;
     }
 
     void OnDisable()
     {
     }
 
-    // Start is called before the first frame update
     void Start()
     {
         //statManager = GameObject.Find("Stat Manager").GetComponent<StatManager>();
+        cardManager = GameObject.Find("Card Manager").GetComponent<CardManager>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
     }
 }

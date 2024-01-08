@@ -17,12 +17,12 @@ public class CardDescription : MonoBehaviour
     public int sideStrength = 0;
     public int damage = 0;
 
-    public CardScript cardScript;
+    public Card card;
     LocalizeStringEvent localizeStringEventComp;
     // Start is called before the first frame update
     void Awake()
     {
-        cardScript = gameObject.transform.parent.gameObject.transform.parent.gameObject.GetComponent<CardScript>();
+        card = gameObject.transform.parent.gameObject.transform.parent.gameObject.GetComponent<Card>();
         localizeStringEventComp = gameObject.GetComponent<LocalizeStringEvent>();
     }
 
@@ -34,15 +34,15 @@ public class CardDescription : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        damage = cardScript.card.Damage;
-        finalDamage = cardScript.finalDamage;
-        block = cardScript.card.Block;
-        mana = cardScript.card.Mana;
-        gainStrength = cardScript.card.GainStrength;
-        gainDexterity = cardScript.card.GainDexterity;
-        drawCards = cardScript.card.DrawCards;
-        addCardBuff = cardScript.card.AddCardBuff;
-        sideStrength = cardScript.cardSide.Strength;
+        damage = card.Damage;
+        finalDamage = card.finalDamage;
+        block = card.Block;
+        mana = card.Mana;
+        gainStrength = card.GainStrength;
+        gainDexterity = card.GainDexterity;
+        drawCards = card.DrawCards;
+        addCardBuff = card.AddCardBuff;
+        sideStrength = card.cardSide.Strength;
         localizeStringEventComp.RefreshString();
     }
 }

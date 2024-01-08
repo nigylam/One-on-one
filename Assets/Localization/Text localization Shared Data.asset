@@ -216,7 +216,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 1052134570733568
-    m_Key: SacrPlayerPop_Tip
+    m_Key: SacrDiscardPopup
     m_Metadata:
       m_Items: []
   - m_Id: 1046368782659584

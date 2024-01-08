@@ -82,10 +82,10 @@ public class DeckShow : MonoBehaviour
             {
                 GameObject cardCopy = Instantiate(card, Content.transform);
                 cardCopy.transform.localScale = new Vector2(1.2f, 1.2f);
-                CardScript cardScript;
-                cardScript = cardCopy.GetComponent<CardScript>();
-                cardScript.cardCanvas.sortingOrder = i;
-                cardScript.cardCanvas.sortingLayerName = "Top";
+                CardAnimationsControl cardAnimationsControl;
+                cardAnimationsControl = cardCopy.GetComponent<CardAnimationsControl>();
+                cardAnimationsControl.cardCanvas.sortingOrder = i;
+                cardAnimationsControl.cardCanvas.sortingLayerName = "Top";
 
                 cardManager.displayCards.Add(cardCopy);
                 cardCopy.tag = "Popup";

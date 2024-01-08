@@ -155,13 +155,17 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 1052134570733568
-    m_Localized: Chose cards from your hand to burn.
+    m_Localized: Chose {side.mana:cond:=-1?any number of cards|=1?1 card | >1 ? {side.mana}
+      cards} from your hand to burn.
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 2721703719461978129
   - m_Id: 1052429484830720
-    m_Localized: Chose cards from your to discard.
+    m_Localized: Chose {side.mana:cond:=-1?any number of cards|=1?1 card | >1 ? {side.mana}
+      cards} from your hand to discard.
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 2721703719461978129
   - m_Id: 4373107910914048
     m_Localized: Draw pile
     m_Metadata:
@@ -215,11 +219,13 @@ MonoBehaviour:
       m_Items:
       - rid: 2721703719461978129
   - m_Id: 17071598747529216
-    m_Localized: Chose cards from enemy's hand to discard.
+    m_Localized: Chose {side.mana:cond:=-1?any number of cards|=1?1 card | >1 ? {side.mana}
+      cards} from enemy's hand to discard.
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 2721703719461978129
   - m_Id: 17071705438040064
-    m_Localized: Chose cards from enemy's hand to burn.
+    m_Localized: Chose card from enemy's hand to burn.
     m_Metadata:
       m_Items: []
   - m_Id: 18166334040322048
@@ -287,4 +293,4 @@ MonoBehaviour:
     - rid: 2721703719461978129
       type: {class: SmartFormatTag, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
       data:
-        m_Entries: 0030d8783f7c03000030d85ea59d0300003018ee4f2800000030182c0f29000000309833472e0000003098086b2e0000003098dd9c2e00000030d83ea42e00000030589aaa2e00000030182fbf951d00003058b6651828000030d809b71e28000030185992953c000030185cb7325e000030d82d69b160000030983d26345e0000301814e4345e00
+        m_Entries: 0030d8783f7c03000030d85ea59d0300003018ee4f2800000030182c0f29000000309833472e0000003098086b2e0000003098dd9c2e00000030d83ea42e00000030589aaa2e00000030182fbf951d00003058b6651828000030d809b71e28000030185992953c000030185cb7325e000030d82d69b160000030983d26345e0000301814e4345e000030582be9bc03000030185387a63c00003098d52dbd0300

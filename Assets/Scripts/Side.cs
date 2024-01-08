@@ -2,72 +2,186 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static Side;
+
+// нам нужен класс сайд и классы наследники для разных сторон.
+// у наследников будут уникальные эффекты и манаспенд
 
 public class Side : MonoBehaviour
 {
-    public event Action<GameObject, Side, IPlayable> CardAction;
+    public GameObject[] CardList = new GameObject[] { };
+    public List<GameObject> Cards = new List<GameObject>();
+    public List<GameObject> TableCards = new List<GameObject>();
+    public List<GameObject> DoubleTableCards = new List<GameObject>();
+    public List<GameObject> DiscardedCards = new List<GameObject>();
+    public List<GameObject> BurnedCards = new List<GameObject>();
+    public ManaType DefaultManaType;
+    public ManaType AlterManaType;
 
-    CardManager cardManager;
-    public BurnAnimation burnAnimation;
-    public ShuffleAnimation shuffleAnimation;
-    public DiscardAnimation discardAnimation;
-    public DrawAnimation drawAnimation;
-    public AddAnimation playAnimation;
+    public event Action<Side, Card, CardActionType> CardAction;
+    public event Action<Side, ManaType, int, Card, bool> SacrDiscPopup;
+    public event Action<Side, StatActionType, Card, int> StatAction;
 
-    public GameObject[] CardList = new GameObject[] {};
-
-    //public string[] CardList = new 
-
-    // У тебя точно под них область памяти выделяется, если ты их только объявляешь?
-    [HideInInspector]
-    public List<GameObject> Cards;
-    [HideInInspector]
-    public List<GameObject> TableCards;
-    [HideInInspector]
-    public List<GameObject> DoubleTableCards;
-    [HideInInspector]
-    public List<GameObject> DiscardedCards;
-    public List<GameObject> BurnedCards;
-    public Vector2 StartPosition;
-    public Vector2 DiscardPosition;
-    public int HandPosition;
     public int Hp;
-    public int HiglightPosition;
-    public int CardsOnTheTableCounter = 0;
-    //public GameObject ManaPopUp;
+    public int Block;
     public int Strength;
     public int Rage = 0;
     public int StartDrawCards = 5;
     public int AddCard = 0;
-
-    public int DrawCounter = 0;
-    public int DiscardCounter = 0;
-
     public bool PlanRevenge = false;
 
-    public bool discardMode = false;
-    public bool burnMode = false;
-
-
-    int _savedTurn = 0;
-    private int _block;
-
-    public int Block
+    public enum ManaType
     {
-        get => _block;
-        set
-        {
-            _block = Mathf.Max(0, value);
-        }
+        Sacrifice = 0,
+        Discard = 1
     }
 
-    public void DrawCard(GameObject card)
+    public enum CardActionType
+    {
+       Burn,
+       Shuffle,
+       Discard,
+       Draw,
+    }
+
+    public enum StatActionType
+    {
+        Block,
+        Damage,
+        AddCard,
+        AddRage,
+        DecreaseRage,
+        AddCardBuffRemove
+    }
+
+    // методы с отправкой ивентов
+    public void ManaSpend(int mana, ManaType manaType, Card card)
+    {
+        manaSpendMode = true;
+        int neededCardsCount = TableCards.Count - mana;
+        CardsManaSpendActivation(manaType);
+        StartCoroutine(ManaSpend(neededCardsCount));
+        SacrDiscPopup?.Invoke(this, manaType, mana, card, true);
+    }
+
+    public void CardsManaSpendActivation(ManaType manaType)
+    {
+        if (manaType == ManaType.Sacrifice)
+            burnMode = true;
+        else
+            discardMode = true;
+    }
+    public void CardsManaSpendDeactivation()
+    {
+        burnMode = false;
+        discardMode = false;
+        SacrDiscPopup?.Invoke(this, null, null, null, false);
+    }
+
+    public void DrawCard(Card card)
     {
         TableCards.Add(card);
         Cards.Remove(card);
-        CardAction?.Invoke(card, this, drawAnimation);
+        CardAction?.Invoke(card, this, CardActionType.Draw);
     }
 
+    public void ShufflingDrawDeck()
+    {
+        while (DiscardedCards.Count > 0)
+        {
+
+            GameObject card = DiscardedCards[0];
+            Cards.Add(card);
+            DiscardedCards.RemoveAt(0);
+        }
+        for (int i = 0; i < Cards.Count; i++)
+        {
+            GameObject temp = Cards[i];
+            int randomIndex = UnityEngine.Random.Range(i, Cards.Count);
+            Cards[i] = Cards[randomIndex];
+            Cards[randomIndex] = temp;
+        }
+        CardAction?.Invoke(null, this, CardActionType.Shuffle);
+    }
+
+    public void DiscardCard(Card card)
+    {
+        if (TableCards.Contains(card)) { TableCards.Remove(card); }
+        DiscardedCards.Add(card);
+        CardAction?.Invoke(card, this, CardActionType.Discard);
+    }
+
+    public void BurnCard(Card card)
+    {
+        if (TableCards.Contains(card)) { TableCards.Remove(card); }
+        BurnedCards.Add(card);
+        CardAction?.Invoke(card, this, CardActionType.Burn);
+    }
+
+    public void AddCardBuff(int numberOfCards, Card card)
+    {
+        AddCard += numberOfCards;
+        StartDrawCards += numberOfCards;
+        StatAction?.Invoke(this, StatActionType.AddCard, card, numberOfCards);
+    }
+
+    public void DealDamage(int damage)
+    {
+        if (Block >= damage)
+        {
+            // для блока нужен отдельный метод
+            GainBlock(-damage);
+        }
+        else
+        {
+            Hp -= (damage - Block);
+            GainBlock(-Block);
+        }
+
+        //интересно, можно тут зис поставить для карты или с помощью конструктора это обыграть
+        StatAction?.Invoke(this, StatActionType.Damage, this, damage);
+    }
+
+    public int GainBlock(int block)
+    {
+        Block += block;
+
+        StatAction?.Invoke(this, StatActionType.Block, null, block);
+    }
+
+    public void RageBuff(int numberOfTurns, Card card)
+    {
+        Rage += numberOfTurns;
+        StatAction?.Invoke(this, StatActionType.AddRage, card, numberOfTurns);
+    }
+
+    public void RageDecrease()
+    {
+        if (Rage > 0)
+            Rage--;
+        StatAction?.Invoke(this, StatActionType.AddRage, card, numberOfTurns);
+    }
+
+    public void AddCardBuffRemove()
+    {
+        AddCard = 0;
+        StatAction?.Invoke(this, StatActionType.AddCardBuffRemove, null, null);
+    }
+
+    // служебные методы
+    public void EndTurn()
+    {
+        RageDecrease();
+        DiscardCards();
+        DrawCards();
+    }
+
+    public IEnumerator ManaSpend(int mana)
+    {
+        yield return new WaitUntil(() => TableCards.Count == mana || !manaSpendMode);
+        manaSpendMode = false;
+        CardsManaSpendDeactivation();
+    }
 
     public void DrawCards()
     {
@@ -82,19 +196,10 @@ public class Side : MonoBehaviour
             if (Cards.Count == 0)
             {
                 ShufflingDrawDeck();
-                CardAction?.Invoke(null, this, shuffleAnimation);
             }
             GameObject card = Cards[0];
             DrawCard(card);
         }
-    }
-
-    public void DiscardCard(GameObject card)
-    {
-        if (TableCards.Contains(card)) { TableCards.Remove(card); }
-        if (cardManager.playingCards.Contains(card)) { cardManager.playingCards.Remove(card); }
-        DiscardedCards.Add(card);
-        CardAction?.Invoke(card, this, discardAnimation);
     }
 
     public void DiscardCards()
@@ -114,101 +219,10 @@ public class Side : MonoBehaviour
         }
     }
 
-    public void ShufflingDrawDeck()
+    public int CalculateDamage(int damage)
     {
-        while (DiscardedCards.Count > 0)
-        {
-
-            GameObject card = DiscardedCards[0];
-            Cards.Add(card);
-            DiscardedCards.RemoveAt(0);
-        }
-        for (int i = 0; i < Cards.Count; i++)
-        {
-            GameObject temp = Cards[i];
-            int randomIndex = UnityEngine.Random.Range(i, Cards.Count);
-            Cards[i] = Cards[randomIndex];
-            Cards[randomIndex] = temp;
-        }
+        int finalDamage = damage + Strength;
+        finalDamage = Rage > 0 ? Convert.ToInt32(Math.Ceiling((1.5) * Convert.ToSingle(finalDamage))) : finalDamage;
+        return finalDamage;
     }
-
-    public void PlayCard(GameObject card)
-    {
-        if (TableCards.Contains(card)) { TableCards.Remove(card); }
-        CardAction?.Invoke(card, this, playAnimation);
-    }
-
-    public void BurnCard(GameObject card)
-    {
-        if (TableCards.Contains(card)) { TableCards.Remove(card); }
-        BurnedCards.Add(card);
-        CardAction?.Invoke(card, this, burnAnimation);
-    }
-
-    public void AddCardBuff(int numberOfCards)
-    {
-        AddCard += numberOfCards;
-        StartDrawCards += numberOfCards;
-
-        _savedTurn = cardManager.curentTurn;
-    }
-
-    void RemoveAddCardBuff()
-    {
-        if (cardManager.curentTurn > _savedTurn)
-        {
-            AddCard = 0;
-            StartDrawCards = 5;
-
-            _savedTurn = 0;
-        }
-    }
-
-    public int DealDamage(int damage)
-    {
-        if (Block >= damage)
-        {
-            Block -= damage;
-        }
-        else
-        {
-            Hp -= (damage - Block);
-            Block = 0;
-        }
-
-        return Hp;
-    }
-
-    public void RageBuff(int numberOfTurns)
-    {
-        Rage += numberOfTurns;
-    }
-
-    public void RageDecrease()
-    {
-        if (Rage > 0)
-            Rage--;
-    }
-
-    void Awake()
-    {
-        cardManager = GameObject.Find("Card Manager").GetComponent<CardManager>();
-        burnAnimation = new BurnAnimation();
-        shuffleAnimation = new ShuffleAnimation();
-        discardAnimation = new DiscardAnimation();
-        drawAnimation= new DrawAnimation();
-        playAnimation = new AddAnimation();
-
-        Cards.Clear();
-        foreach (GameObject card in CardList)
-        {
-            Cards.Add(card);
-        }
-}
-
-    void Update()
-    {
-        RemoveAddCardBuff();
-    }
-
 }
